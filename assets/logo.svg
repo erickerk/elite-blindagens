@@ -7,9 +7,9 @@
     </linearGradient>
   </defs>
   
-  <!-- Escudo com detalhes internos exatamente como na imagem -->
+  <!-- Escudo com detalhes internos exatamente como no logo oficial -->
   <g id="shield" transform="translate(25, 25)">
-    <!-- Contorno principal do escudo -->
+    <!-- Contorno externo do escudo -->
     <path d="M 25 15 
              L 195 15
              C 215 15 220 25 220 40
@@ -25,7 +25,7 @@
           stroke-linecap="round"
           stroke-linejoin="round"/>
     
-    <!-- Linha decorativa interna esquerda -->
+    <!-- Linha decorativa interna esquerda (curva) -->
     <path d="M 50 80 
              C 70 95 95 120 105 180
              M 105 180
@@ -45,7 +45,7 @@
           stroke-linecap="round"/>
   </g>
   
-  <!-- Texto BLINDAGENS com espaçamento correto -->
+  <!-- Texto BLINDAGENS com tipografia correta -->
   <text x="285" y="185" 
         font-family="'Arial Black', 'Arial Bold', sans-serif" 
         font-size="95" 
