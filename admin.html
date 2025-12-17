@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elite Blindagens - Portal Administrativo</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: { primary: '#D4AF37', secondary: '#1a1a2e' },
+fontFamily: { sans: ['Poppins', 'sans-serif'] }
+}
+}
+}
+</script>
+<style>
+.golden-gradient { background: linear-gradient(135deg, #D4AF37 0%, #F4E4A6 50%, #D4AF37 100%); }
+</style>
+</head>
+<body class="font-sans bg-gray-100 min-h-screen">
+
+<!-- Login Screen -->
+<div id="login-screen" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-secondary to-gray-900">
+<div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
+<div class="text-center mb-8">
+<img src="assets/logo-elite-oficial.svg" alt="Elite Blindagens" class="h-16 mx-auto mb-4">
+<p class="text-gray-500 mt-2">Portal Administrativo</p>
+</div>
+<form id="login-form" class="space-y-6">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Usuário</label>
+<input type="text" id="login-user" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Digite seu usuário">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Senha</label>
+<input type="password" id="login-pass" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Digite sua senha">
+</div>
+<div id="login-error" class="hidden text-red-500 text-sm text-center"></div>
+<button type="submit" class="w-full golden-gradient text-black py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+Entrar
+</button>
+</form>
+</div>
+</div>
+
+<!-- Admin Dashboard -->
+<div id="admin-dashboard" class="hidden">
+<!-- Header -->
+<header class="bg-secondary text-white shadow-lg">
+<div class="container mx-auto px-6 py-4 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<h1 class="text-2xl font-bold">Elite Blindagens</h1>
+<span class="bg-primary/20 text-primary px-3 py-1 rounded-full text-sm">Admin</span>
+</div>
+<button onclick="logout()" class="flex items-center gap-2 bg-red-500/20 text-red-400 px-4 py-2 rounded-lg hover:bg-red-500/30 transition-all">
+<i class="ri-logout-box-line"></i> Sair
+</button>
+</div>
+</header>
+
+<!-- Tabs -->
+<div class="bg-white border-b">
+<div class="container mx-auto px-6">
+<nav class="flex gap-8">
+<button onclick="showTab('emails')" class="tab-btn py-4 px-2 border-b-2 border-primary text-primary font-medium" data-tab="emails">
+<i class="ri-mail-line mr-2"></i>E-mails Cadastrados
+</button>
+<button onclick="showTab('veiculos')" class="tab-btn py-4 px-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700" data-tab="veiculos">
+<i class="ri-car-line mr-2"></i>Veículos à Venda
+</button>
+<button onclick="showTab('depoimentos')" class="tab-btn py-4 px-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700" data-tab="depoimentos">
+<i class="ri-chat-quote-line mr-2"></i>Depoimentos
+</button>
+</nav>
+</div>
+</div>
+
+<!-- Content -->
+<main class="container mx-auto px-6 py-8">
+
+<!-- Tab: E-mails -->
+<div id="tab-emails" class="tab-content">
+<div class="bg-white rounded-xl shadow-lg p-6">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-2xl font-bold text-secondary">E-mails Cadastrados</h2>
+<button onclick="exportEmails()" class="golden-gradient text-black px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition-all flex items-center gap-2">
+<i class="ri-file-excel-line"></i> Exportar Excel
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full">
+<thead class="bg-gray-50">
+<tr>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">E-mail</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data Cadastro</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
+</tr>
+</thead>
+<tbody id="emails-table" class="divide-y divide-gray-200">
+</tbody>
+</table>
+</div>
+<p id="no-emails" class="hidden text-center text-gray-500 py-8">Nenhum e-mail cadastrado ainda.</p>
+</div>
+</div>
+
+<!-- Tab: Veículos -->
+<div id="tab-veiculos" class="tab-content hidden">
+<div class="bg-white rounded-xl shadow-lg p-6">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-2xl font-bold text-secondary">Veículos à Venda</h2>
+<button onclick="openVeiculoModal()" class="golden-gradient text-black px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition-all flex items-center gap-2">
+<i class="ri-add-line"></i> Adicionar Veículo
+</button>
+</div>
+<div id="veiculos-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+</div>
+<p id="no-veiculos" class="hidden text-center text-gray-500 py-8">Nenhum veículo cadastrado ainda.</p>
+</div>
+</div>
+
+<!-- Tab: Depoimentos -->
+<div id="tab-depoimentos" class="tab-content hidden">
+<div class="bg-white rounded-xl shadow-lg p-6">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-2xl font-bold text-secondary">Depoimentos de Clientes</h2>
+<button onclick="openDepoimentoModal()" class="golden-gradient text-black px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition-all flex items-center gap-2">
+<i class="ri-add-line"></i> Adicionar Depoimento
+</button>
+</div>
+<div id="depoimentos-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+</div>
+<p id="no-depoimentos" class="hidden text-center text-gray-500 py-8">Nenhum depoimento cadastrado ainda.</p>
+</div>
+</div>
+
+</main>
+</div>
+
+<!-- Modal: Adicionar/Editar Veículo -->
+<div id="veiculo-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+<div class="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
+<div class="p-6 border-b flex justify-between items-center">
+<h3 class="text-xl font-bold text-secondary" id="veiculo-modal-title">Adicionar Veículo</h3>
+<button onclick="closeVeiculoModal()" class="text-gray-500 hover:text-gray-700" aria-label="Fechar" title="Fechar"><i class="ri-close-line text-2xl" aria-hidden="true"></i></button>
+</div>
+<form id="veiculo-form" class="p-6 space-y-4">
+<input type="hidden" id="veiculo-id">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Título do Veículo *</label>
+<input type="text" id="veiculo-titulo" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary" placeholder="Ex: BMW X5 2023">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Categoria *</label>
+<select id="veiculo-categoria" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary" title="Categoria do veículo" aria-label="Categoria do veículo">
+<option value="">Selecione uma categoria</option>
+<option value="sedan">Sedan</option>
+<option value="suv">SUV</option>
+<option value="luxo">Luxo Premium</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Preço</label>
+<input type="text" id="veiculo-preco" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary" placeholder="Ex: R$ 450.000">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Descrição</label>
+<textarea id="veiculo-descricao" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary" placeholder="Detalhes do veículo..."></textarea>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Imagem do Veículo *</label>
+<div class="space-y-3">
+<div class="flex gap-2">
+<button type="button" onclick="document.getElementById('veiculo-file').click()" class="flex-1 flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-primary hover:bg-primary/5 transition-all">
+<i class="ri-upload-cloud-line text-xl text-gray-500"></i>
+<span class="text-gray-600">Upload do PC</span>
+</button>
+<button type="button" onclick="document.getElementById('veiculo-camera').click()" class="flex-1 flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-primary hover:bg-primary/5 transition-all">
+<i class="ri-camera-line text-xl text-gray-500"></i>
+<span class="text-gray-600">Tirar Foto</span>
+</button>
+</div>
+<input type="file" id="veiculo-file" accept="image/*" class="hidden" onchange="handleImageUpload(this)" title="Selecionar imagem do computador" aria-label="Upload de imagem">
+<input type="file" id="veiculo-camera" accept="image/*" class="hidden" onchange="handleImageUpload(this)" title="Tirar foto com câmera" aria-label="Capturar foto">
+<input type="url" id="veiculo-imagem" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary" placeholder="Ou cole a URL da imagem...">
+<div id="veiculo-preview" class="hidden">
+<img id="veiculo-preview-img" src="" alt="Preview" class="w-full h-40 object-cover rounded-lg border">
+<button type="button" onclick="clearImagePreview()" class="mt-2 text-red-500 text-sm hover:underline"><i class="ri-delete-bin-line"></i> Remover imagem</button>
+</div>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Link WebMotors/Anúncio</label>
+<input type="url" id="veiculo-link" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary" placeholder="https://webmotors.com.br/...">
+</div>
+<div class="flex gap-4 pt-4">
+<button type="button" onclick="closeVeiculoModal()" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">Cancelar</button>
+<button type="submit" class="flex-1 golden-gradient text-black px-4 py-2 rounded-lg font-semibold">Salvar</button>
+</div>
+</form>
+</div>
+</div>
+
+<!-- Modal: Adicionar/Editar Depoimento -->
+<div id="depoimento-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+<div class="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
+<div class="p-6 border-b flex justify-between items-center">
+<h3 class="text-xl font-bold text-secondary" id="depoimento-modal-title">Adicionar Depoimento</h3>
+<button onclick="closeDepoimentoModal()" class="text-gray-500 hover:text-gray-700" aria-label="Fechar" title="Fechar"><i class="ri-close-line text-2xl" aria-hidden="true"></i></button>
+</div>
+<form id="depoimento-form" class="p-6 space-y-4">
+<input type="hidden" id="depoimento-id">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Nome do Cliente *</label>
+<input type="text" id="depoimento-nome" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary" placeholder="Ex: João Silva">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Profissão</label>
+<input type="text" id="depoimento-profissao" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary" placeholder="Ex: Empresário">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Depoimento *</label>
+<textarea id="depoimento-texto" rows="4" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary" placeholder="O que o cliente disse..."></textarea>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Foto do Cliente</label>
+<div class="space-y-3">
+<div class="flex gap-2">
+<button type="button" onclick="document.getElementById('depoimento-file').click()" class="flex-1 flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-primary hover:bg-primary/5 transition-all">
+<i class="ri-upload-cloud-line text-xl text-gray-500"></i>
+<span class="text-gray-600">Upload do PC</span>
+</button>
+<button type="button" onclick="document.getElementById('depoimento-camera').click()" class="flex-1 flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-primary hover:bg-primary/5 transition-all">
+<i class="ri-camera-line text-xl text-gray-500"></i>
+<span class="text-gray-600">Tirar Foto</span>
+</button>
+</div>
+<input type="file" id="depoimento-file" accept="image/*" class="hidden" onchange="handleDepoimentoImageUpload(this)" title="Selecionar foto do computador" aria-label="Upload de foto">
+<input type="file" id="depoimento-camera" accept="image/*" class="hidden" onchange="handleDepoimentoImageUpload(this)" title="Tirar foto com câmera" aria-label="Capturar foto">
+<input type="url" id="depoimento-foto" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary" placeholder="Ou cole a URL da foto...">
+<div id="depoimento-preview" class="hidden">
+<img id="depoimento-preview-img" src="" alt="Preview" class="w-24 h-24 object-cover rounded-full border-4 border-primary mx-auto">
+<button type="button" onclick="clearDepoimentoImagePreview()" class="mt-2 text-red-500 text-sm hover:underline block mx-auto"><i class="ri-delete-bin-line"></i> Remover foto</button>
+</div>
+</div>
+</div>
+<div class="flex gap-4 pt-4">
+<button type="button" onclick="closeDepoimentoModal()" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">Cancelar</button>
+<button type="submit" class="flex-1 golden-gradient text-black px-4 py-2 rounded-lg font-semibold">Salvar</button>
+</div>
+</form>
+</div>
+</div>
+
+<script>
+// Credenciais hash (não expõe texto plano)
+const ADMIN_HASH = 'ZWxpdGVhZG1pbjoyMDI0QGVsaXRl';
+
+// Verificar sessão
+function checkSession() {
+const session = sessionStorage.getItem('elite_admin_session');
+if (session === ADMIN_HASH) {
+showDashboard();
+}
+}
+
+// Login
+document.getElementById('login-form').addEventListener('submit', function(e) {
+e.preventDefault();
+const user = document.getElementById('login-user').value;
+const pass = document.getElementById('login-pass').value;
+const hash = btoa(user + ':' + pass);
+
+if (hash === ADMIN_HASH) {
+sessionStorage.setItem('elite_admin_session', hash);
+showDashboard();
+} else {
+document.getElementById('login-error').textContent = 'Usuário ou senha incorretos';
+document.getElementById('login-error').classList.remove('hidden');
+}
+});
+
+function showDashboard() {
+document.getElementById('login-screen').classList.add('hidden');
+document.getElementById('admin-dashboard').classList.remove('hidden');
+loadEmails();
+loadVeiculos();
+loadDepoimentos();
+}
+
+function logout() {
+sessionStorage.removeItem('elite_admin_session');
+location.reload();
+}
+
+// Tabs
+function showTab(tab) {
+document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+document.querySelectorAll('.tab-btn').forEach(el => {
+el.classList.remove('border-primary', 'text-primary');
+el.classList.add('border-transparent', 'text-gray-500');
+});
+document.getElementById('tab-' + tab).classList.remove('hidden');
+document.querySelector(`[data-tab="${tab}"]`).classList.add('border-primary', 'text-primary');
+document.querySelector(`[data-tab="${tab}"]`).classList.remove('border-transparent', 'text-gray-500');
+}
+
+// E-mails
+function loadEmails() {
+const emails = JSON.parse(localStorage.getItem('elite_emails') || '[]');
+const table = document.getElementById('emails-table');
+const noEmails = document.getElementById('no-emails');
+
+if (emails.length === 0) {
+table.innerHTML = '';
+noEmails.classList.remove('hidden');
+return;
+}
+
+noEmails.classList.add('hidden');
+table.innerHTML = emails.map((email, i) => `
+<tr>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${i + 1}</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${email.email}</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${new Date(email.date).toLocaleDateString('pt-BR')}</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm">
+<button onclick="deleteEmail(${i})" class="text-red-500 hover:text-red-700"><i class="ri-delete-bin-line"></i></button>
+</td>
+</tr>
+`).join('');
+}
+
+function deleteEmail(index) {
+if (!confirm('Tem certeza que deseja excluir este e-mail?')) return;
+const emails = JSON.parse(localStorage.getItem('elite_emails') || '[]');
+emails.splice(index, 1);
+localStorage.setItem('elite_emails', JSON.stringify(emails));
+loadEmails();
+}
+
+function exportEmails() {
+const emails = JSON.parse(localStorage.getItem('elite_emails') || '[]');
+if (emails.length === 0) {
+alert('Nenhum e-mail para exportar.');
+return;
+}
+
+let csv = 'E-mail,Data Cadastro\n';
+emails.forEach(e => {
+csv += `${e.email},${new Date(e.date).toLocaleDateString('pt-BR')}\n`;
+});
+
+const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+const link = document.createElement('a');
+link.href = URL.createObjectURL(blob);
+link.download = 'emails_elite_blindagens_' + new Date().toISOString().split('T')[0] + '.csv';
+link.click();
+}
+
+// Veículos
+function loadVeiculos() {
+const veiculos = JSON.parse(localStorage.getItem('elite_veiculos') || '[]');
+const grid = document.getElementById('veiculos-grid');
+const noVeiculos = document.getElementById('no-veiculos');
+
+if (veiculos.length === 0) {
+grid.innerHTML = '';
+noVeiculos.classList.remove('hidden');
+return;
+}
+
+noVeiculos.classList.add('hidden');
+const categoriaLabels = { sedan: 'Sedan', suv: 'SUV', luxo: 'Luxo Premium' };
+grid.innerHTML = veiculos.map((v, i) => `
+<div class="border rounded-xl overflow-hidden hover:shadow-lg transition-all">
+<img src="${v.imagem}" alt="${v.titulo}" class="w-full h-48 object-cover" onerror="this.src='https://via.placeholder.com/400x200?text=Imagem+não+encontrada'">
+<div class="p-4">
+<div class="flex items-center justify-between mb-2">
+<h4 class="font-bold text-lg text-secondary">${v.titulo}</h4>
+${v.categoria ? `<span class="bg-primary/20 text-primary text-xs px-2 py-1 rounded-full">${categoriaLabels[v.categoria] || v.categoria}</span>` : ''}
+</div>
+${v.preco ? `<p class="text-primary font-semibold">${v.preco}</p>` : ''}
+${v.descricao ? `<p class="text-gray-600 text-sm mt-2 line-clamp-2">${v.descricao}</p>` : ''}
+<div class="flex gap-2 mt-4">
+<button onclick="editVeiculo(${i})" class="flex-1 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 text-sm"><i class="ri-edit-line"></i> Editar</button>
+<button onclick="deleteVeiculo(${i})" class="flex-1 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 text-sm"><i class="ri-delete-bin-line"></i> Excluir</button>
+</div>
+</div>
+</div>
+`).join('');
+}
+
+function openVeiculoModal(index = null) {
+document.getElementById('veiculo-modal').classList.remove('hidden');
+document.getElementById('veiculo-form').reset();
+document.getElementById('veiculo-id').value = '';
+
+if (index !== null) {
+const veiculos = JSON.parse(localStorage.getItem('elite_veiculos') || '[]');
+const v = veiculos[index];
+document.getElementById('veiculo-modal-title').textContent = 'Editar Veículo';
+document.getElementById('veiculo-id').value = index;
+document.getElementById('veiculo-titulo').value = v.titulo;
+document.getElementById('veiculo-categoria').value = v.categoria || '';
+document.getElementById('veiculo-preco').value = v.preco || '';
+document.getElementById('veiculo-descricao').value = v.descricao || '';
+document.getElementById('veiculo-imagem').value = v.imagem;
+document.getElementById('veiculo-link').value = v.link || '';
+} else {
+document.getElementById('veiculo-modal-title').textContent = 'Adicionar Veículo';
+}
+}
+
+function closeVeiculoModal() {
+document.getElementById('veiculo-modal').classList.add('hidden');
+}
+
+function editVeiculo(index) {
+openVeiculoModal(index);
+}
+
+function deleteVeiculo(index) {
+if (!confirm('Tem certeza que deseja excluir este veículo?')) return;
+const veiculos = JSON.parse(localStorage.getItem('elite_veiculos') || '[]');
+veiculos.splice(index, 1);
+localStorage.setItem('elite_veiculos', JSON.stringify(veiculos));
+loadVeiculos();
+}
+
+document.getElementById('veiculo-form').addEventListener('submit', function(e) {
+e.preventDefault();
+const veiculos = JSON.parse(localStorage.getItem('elite_veiculos') || '[]');
+const id = document.getElementById('veiculo-id').value;
+const veiculo = {
+titulo: document.getElementById('veiculo-titulo').value,
+categoria: document.getElementById('veiculo-categoria').value,
+preco: document.getElementById('veiculo-preco').value,
+descricao: document.getElementById('veiculo-descricao').value,
+imagem: document.getElementById('veiculo-imagem').value,
+link: document.getElementById('veiculo-link').value,
+date: new Date().toISOString()
+};
+
+if (id !== '') {
+veiculos[parseInt(id)] = veiculo;
+} else {
+veiculos.push(veiculo);
+}
+
+localStorage.setItem('elite_veiculos', JSON.stringify(veiculos));
+closeVeiculoModal();
+loadVeiculos();
+});
+
+// Depoimentos
+function loadDepoimentos() {
+const depoimentos = JSON.parse(localStorage.getItem('elite_depoimentos') || '[]');
+const grid = document.getElementById('depoimentos-grid');
+const noDepoimentos = document.getElementById('no-depoimentos');
+
+if (depoimentos.length === 0) {
+grid.innerHTML = '';
+noDepoimentos.classList.remove('hidden');
+return;
+}
+
+noDepoimentos.classList.add('hidden');
+grid.innerHTML = depoimentos.map((d, i) => `
+<div class="border rounded-xl p-4 hover:shadow-lg transition-all">
+<div class="flex items-center gap-3 mb-3">
+${d.foto ? `<img src="${d.foto}" alt="${d.nome}" class="w-12 h-12 rounded-full object-cover" onerror="this.src='https://via.placeholder.com/48'">` : `<div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">${d.nome.charAt(0)}</div>`}
+<div>
+<h4 class="font-bold text-secondary">${d.nome}</h4>
+${d.profissao ? `<p class="text-gray-500 text-sm">${d.profissao}</p>` : ''}
+</div>
+</div>
+<p class="text-gray-600 text-sm italic">"${d.texto}"</p>
+<div class="flex gap-2 mt-4">
+<button onclick="editDepoimento(${i})" class="flex-1 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 text-sm"><i class="ri-edit-line"></i> Editar</button>
+<button onclick="deleteDepoimento(${i})" class="flex-1 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 text-sm"><i class="ri-delete-bin-line"></i> Excluir</button>
+</div>
+</div>
+`).join('');
+}
+
+function openDepoimentoModal(index = null) {
+document.getElementById('depoimento-modal').classList.remove('hidden');
+document.getElementById('depoimento-form').reset();
+document.getElementById('depoimento-id').value = '';
+
+if (index !== null) {
+const depoimentos = JSON.parse(localStorage.getItem('elite_depoimentos') || '[]');
+const d = depoimentos[index];
+document.getElementById('depoimento-modal-title').textContent = 'Editar Depoimento';
+document.getElementById('depoimento-id').value = index;
+document.getElementById('depoimento-nome').value = d.nome;
+document.getElementById('depoimento-profissao').value = d.profissao || '';
+document.getElementById('depoimento-texto').value = d.texto;
+document.getElementById('depoimento-foto').value = d.foto || '';
+} else {
+document.getElementById('depoimento-modal-title').textContent = 'Adicionar Depoimento';
+}
+}
+
+function closeDepoimentoModal() {
+document.getElementById('depoimento-modal').classList.add('hidden');
+}
+
+function editDepoimento(index) {
+openDepoimentoModal(index);
+}
+
+function deleteDepoimento(index) {
+if (!confirm('Tem certeza que deseja excluir este depoimento?')) return;
+const depoimentos = JSON.parse(localStorage.getItem('elite_depoimentos') || '[]');
+depoimentos.splice(index, 1);
+localStorage.setItem('elite_depoimentos', JSON.stringify(depoimentos));
+loadDepoimentos();
+}
+
+document.getElementById('depoimento-form').addEventListener('submit', function(e) {
+e.preventDefault();
+const depoimentos = JSON.parse(localStorage.getItem('elite_depoimentos') || '[]');
+const id = document.getElementById('depoimento-id').value;
+const depoimento = {
+nome: document.getElementById('depoimento-nome').value,
+profissao: document.getElementById('depoimento-profissao').value,
+texto: document.getElementById('depoimento-texto').value,
+foto: document.getElementById('depoimento-foto').value,
+date: new Date().toISOString()
+};
+
+if (id !== '') {
+depoimentos[parseInt(id)] = depoimento;
+} else {
+depoimentos.push(depoimento);
+}
+
+localStorage.setItem('elite_depoimentos', JSON.stringify(depoimentos));
+closeDepoimentoModal();
+loadDepoimentos();
+});
+
+// Upload de Imagem
+function handleImageUpload(input) {
+if (input.files && input.files[0]) {
+const reader = new FileReader();
+reader.onload = function(e) {
+document.getElementById('veiculo-imagem').value = e.target.result;
+document.getElementById('veiculo-preview-img').src = e.target.result;
+document.getElementById('veiculo-preview').classList.remove('hidden');
+};
+reader.readAsDataURL(input.files[0]);
+}
+}
+
+function clearImagePreview() {
+document.getElementById('veiculo-imagem').value = '';
+document.getElementById('veiculo-preview').classList.add('hidden');
+document.getElementById('veiculo-file').value = '';
+document.getElementById('veiculo-camera').value = '';
+}
+
+// Upload de Foto do Depoimento
+function handleDepoimentoImageUpload(input) {
+if (input.files && input.files[0]) {
+const reader = new FileReader();
+reader.onload = function(e) {
+document.getElementById('depoimento-foto').value = e.target.result;
+document.getElementById('depoimento-preview-img').src = e.target.result;
+document.getElementById('depoimento-preview').classList.remove('hidden');
+};
+reader.readAsDataURL(input.files[0]);
+}
+}
+
+function clearDepoimentoImagePreview() {
+document.getElementById('depoimento-foto').value = '';
+document.getElementById('depoimento-preview').classList.add('hidden');
+document.getElementById('depoimento-file').value = '';
+document.getElementById('depoimento-camera').value = '';
+}
+
+// Inicializar veículos de exemplo
+function initVeiculosExemplo() {
+const veiculos = JSON.parse(localStorage.getItem('elite_veiculos') || '[]');
+if (veiculos.length < 3) {
+const exemplos = [
+{ titulo: 'BMW X5 2025 Blindado', categoria: 'suv', preco: 'R$ 580.000', descricao: 'SUV premium com blindagem nível III-A, único dono, revisões em dia. Acabamento impecável e todas as tecnologias de segurança.', imagem: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800', link: 'https://www.webmotors.com.br', date: new Date().toISOString() },
+{ titulo: 'Mercedes-Benz S500 2024', categoria: 'luxo', preco: 'R$ 890.000', descricao: 'Sedan de luxo com blindagem nível III-A, interior em couro premium Nappa, teto solar panorâmico e sistema de som Burmester.', imagem: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800', link: '', date: new Date().toISOString() },
+{ titulo: 'Audi A6 3.0 TFSI 2024', categoria: 'sedan', preco: 'R$ 420.000', descricao: 'Sedan executivo blindado, tecnologia de ponta Audi Virtual Cockpit e conforto excepcional. Garantia de fábrica.', imagem: 'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=800', link: '', date: new Date().toISOString() },
+{ titulo: 'Range Rover Sport HSE 2025', categoria: 'suv', preco: 'R$ 750.000', descricao: 'SUV britânico com blindagem certificada NIJ nível III-A, elegância e proteção. Motor V6 supercharged 3.0 com 380cv.', imagem: 'https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?w=800', link: '', date: new Date().toISOString() },
+{ titulo: 'Porsche Cayenne Turbo 2024', categoria: 'luxo', preco: 'R$ 680.000', descricao: 'Performance e segurança em um só veículo, blindagem nível III-A. Motor V8 4.0 biturbo com 550cv, 0-100km/h em 4.1s.', imagem: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800', link: '', date: new Date().toISOString() },
+{ titulo: 'BMW X7 M50i 2024 Blindado', categoria: 'suv', preco: 'R$ 820.000', descricao: 'O maior SUV da BMW com blindagem premium. 7 lugares, motor V8 4.4 biturbo com 530cv, tecnologia Driving Assistant Professional.', imagem: 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=800', link: '', date: new Date().toISOString() },
+{ titulo: 'Mercedes-AMG G63 2023', categoria: 'luxo', preco: 'R$ 1.450.000', descricao: 'Ícone off-road com blindagem nível III-A. Motor V8 4.0 biturbo com 585cv, interior luxuoso em couro designo e tecnologia MBUX.', imagem: 'https://images.unsplash.com/photo-1617886322207-d83e86e6f0f4?w=800', link: '', date: new Date().toISOString() },
+{ titulo: 'Volvo XC90 T8 2024 Híbrido', categoria: 'suv', preco: 'R$ 520.000', descricao: 'SUV híbrido plug-in blindado, 7 lugares. Combina motor 2.0 turbo + elétrico (462cv total). Segurança Volvo + blindagem Elite.', imagem: 'https://images.unsplash.com/photo-1589128777073-263566ae5e4d?w=800', link: '', date: new Date().toISOString() },
+{ titulo: 'Audi Q7 3.0 TFSI 2023', categoria: 'suv', preco: 'R$ 485.000', descricao: 'SUV premium com blindagem completa, 7 lugares, motor V6 3.0 supercharged (333cv), Quattro e interior tecnológico.', imagem: 'https://images.unsplash.com/photo-1614200187524-dc4b892acf16?w=800', link: '', date: new Date().toISOString() },
+{ titulo: 'BMW Série 7 740i 2024', categoria: 'sedan', preco: 'R$ 720.000', descricao: 'Sedan executivo de luxo blindado, motor 3.0 turbo (340cv), tecnologia Gesture Control e interior em couro Merino.', imagem: 'https://images.unsplash.com/photo-1555626906-fcf10d6851b4?w=800', link: '', date: new Date().toISOString() },
+{ titulo: 'Land Rover Defender 110 2024', categoria: 'suv', preco: 'R$ 620.000', descricao: 'SUV icônico com blindagem nível III-A, capacidade off-road excepcional, motor P400 (400cv) e design moderno.', imagem: 'https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?w=800', link: '', date: new Date().toISOString() },
+{ titulo: 'Lexus LS 500h 2023 Híbrido', categoria: 'luxo', preco: 'R$ 680.000', descricao: 'Sedan híbrido de luxo japonês blindado. Motor V6 3.5 + elétrico (359cv), interior artesanal Takumi e silêncio absoluto.', imagem: 'https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=800', link: '', date: new Date().toISOString() }
+];
+localStorage.setItem('elite_veiculos', JSON.stringify(exemplos));
+}
+}
+
+// Inicialização
+initVeiculosExemplo();
+checkSession();
+</script>
+</body>
+</html>

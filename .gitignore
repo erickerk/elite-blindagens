@@ -1,0 +1,44 @@
+# Node modules
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Arquivos temporários
+*.log
+*.tmp
+*.temp
+.cache/
+
+# Build e dist
+dist/
+build/
+*.map
+
+# Arquivos de backup
+*.bak
+*.backup
+*~
+
+# Ambiente local
+.env
+.env.local
+.env.*.local
+
+# Arquivos desnecessários do projeto
+Reestruturação-UI_UX-para-Elite-Blindagens.html
+assets/logo-elite-blindagens.svg
+assets/logo-elite-hd.svg
+assets/logo-elite-blindagens.png

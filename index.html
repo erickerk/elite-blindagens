@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elite Blindagens - Blindagem de Veículos de Luxo</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#D4AF37',
+secondary: '#111111'
+},
+borderRadius: {
+'none': '0px',
+'sm': '4px',
+DEFAULT: '8px',
+'md': '12px',
+'lg': '16px',
+'xl': '20px',
+'2xl': '24px',
+'3xl': '32px',
+'full': '9999px',
+'button': '8px'
+}
+}
+}
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<script src="translations.js"></script>
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+body {
+font-family: 'Inter', sans-serif;
+overflow-x: hidden;
+}
+.hero-bg {
+position: relative;
+overflow: hidden;
+}
+.hero-bg::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: linear-gradient(135deg, rgba(10, 10, 10, 0.75), rgba(212, 175, 55, 0.1)),
+url('https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=1920&h=1080&fit=crop&q=90');
+background-size: 110%;
+background-position: center;
+animation: kenBurns 20s ease-in-out infinite alternate;
+z-index: 0;
+}
+.hero-bg::after {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: 
+radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.7) 100%),
+linear-gradient(180deg, rgba(0,0,0,0.2) 0%, transparent 30%, transparent 60%, rgba(0,0,0,0.6) 100%);
+z-index: 1;
+}
+@keyframes kenBurns {
+0% { transform: scale(1) translateX(0); }
+100% { transform: scale(1.1) translateX(-2%); }
+}
+.glass-morphism {
+background: rgba(255, 255, 255, 0.1);
+-webkit-backdrop-filter: blur(10px);
+backdrop-filter: blur(10px);
+border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.animate-fade-in {
+animation: fadeIn 1s ease-out;
+}
+.animate-slide-up {
+animation: slideUp 0.8s ease-out;
+}
+.animate-float {
+animation: float 3s ease-in-out infinite;
+}
+@keyframes fadeIn {
+from { opacity: 0; }
+to { opacity: 1; }
+}
+@keyframes slideUp {
+from { transform: translateY(50px); opacity: 0; }
+to { transform: translateY(0); opacity: 1; }
+}
+@keyframes float {
+0%, 100% { transform: translateY(0px); }
+50% { transform: translateY(-10px); }
+}
+@keyframes marquee {
+0% { transform: translateX(0); }
+100% { transform: translateX(-50%); }
+}
+.nav-link {
+position: relative;
+transition: all 0.3s ease;
+}
+.nav-link::after {
+content: '';
+position: absolute;
+width: 0;
+height: 2px;
+bottom: -5px;
+left: 0;
+background: linear-gradient(90deg, #D4AF37, #F4E4A6);
+transition: width 0.3s ease;
+}
+.nav-link:hover::after {
+width: 100%;
+}
+.service-card {
+transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.service-card:hover {
+transform: translateY(-10px) scale(1.02);
+box-shadow: 0 25px 50px rgba(212, 175, 55, 0.2);
+}
+.parallax-element {
+transition: transform 0.1s ease-out;
+}
+.golden-gradient {
+background: linear-gradient(135deg, #D4AF37, #F4E4A6, #D4AF37);
+}
+.text-reveal {
+overflow: hidden;
+}
+.text-reveal span {
+display: inline-block;
+animation: textReveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+opacity: 0;
+transform: translateY(60px) rotateX(-15deg);
+transform-origin: center bottom;
+}
+@keyframes textReveal {
+to {
+opacity: 1;
+transform: translateY(0) rotateX(0deg);
+}
+}
+.hero-particles {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+overflow: hidden;
+pointer-events: none;
+}
+.particle {
+position: absolute;
+background: radial-gradient(circle, rgba(212, 175, 55, 0.8) 0%, rgba(212, 175, 55, 0) 70%);
+border-radius: 50%;
+animation: floatParticle 8s ease-in-out infinite;
+filter: blur(1px);
+}
+@keyframes floatParticle {
+0% { transform: translateY(0px) translateX(0px) scale(1); opacity: 0; }
+10% { opacity: 0.6; }
+50% { transform: translateY(-100px) translateX(30px) scale(1.5); opacity: 0.8; }
+90% { opacity: 0.4; }
+100% { transform: translateY(-200px) translateX(-20px) scale(0.5); opacity: 0; }
+}
+.hero-glow {
+position: absolute;
+width: 600px;
+height: 600px;
+background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+border-radius: 50%;
+filter: blur(60px);
+animation: glowPulse 4s ease-in-out infinite;
+pointer-events: none;
+}
+@keyframes glowPulse {
+0%, 100% { transform: scale(1); opacity: 0.5; }
+50% { transform: scale(1.2); opacity: 0.8; }
+}
+.cinematic-text {
+opacity: 0;
+transform: translateY(40px);
+animation: cinematicReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes cinematicReveal {
+to { opacity: 1; transform: translateY(0); }
+}
+.shimmer {
+background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+background-size: 200% 100%;
+animation: shimmer 3s infinite;
+}
+@keyframes shimmer {
+0% { background-position: -200% 0; }
+100% { background-position: 200% 0; }
+}
+.hero-line {
+width: 0;
+height: 1px;
+background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+animation: lineExpand 2s ease-out forwards;
+animation-delay: 1s;
+}
+@keyframes lineExpand {
+to { width: 200px; }
+}
+.hero-glow-left { top: -200px; left: -200px; z-index: 2; }
+.hero-glow-right { bottom: -200px; right: -200px; z-index: 2; animation-delay: 2s; }
+.particles-container { z-index: 3; }
+.particle-hero-1 { left: 10%; bottom: 20%; width: 6px; height: 6px; animation-delay: 0s; }
+.particle-hero-2 { left: 25%; bottom: 10%; width: 4px; height: 4px; animation-delay: 1s; }
+.particle-hero-3 { left: 50%; bottom: 15%; width: 8px; height: 8px; animation-delay: 2s; }
+.particle-hero-4 { left: 75%; bottom: 25%; width: 5px; height: 5px; animation-delay: 3s; }
+.particle-hero-5 { left: 90%; bottom: 10%; width: 6px; height: 6px; animation-delay: 4s; }
+.particle-hero-6 { left: 15%; bottom: 5%; width: 4px; height: 4px; animation-delay: 5s; }
+.particle-hero-7 { left: 60%; bottom: 30%; width: 7px; height: 7px; animation-delay: 6s; }
+.particle-hero-8 { left: 85%; bottom: 5%; width: 5px; height: 5px; animation-delay: 7s; }
+.cinematic-delay-1 { animation-delay: 0.3s; }
+.cinematic-delay-2 { animation-delay: 1.2s; }
+.cinematic-delay-3 { animation-delay: 1.5s; }
+.cinematic-delay-4 { animation-delay: 2s; }
+.text-shadow-dark { text-shadow: 0 4px 30px rgba(0,0,0,0.5); }
+.text-shadow-gold { text-shadow: 0 4px 30px rgba(212,175,55,0.3); }
+.typing-cursor::after {
+content: '|';
+color: #D4AF37;
+animation: blink 1s infinite;
+}
+@keyframes blink {
+0%, 50% { opacity: 1; }
+51%, 100% { opacity: 0; }
+}
+.hero-floating {
+animation: heroFloat 4s ease-in-out infinite;
+}
+@keyframes heroFloat {
+0%, 100% { transform: translateY(0px) scale(1); }
+50% { transform: translateY(-15px) scale(1.02); }
+}
+.slide-in-left {
+animation: slideInLeft 1s ease-out;
+}
+.slide-in-right {
+animation: slideInRight 1s ease-out;
+}
+@keyframes slideInLeft {
+from { transform: translateX(-100px); opacity: 0; }
+to { transform: translateX(0); opacity: 1; }
+}
+@keyframes slideInRight {
+from { transform: translateX(100px); opacity: 0; }
+to { transform: translateX(0); opacity: 1; }
+}
+.glow-effect {
+animation: glow 2s ease-in-out infinite alternate;
+}
+@keyframes glow {
+from { box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
+to { box-shadow: 0 0 30px rgba(212, 175, 55, 0.4), 0 0 60px rgba(212, 175, 55, 0.1); }
+}
+.hero-stats {
+-webkit-backdrop-filter: blur(10px);
+backdrop-filter: blur(10px);
+background: rgba(0, 0, 0, 0.3);
+border: 1px solid rgba(212, 175, 55, 0.3);
+}
+.feature-item {
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.feature-item:hover {
+transform: translateY(-5px);
+background: rgba(212, 175, 55, 0.1);
+}
+.loading-screen {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: linear-gradient(135deg, #1A1A1A, #2A2A2A);
+z-index: 9999;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: opacity 0.5s ease;
+}
+.loading-logo {
+animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+0%, 100% { transform: scale(1); }
+50% { transform: scale(1.1); }
+}
+.particle-1 { left: 10%; top: 20%; width: 4px; height: 4px; animation-delay: 0s; }
+.particle-2 { left: 80%; top: 30%; width: 6px; height: 6px; animation-delay: 1s; }
+.particle-3 { left: 20%; top: 60%; width: 3px; height: 3px; animation-delay: 2s; }
+.particle-4 { left: 70%; top: 80%; width: 5px; height: 5px; animation-delay: 3s; }
+.particle-5 { left: 90%; top: 50%; width: 4px; height: 4px; animation-delay: 4s; }
+.particle-6 { left: 15%; top: 40%; width: 3px; height: 3px; animation-delay: 5s; }
+.text-delay-1 { animation-delay: 0.2s; }
+.text-delay-2 { animation-delay: 0.6s; }
+.text-delay-3 { animation-delay: 1s; }
+.text-delay-4 { animation-delay: 1.2s; }
+.vehicle-img-1 { background-image: url('https://readdy.ai/api/search-image?query=luxury%20black%20armored%20Mercedes%20S-Class%20sedan%20professional%20photography%20showroom%20lighting%20elegant%20interior%20premium%20automotive&width=400&height=300&seq=vehicle1&orientation=landscape'); }
+.vehicle-img-2 { background-image: url('https://readdy.ai/api/search-image?query=luxury%20white%20armored%20BMW%20X7%20SUV%20professional%20photography%20showroom%20lighting%20premium%20automotive%20luxury%20vehicle&width=400&height=300&seq=vehicle2&orientation=landscape'); }
+.vehicle-img-3 { background-image: url('https://readdy.ai/api/search-image?query=luxury%20black%20armored%20Range%20Rover%20Vogue%20SUV%20professional%20photography%20showroom%20lighting%20premium%20automotive%20elegant%20design&width=400&height=300&seq=vehicle3&orientation=landscape'); }
+.workshop-img { background-image: url('https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=1200&h=800&fit=crop&q=100'); }
+.client-img-1 { background-image: url('https://readdy.ai/api/search-image?query=professional%20businessman%20portrait%20suit%20confident%20executive%20corporate%20headshot%20luxury%20client&width=200&height=200&seq=client1&orientation=squarish'); }
+.client-img-2 { background-image: url('https://readdy.ai/api/search-image?query=professional%20businesswoman%20portrait%20elegant%20executive%20corporate%20headshot%20luxury%20client&width=200&height=200&seq=client2&orientation=squarish'); }
+.client-img-3 { background-image: url('https://readdy.ai/api/search-image?query=professional%20businessman%20portrait%20mature%20executive%20corporate%20headshot%20luxury%20client&width=200&height=200&seq=client3&orientation=squarish'); }
+.map-iframe { border: 0; }
+.progress-bar-initial { width: 0%; }
+</style>
+</head>
+<body class="bg-gray-50">
+<div id="loading" class="loading-screen">
+<div class="text-center">
+<div class="loading-logo text-6xl font-['Pacifico'] text-primary mb-4">Elite Blindagens</div>
+<div class="w-64 h-1 bg-gray-700 rounded-full overflow-hidden">
+<div id="progress-bar" class="h-full golden-gradient rounded-full transition-all duration-300 progress-bar-initial"></div>
+</div>
+</div>
+</div>
+<header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+<div class="bg-black/30 backdrop-blur-sm border-b border-white/10">
+<div class="container mx-auto px-6 py-1 flex justify-end items-center space-x-4">
+<div class="flex items-center space-x-2 text-xs text-white/70">
+<i class="ri-global-line"></i>
+<select id="language-selector" class="bg-transparent text-white/70 text-xs border-none outline-none cursor-pointer" onchange="translatePage(this.value)" aria-label="Selecionar idioma" title="Selecionar idioma">
+<option value="pt" class="text-black">Português</option>
+<option value="en" class="text-black">English</option>
+<option value="es" class="text-black">Español</option>
+<option value="it" class="text-black">Italiano</option>
+</select>
+</div>
+</div>
+</div>
+<nav class="container mx-auto px-6 py-4 flex items-center justify-between">
+<a href="#inicio" class="animate-fade-in">
+<img src="assets/logo-elite-oficial.svg" alt="Elite Blindagens" class="h-12 md:h-14">
+</a>
+<div class="hidden md:flex items-center space-x-8">
+<a href="#inicio" class="nav-link text-white hover:text-primary transition-colors" data-translate="nav_home">Início</a>
+<a href="#servicos" class="nav-link text-white hover:text-primary transition-colors" data-translate="nav_services">Serviços</a>
+<a href="#veiculos" class="nav-link text-white hover:text-primary transition-colors" data-translate="nav_vehicles">Veículos</a>
+<a href="veiculos-venda.html" class="nav-link text-white hover:text-primary transition-colors" data-translate="nav_sales">À Venda</a>
+<a href="#sobre" class="nav-link text-white hover:text-primary transition-colors" data-translate="nav_about">Sobre</a>
+<button onclick="openModal('guia-modal')" class="nav-link text-white hover:text-primary transition-colors" data-translate="nav_guide">Guia de Blindagem</button>
+<a href="#contato" class="nav-link text-white hover:text-primary transition-colors" data-translate="nav_contact">Contato</a>
+<a href="#contato" class="golden-gradient text-black px-6 py-3 !rounded-button font-semibold hover:shadow-lg transition-all duration-300 whitespace-nowrap" data-translate="nav_quote">
+Solicitar Orçamento
+</a>
+</div>
+<button id="mobile-menu" class="md:hidden text-white text-2xl" aria-label="Abrir menu de navegação" title="Menu">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-menu-line" aria-hidden="true"></i>
+</div>
+</button>
+</nav>
+</header>
+<section id="inicio" class="hero-bg min-h-screen flex items-center relative overflow-hidden">
+<div class="hero-glow hero-glow-left"></div>
+<div class="hero-glow hero-glow-right"></div>
+<div class="hero-particles particles-container">
+<div class="particle particle-hero-1"></div>
+<div class="particle particle-hero-2"></div>
+<div class="particle particle-hero-3"></div>
+<div class="particle particle-hero-4"></div>
+<div class="particle particle-hero-5"></div>
+<div class="particle particle-hero-6"></div>
+<div class="particle particle-hero-7"></div>
+<div class="particle particle-hero-8"></div>
+</div>
+<div class="container mx-auto px-6 relative z-10">
+<div class="text-center max-w-4xl mx-auto">
+<div class="cinematic-text cinematic-delay-1 mb-4">
+<span class="text-sm md:text-base uppercase tracking-[0.3em] text-primary/80 font-medium" data-translate="hero_badge">Proteção Premium</span>
+</div>
+<div class="hero-line mx-auto mb-8"></div>
+<div class="text-reveal mb-4">
+<span class="text-delay-1 text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-none block text-shadow-dark" data-translate="hero_title1">Blindagem</span>
+</div>
+<div class="text-reveal mb-8">
+<span class="text-delay-2 text-5xl md:text-7xl lg:text-8xl font-bold text-primary leading-none block text-shadow-gold" data-translate="hero_title2">de Elite</span>
+</div>
+<div class="cinematic-text cinematic-delay-2 mb-12">
+<p class="text-lg md:text-xl lg:text-2xl text-gray-300/90 leading-relaxed max-w-2xl mx-auto" data-translate="hero_subtitle">
+Proteção máxima para veículos de luxo com tecnologia de ponta
+</p>
+</div>
+<div class="cinematic-text cinematic-delay-3 flex flex-col sm:flex-row justify-center gap-4 sm:gap-6">
+<a href="#contato" class="bg-gradient-to-r from-yellow-500 via-yellow-400 to-yellow-500 text-gray-900 px-8 sm:px-12 py-4 rounded-full font-black text-base sm:text-lg hover:shadow-[0_0_60px_rgba(212,175,55,0.7)] transition-all duration-500 whitespace-nowrap hover:scale-110 inline-block shadow-[0_4px_30px_rgba(212,175,55,0.4)] border-2 border-yellow-300/50 uppercase tracking-wider" data-translate="hero_btn_quote">
+Solicitar Orçamento
+</a>
+<a href="#veiculos" class="bg-white/10 backdrop-blur-md text-white px-8 sm:px-12 py-4 rounded-full font-bold text-base sm:text-lg hover:bg-white/25 transition-all duration-500 whitespace-nowrap hover:scale-110 inline-block border-2 border-white/40 shadow-lg uppercase tracking-wider" data-translate="hero_btn_portfolio">
+Ver Portfólio
+</a>
+</div>
+</div>
+</div>
+</section>
+<section id="servicos" class="py-20 bg-white">
+<div class="container mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-5xl font-bold text-secondary mb-6" data-translate="section_services">Nossos Serviços</h2>
+<p class="text-xl text-gray-600 max-w-3xl mx-auto" data-translate="services_subtitle">
+Oferecemos soluções completas de blindagem com os mais altos padrões de qualidade e segurança
+</p>
+</div>
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+<div class="service-card glass-morphism p-8 rounded-2xl text-center group">
+<div class="w-20 h-20 flex items-center justify-center golden-gradient rounded-full mx-auto mb-6 text-3xl text-black group-hover:scale-110 transition-transform duration-300">
+<i class="ri-shield-check-line"></i>
+</div>
+<h3 class="text-2xl font-bold text-secondary mb-4">Blindagem de Veículos</h3>
+<p class="text-gray-600 leading-relaxed">
+Proteção nível III-A com tecnologia avançada e materiais de primeira qualidade
+</p>
+</div>
+<div class="service-card glass-morphism p-8 rounded-2xl text-center group">
+<div class="w-20 h-20 flex items-center justify-center golden-gradient rounded-full mx-auto mb-6 text-3xl text-black group-hover:scale-110 transition-transform duration-300">
+<i class="ri-user-heart-line"></i>
+</div>
+<h3 class="text-2xl font-bold text-secondary mb-4">Acompanhamento Personalizado</h3>
+<p class="text-gray-600 leading-relaxed">
+Atendimento exclusivo e acompanhamento completo durante todo o processo
+</p>
+</div>
+<div class="service-card glass-morphism p-8 rounded-2xl text-center group">
+<div class="w-20 h-20 flex items-center justify-center golden-gradient rounded-full mx-auto mb-6 text-3xl text-black group-hover:scale-110 transition-transform duration-300">
+<i class="ri-settings-3-line"></i>
+</div>
+<h3 class="text-2xl font-bold text-secondary mb-4">Pós-venda Especializado</h3>
+<p class="text-gray-600 leading-relaxed">
+Suporte técnico completo e manutenção especializada pós-blindagem
+</p>
+</div>
+<div class="service-card glass-morphism p-8 rounded-2xl text-center group">
+<div class="w-20 h-20 flex items-center justify-center golden-gradient rounded-full mx-auto mb-6 text-3xl text-black group-hover:scale-110 transition-transform duration-300">
+<i class="ri-clipboard-line"></i>
+</div>
+<h3 class="text-2xl font-bold text-secondary mb-4">Seleção de Materiais</h3>
+<p class="text-gray-600 leading-relaxed">
+Criteriosa seleção dos melhores materiais disponíveis no mercado global
+</p>
+</div>
+<div class="service-card glass-morphism p-8 rounded-2xl text-center group">
+<div class="w-20 h-20 flex items-center justify-center golden-gradient rounded-full mx-auto mb-6 text-3xl text-black group-hover:scale-110 transition-transform duration-300">
+<i class="ri-user-search-line"></i>
+</div>
+<h3 class="text-2xl font-bold text-secondary mb-4">Consulta Personalizada</h3>
+<p class="text-gray-600 leading-relaxed">
+Análise detalhada das necessidades específicas de cada cliente
+</p>
+</div>
+<div class="service-card glass-morphism p-8 rounded-2xl text-center group">
+<div class="w-20 h-20 flex items-center justify-center golden-gradient rounded-full mx-auto mb-6 text-3xl text-black group-hover:scale-110 transition-transform duration-300">
+<i class="ri-handshake-line"></i>
+</div>
+<h3 class="text-2xl font-bold text-secondary mb-4">Parcerias Estratégicas</h3>
+<p class="text-gray-600 leading-relaxed">
+Rede de parceiros especializados para soluções completas e integradas
+</p>
+</div>
+<div class="service-card glass-morphism p-8 rounded-2xl text-center group">
+<div class="w-20 h-20 flex items-center justify-center golden-gradient rounded-full mx-auto mb-6 text-3xl text-black group-hover:scale-110 transition-transform duration-300">
+<i class="ri-file-text-line"></i>
+</div>
+<h3 class="text-2xl font-bold text-secondary mb-4">Documentação e Regularização</h3>
+<p class="text-gray-600 leading-relaxed">
+Processo completo de documentação e regularização junto aos órgãos competentes
+</p>
+</div>
+<div class="service-card glass-morphism p-8 rounded-2xl text-center group">
+<div class="w-20 h-20 flex items-center justify-center golden-gradient rounded-full mx-auto mb-6 text-3xl text-black group-hover:scale-110 transition-transform duration-300">
+<i class="ri-star-line"></i>
+</div>
+<h3 class="text-2xl font-bold text-secondary mb-4">Ótima Qualidade</h3>
+<p class="text-gray-600 leading-relaxed">
+Experiência, especialização e conhecimento para gerar valor aos nossos clientes
+</p>
+</div>
+</div>
+</div>
+</section>
+<section class="py-20 bg-secondary">
+<div class="container mx-auto px-6 text-center">
+<div class="max-w-6xl mx-auto">
+<h2 class="text-5xl font-bold text-white mb-8">Nossa Experiência</h2>
+<p class="text-xl text-gray-300 mb-16 leading-relaxed">
+Utilizamos nossa rede de profissionais, experiência, especialização e conhecimento acumulado para gerar valor para nossos clientes.
+</p>
+<div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+<div class="text-center group">
+<div class="w-16 h-16 mx-auto mb-4 golden-gradient rounded-full flex items-center justify-center text-2xl text-black group-hover:scale-110 transition-transform duration-300">
+<i class="ri-star-line"></i>
+</div>
+<h3 class="text-xl font-bold text-primary mb-2">Ótima Qualidade</h3>
+<p class="text-gray-300 text-sm">Excelência em cada um de nossos serviços</p>
+</div>
+<div class="text-center group">
+<div class="w-16 h-16 mx-auto mb-4 golden-gradient rounded-full flex items-center justify-center text-2xl text-black group-hover:scale-110 transition-transform duration-300">
+<i class="ri-user-heart-line"></i>
+</div>
+<h3 class="text-xl font-bold text-primary mb-2">Acompanhamento Personalizado</h3>
+<p class="text-gray-300 text-sm">Atendimento exclusivo durante todo o processo</p>
+</div>
+<div class="text-center group">
+<div class="w-16 h-16 mx-auto mb-4 golden-gradient rounded-full flex items-center justify-center text-2xl text-black group-hover:scale-110 transition-transform duration-300">
+<i class="ri-shield-check-line"></i>
+</div>
+<h3 class="text-xl font-bold text-primary mb-2">Pós-venda Especializado</h3>
+<p class="text-gray-300 text-sm">Suporte técnico completo e manutenção especializada</p>
+</div>
+<div class="text-center group">
+<div class="w-16 h-16 mx-auto mb-4 golden-gradient rounded-full flex items-center justify-center text-2xl text-black group-hover:scale-110 transition-transform duration-300">
+<i class="ri-file-text-line"></i>
+</div>
+<h3 class="text-xl font-bold text-primary mb-2">Documentação Completa</h3>
+<p class="text-gray-300 text-sm">Processo completo de regularização</p>
+</div>
+</div>
+<div class="grid md:grid-cols-3 gap-8">
+<div class="text-center group">
+<div class="w-16 h-16 mx-auto mb-4 golden-gradient rounded-full flex items-center justify-center text-2xl text-black group-hover:scale-110 transition-transform duration-300">
+<i class="ri-team-line"></i>
+</div>
+<h3 class="text-2xl font-bold text-primary mb-2">Profissionais Experientes</h3>
+<p class="text-gray-300">Equipe altamente qualificada com anos de experiência</p>
+</div>
+<div class="text-center group">
+<div class="w-16 h-16 mx-auto mb-4 golden-gradient rounded-full flex items-center justify-center text-2xl text-black group-hover:scale-110 transition-transform duration-300">
+<i class="ri-microscope-line"></i>
+</div>
+<h3 class="text-2xl font-bold text-primary mb-2">Tecnologia Avançada</h3>
+<p class="text-gray-300">Equipamentos de última geração para máxima precisão</p>
+</div>
+<div class="text-center group">
+<div class="w-16 h-16 mx-auto mb-4 golden-gradient rounded-full flex items-center justify-center text-2xl text-black group-hover:scale-110 transition-transform duration-300">
+<i class="ri-award-line"></i>
+</div>
+<h3 class="text-2xl font-bold text-primary mb-2">Qualidade Certificada</h3>
+<p class="text-gray-300">Certificações internacionais e padrões rigorosos</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="veiculos" class="py-20 bg-gray-50">
+<div class="container mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-5xl font-bold text-secondary mb-6" data-translate="section_vehicles">Portfólio de Veículos</h2>
+<p class="text-xl text-gray-600 max-w-3xl mx-auto">
+Conheça alguns dos veículos de luxo que já receberam nossa blindagem premium
+</p>
+</div>
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+<div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group">
+<div class="h-64 bg-cover bg-center group-hover:scale-105 transition-transform duration-500 vehicle-img-1"></div>
+<div class="p-6">
+<h3 class="text-2xl font-bold text-secondary mb-2">Mercedes-Benz S-Class</h3>
+<p class="text-gray-600 mb-4">Blindagem nível III-A com acabamento premium preservando o luxo original</p>
+<div class="flex items-center justify-between">
+<span class="text-primary font-semibold">Nível III-A</span>
+<button class="text-primary hover:text-secondary transition-colors" aria-label="Ver detalhes" title="Ver detalhes">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-arrow-right-line" aria-hidden="true"></i>
+</div>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group">
+<div class="h-64 bg-cover bg-center group-hover:scale-105 transition-transform duration-500 vehicle-img-2"></div>
+<div class="p-6">
+<h3 class="text-2xl font-bold text-secondary mb-2">BMW X7</h3>
+<p class="text-gray-600 mb-4">SUV premium blindado mantendo performance e conforto excepcionais</p>
+<div class="flex items-center justify-between">
+<span class="text-primary font-semibold">Nível III-A</span>
+<button class="text-primary hover:text-secondary transition-colors" aria-label="Ver detalhes" title="Ver detalhes">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-arrow-right-line" aria-hidden="true"></i>
+</div>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group">
+<div class="h-64 bg-cover bg-center group-hover:scale-105 transition-transform duration-500 vehicle-img-3"></div>
+<div class="p-6">
+<h3 class="text-2xl font-bold text-secondary mb-2">Range Rover Vogue</h3>
+<p class="text-gray-600 mb-4">Elegância britânica com proteção máxima e tecnologia de ponta</p>
+<div class="flex items-center justify-between">
+<span class="text-primary font-semibold">Nível III-A</span>
+<button class="text-primary hover:text-secondary transition-colors" aria-label="Ver detalhes" title="Ver detalhes">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-arrow-right-line" aria-hidden="true"></i>
+</div>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="sobre" class="py-16 bg-gradient-to-b from-black to-neutral-900 text-white">
+<div class="container mx-auto px-6">
+<div class="text-center">
+<span class="text-primary text-sm uppercase tracking-widest font-medium" data-translate="about_badge">Quem Somos</span>
+<h2 class="text-4xl md:text-5xl font-bold text-white mt-4 mb-6" data-translate="about_title">Elite Blindagens</h2>
+<p class="text-lg text-gray-300 max-w-3xl mx-auto mb-8" data-translate="about_short">
+Líder em blindagem automotiva com mais de 25 anos de experiência. Fundada por Leandro Sylvestre, oferecemos proteção premium com excelência operacional e dedicação ao serviço excepcional.
+</p>
+<div class="flex flex-wrap justify-center gap-4">
+<button onclick="openModal('sobre-modal')" class="bg-white/10 backdrop-blur-sm border border-white/20 text-white px-8 py-3 rounded-full font-semibold hover:bg-white/20 transition-all duration-300 flex items-center gap-2" data-translate="about_btn_history">
+<i class="ri-building-line"></i> Nossa História
+</button>
+<button onclick="openModal('mvv-modal')" class="golden-gradient text-black px-8 py-3 rounded-full font-semibold hover:shadow-lg transition-all duration-300 flex items-center gap-2" data-translate="about_btn_mvv">
+<i class="ri-award-line"></i> Missão, Visão e Valores
+</button>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Nosso Propósito -->
+<section class="py-20 bg-gradient-to-b from-neutral-900 to-black text-white">
+<div class="container mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-4xl md:text-5xl font-bold text-white mb-4">Nosso Propósito</h2>
+<div class="w-24 h-1 bg-primary mx-auto mb-6"></div>
+</div>
+<div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+<div class="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-2xl hover:border-primary/50 transition-all duration-300 group">
+<div class="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+<i class="ri-shield-check-fill text-3xl text-primary"></i>
+</div>
+<h3 class="text-2xl font-bold text-primary mb-4">Proteger Vidas</h3>
+<p class="text-gray-300 leading-relaxed">Blindar não é instalar materiais — é proteger vidas</p>
+</div>
+<div class="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-2xl hover:border-primary/50 transition-all duration-300 group">
+<div class="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+<i class="ri-settings-5-fill text-3xl text-primary"></i>
+</div>
+<h3 class="text-2xl font-bold text-primary mb-4">Padrão de Montadora</h3>
+<p class="text-gray-300 leading-relaxed">Trazer padrão de montadora para o universo da blindagem</p>
+</div>
+<div class="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-2xl hover:border-primary/50 transition-all duration-300 group">
+<div class="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+<i class="ri-eye-fill text-3xl text-primary"></i>
+</div>
+<h3 class="text-2xl font-bold text-primary mb-4">Transparência Total</h3>
+<p class="text-gray-300 leading-relaxed">Transformar desconfiança em confiança, com transparência total</p>
+</div>
+<div class="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-2xl hover:border-primary/50 transition-all duration-300 group">
+<div class="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+<i class="ri-star-fill text-3xl text-primary"></i>
+</div>
+<h3 class="text-2xl font-bold text-primary mb-4">Experiência Surpreendente</h3>
+<p class="text-gray-300 leading-relaxed">Entregar uma experiência que surpreende do primeiro contato à entrega</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- O Que Torna a Elite Diferente -->
+<section class="py-20 bg-black text-white">
+<div class="container mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-4xl md:text-5xl font-bold text-white mb-4">O Que Torna a Elite Diferente?</h2>
+<div class="w-24 h-1 bg-primary mx-auto mb-6"></div>
+<p class="text-xl text-gray-300 max-w-3xl mx-auto">Nosso diferencial não é só o material que usamos, é a forma como pensamos a blindagem. Desde o guincho até o carro reserva, tudo é pensado para dar tranquilidade.</p>
+</div>
+<div class="grid md:grid-cols-2 gap-8">
+<div class="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-2xl hover:border-primary/50 transition-all duration-300">
+<div class="flex items-start gap-4 mb-4">
+<i class="ri-lightbulb-flash-fill text-4xl text-primary"></i>
+<h3 class="text-2xl font-bold text-primary">Engenharia Leve</h3>
+</div>
+<p class="text-gray-300 leading-relaxed">Usamos vidro mais leve, polímeros avançados, projeto pensado para preservar performance do veículo.</p>
+</div>
+<div class="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-2xl hover:border-primary/50 transition-all duration-300">
+<div class="flex items-start gap-4 mb-4">
+<i class="ri-smartphone-fill text-4xl text-primary"></i>
+<h3 class="text-2xl font-bold text-primary">Transparência Total</h3>
+</div>
+<p class="text-gray-300 leading-relaxed">O cliente acompanha tudo pelo app, recebe laudo, tem QR code no carro com rastreabilidade completa.</p>
+</div>
+<div class="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-2xl hover:border-primary/50 transition-all duration-300">
+<div class="flex items-start gap-4 mb-4">
+<i class="ri-user-heart-fill text-4xl text-primary"></i>
+<h3 class="text-2xl font-bold text-primary">Experiência do Cliente</h3>
+</div>
+<p class="text-gray-300 leading-relaxed">Desde o guincho até o carro reserva, tudo é pensado para dar tranquilidade e segurança.</p>
+</div>
+<div class="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-2xl hover:border-primary/50 transition-all duration-300">
+<div class="flex items-start gap-4 mb-4">
+<i class="ri-cpu-fill text-4xl text-primary"></i>
+<h3 class="text-2xl font-bold text-primary">Tecnologia Proprietária</h3>
+</div>
+<p class="text-gray-300 leading-relaxed">Criamos sistemas como EliteTrack, EliteTrace, EliteShield — somos uma empresa de engenharia e experiência.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Linhas de Produtos Premium -->
+<section class="py-20 bg-gradient-to-b from-black to-neutral-900 text-white">
+<div class="container mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-4xl md:text-5xl font-bold text-white mb-4">Nossas Linhas de Blindagem</h2>
+<div class="w-24 h-1 bg-primary mx-auto mb-6"></div>
+<p class="text-xl text-gray-300 max-w-3xl mx-auto">Desenvolvemos duas linhas premium de blindagem para atender diferentes necessidades, sempre com o mais alto padrão de qualidade.</p>
+</div>
+
+<div class="grid lg:grid-cols-2 gap-8 mb-12">
+<!-- UltraLite Armor -->
+<div class="bg-gradient-to-br from-primary/20 to-primary/5 border-2 border-primary/50 p-8 rounded-2xl hover:shadow-2xl hover:shadow-primary/20 transition-all duration-300">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center">
+<i class="ri-flashlight-fill text-3xl text-black"></i>
+</div>
+<div>
+<h3 class="text-3xl font-bold text-primary">Elite UltraLite Armor™</h3>
+<p class="text-gray-400">A blindagem mais leve da categoria</p>
+</div>
+</div>
+<div class="space-y-4 mb-6">
+<div class="flex items-start gap-3">
+<i class="ri-check-line text-2xl text-primary mt-1"></i>
+<div>
+<p class="text-white font-semibold">Vidros SafeMax</p>
+<p class="text-gray-300 text-sm">Tecnologia de vidro blindado mais leve do Brasil</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<i class="ri-check-line text-2xl text-primary mt-1"></i>
+<div>
+<p class="text-white font-semibold">Estrutura com Tensylon + Aramida</p>
+<p class="text-gray-300 text-sm">Sem uso de aço nas áreas opacas (zero corrosão)</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<i class="ri-check-line text-2xl text-primary mt-1"></i>
+<div>
+<p class="text-white font-semibold">Menor Impacto na Performance</p>
+<p class="text-gray-300 text-sm">Preserva frenagem, suspensão e eficiência energética</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<i class="ri-check-line text-2xl text-primary mt-1"></i>
+<div>
+<p class="text-white font-semibold">Conforto Acústico Superior</p>
+<p class="text-gray-300 text-sm">Acabamento premium e isolamento acústico excepcional</p>
+</div>
+</div>
+</div>
+<div class="border-t border-white/20 pt-6">
+<p class="text-gray-300 mb-4"><strong class="text-primary">Ideal para:</strong></p>
+<div class="flex flex-wrap gap-2">
+<span class="bg-primary/20 text-primary px-3 py-1 rounded-full text-sm">Carros Premium</span>
+<span class="bg-primary/20 text-primary px-3 py-1 rounded-full text-sm">Híbridos e Elétricos</span>
+<span class="bg-primary/20 text-primary px-3 py-1 rounded-full text-sm">Uso Intenso</span>
+<span class="bg-primary/20 text-primary px-3 py-1 rounded-full text-sm">Performance</span>
+</div>
+</div>
+</div>
+
+<!-- SafeCore -->
+<div class="bg-gradient-to-br from-white/10 to-white/5 border-2 border-white/30 p-8 rounded-2xl hover:shadow-2xl hover:shadow-white/10 transition-all duration-300">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-16 h-16 bg-white rounded-full flex items-center justify-center">
+<i class="ri-shield-check-fill text-3xl text-primary"></i>
+</div>
+<div>
+<h3 class="text-3xl font-bold text-white">Elite SafeCore™</h3>
+<p class="text-gray-400">Segurança inteligente com custo-benefício</p>
+</div>
+</div>
+<div class="space-y-4 mb-6">
+<div class="flex items-start gap-3">
+<i class="ri-check-line text-2xl text-white mt-1"></i>
+<div>
+<p class="text-white font-semibold">Vidro Millenium</p>
+<p class="text-gray-300 text-sm">Ótima transparência e longa durabilidade</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<i class="ri-check-line text-2xl text-white mt-1"></i>
+<div>
+<p class="text-white font-semibold">Mantas de Aramida (8-11 camadas)</p>
+<p class="text-gray-300 text-sm">Proteção balística eficiente na parte opaca</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<i class="ri-check-line text-2xl text-white mt-1"></i>
+<div>
+<p class="text-white font-semibold">Reforço Estrutural Inteligente</p>
+<p class="text-gray-300 text-sm">Filete de aço apenas nas colunas como reforço estrutural</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<i class="ri-check-line text-2xl text-white mt-1"></i>
+<div>
+<p class="text-white font-semibold">Equilíbrio Perfeito</p>
+<p class="text-gray-300 text-sm">Excelente relação entre proteção, conforto e investimento</p>
+</div>
+</div>
+</div>
+<div class="border-t border-white/20 pt-6">
+<p class="text-gray-300 mb-4"><strong class="text-white">Ideal para:</strong></p>
+<div class="flex flex-wrap gap-2">
+<span class="bg-white/20 text-white px-3 py-1 rounded-full text-sm">Famílias</span>
+<span class="bg-white/20 text-white px-3 py-1 rounded-full text-sm">Executivos</span>
+<span class="bg-white/20 text-white px-3 py-1 rounded-full text-sm">SUVs e Sedans</span>
+<span class="bg-white/20 text-white px-3 py-1 rounded-full text-sm">Custo-Benefício</span>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Tabela Comparativa -->
+<div class="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-2xl">
+<h3 class="text-2xl font-bold text-primary mb-6 text-center">Comparativo das Linhas</h3>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="border-b border-white/20">
+<th class="py-3 px-4 text-gray-400">Característica</th>
+<th class="py-3 px-4 text-primary">UltraLite Armor™</th>
+<th class="py-3 px-4 text-white">SafeCore™</th>
+</tr>
+</thead>
+<tbody class="text-gray-300">
+<tr class="border-b border-white/10">
+<td class="py-3 px-4 font-semibold">Vidro</td>
+<td class="py-3 px-4">SafeMax – mais leve</td>
+<td class="py-3 px-4">Millenium – alta transparência</td>
+</tr>
+<tr class="border-b border-white/10">
+<td class="py-3 px-4 font-semibold">Material opaco</td>
+<td class="py-3 px-4">Tensylon + aramida (sem aço)</td>
+<td class="py-3 px-4">Aramida + filete de aço nas colunas</td>
+</tr>
+<tr class="border-b border-white/10">
+<td class="py-3 px-4 font-semibold">Peso</td>
+<td class="py-3 px-4 text-primary font-bold">Ultra leve</td>
+<td class="py-3 px-4">Leve</td>
+</tr>
+<tr class="border-b border-white/10">
+<td class="py-3 px-4 font-semibold">Foco</td>
+<td class="py-3 px-4">Performance + tecnologia</td>
+<td class="py-3 px-4">Segurança + custo-benefício</td>
+</tr>
+<tr>
+<td class="py-3 px-4 font-semibold">Ideal para</td>
+<td class="py-3 px-4">Premium, esportivos, híbridos, elétricos</td>
+<td class="py-3 px-4">SUVs, sedans, frotas executivas</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Tecnologias Proprietárias -->
+<section class="py-20 bg-black text-white">
+<div class="container mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-4xl md:text-5xl font-bold text-white mb-4">Tecnologias Proprietárias</h2>
+<div class="w-24 h-1 bg-primary mx-auto mb-6"></div>
+<p class="text-xl text-gray-300 max-w-3xl mx-auto">Desenvolvemos sistemas exclusivos que transformam transparência em confiança e segurança em tranquilidade.</p>
+</div>
+
+<div class="grid md:grid-cols-3 gap-8">
+<!-- EliteTrack -->
+<div class="bg-gradient-to-br from-white/10 to-white/5 border border-white/20 p-8 rounded-2xl hover:border-primary/50 transition-all duration-300">
+<div class="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mb-6">
+<i class="ri-smartphone-line text-3xl text-primary"></i>
+</div>
+<h3 class="text-2xl font-bold text-primary mb-3">EliteTrack™</h3>
+<p class="text-gray-400 text-sm mb-4">A blindagem mais transparente do Brasil</p>
+<div class="space-y-3 text-gray-300 text-sm">
+<div class="flex items-start gap-2">
+<i class="ri-check-line text-primary mt-1"></i>
+<p>App exclusivo para acompanhar em tempo real</p>
+</div>
+<div class="flex items-start gap-2">
+<i class="ri-check-line text-primary mt-1"></i>
+<p>Timeline das etapas com fotos do processo</p>
+</div>
+<div class="flex items-start gap-2">
+<i class="ri-check-line text-primary mt-1"></i>
+<p>Previsão de entrega atualizada</p>
+</div>
+<div class="flex items-start gap-2">
+<i class="ri-check-line text-primary mt-1"></i>
+<p>Acesso ao laudo e documentos</p>
+</div>
+</div>
+<div class="mt-6 pt-6 border-t border-white/10">
+<p class="text-gray-400 text-xs italic">"O cliente vê fotos, acompanha etapas e sabe exatamente em que estágio está."</p>
+</div>
+</div>
+
+<!-- EliteTrace -->
+<div class="bg-gradient-to-br from-white/10 to-white/5 border border-white/20 p-8 rounded-2xl hover:border-primary/50 transition-all duration-300">
+<div class="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mb-6">
+<i class="ri-qr-code-line text-3xl text-primary"></i>
+</div>
+<h3 class="text-2xl font-bold text-primary mb-3">EliteTrace™</h3>
+<p class="text-gray-400 text-sm mb-4">QR com rastreabilidade total</p>
+<div class="space-y-3 text-gray-300 text-sm">
+<div class="flex items-start gap-2">
+<i class="ri-check-line text-primary mt-1"></i>
+<p>QR Code exclusivo em cada veículo</p>
+</div>
+<div class="flex items-start gap-2">
+<i class="ri-check-line text-primary mt-1"></i>
+<p>Histórico completo de materiais e lotes</p>
+</div>
+<div class="flex items-start gap-2">
+<i class="ri-check-line text-primary mt-1"></i>
+<p>Registro de revisões e manutenções</p>
+</div>
+<div class="flex items-start gap-2">
+<i class="ri-check-line text-primary mt-1"></i>
+<p>Facilita revenda e auditoria</p>
+</div>
+</div>
+<div class="mt-6 pt-6 border-t border-white/10">
+<p class="text-gray-400 text-xs italic">"O RG da blindagem. Tudo documentado e rastreável."</p>
+</div>
+</div>
+
+<!-- EliteShield -->
+<div class="bg-gradient-to-br from-white/10 to-white/5 border border-white/20 p-8 rounded-2xl hover:border-primary/50 transition-all duration-300">
+<div class="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mb-6">
+<i class="ri-file-shield-line text-3xl text-primary"></i>
+</div>
+<h3 class="text-2xl font-bold text-primary mb-3">EliteShield™</h3>
+<p class="text-gray-400 text-sm mb-4">Laudo técnico com fotos internas</p>
+<div class="space-y-3 text-gray-300 text-sm">
+<div class="flex items-start gap-2">
+<i class="ri-check-line text-primary mt-1"></i>
+<p>Registro fotográfico antes do acabamento</p>
+</div>
+<div class="flex items-start gap-2">
+<i class="ri-check-line text-primary mt-1"></i>
+<p>Especificações técnicas detalhadas</p>
+</div>
+<div class="flex items-start gap-2">
+<i class="ri-check-line text-primary mt-1"></i>
+<p>Assinatura técnica Elite Blindagens</p>
+</div>
+<div class="flex items-start gap-2">
+<i class="ri-check-line text-primary mt-1"></i>
+<p>Disponível em PDF e no app</p>
+</div>
+</div>
+<div class="mt-6 pt-6 border-t border-white/10">
+<p class="text-gray-400 text-xs italic">"Prova visual de que tudo foi feito como combinado."</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Cuidado Completo com Cliente -->
+<section class="py-20 bg-gradient-to-b from-neutral-900 to-black text-white">
+<div class="container mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-4xl md:text-5xl font-bold text-white mb-4">Cuidado Completo com o Cliente</h2>
+<div class="w-24 h-1 bg-primary mx-auto mb-6"></div>
+<p class="text-xl text-gray-300 max-w-3xl mx-auto">Nossa relação com o cliente não termina na entrega. Oferecemos suporte completo e serviços exclusivos.</p>
+</div>
+
+<div class="grid md:grid-cols-2 gap-8">
+<!-- Elite Rescue -->
+<div class="bg-gradient-to-br from-primary/20 to-primary/5 border-2 border-primary/50 p-8 rounded-2xl hover:shadow-2xl hover:shadow-primary/20 transition-all duration-300">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center">
+<i class="ri-truck-line text-3xl text-black"></i>
+</div>
+<h3 class="text-3xl font-bold text-primary">Elite Rescue™</h3>
+</div>
+<p class="text-gray-300 text-lg mb-6">Guincho plataforma próprio para remoção e entrega segura do seu veículo blindado.</p>
+<div class="space-y-3">
+<div class="flex items-center gap-3">
+<i class="ri-check-double-line text-2xl text-primary"></i>
+<p class="text-white">Guincho plataforma especializado</p>
+</div>
+<div class="flex items-center gap-3">
+<i class="ri-check-double-line text-2xl text-primary"></i>
+<p class="text-white">Remoção e entrega seguras</p>
+</div>
+<div class="flex items-center gap-3">
+<i class="ri-check-double-line text-2xl text-primary"></i>
+<p class="text-white">Equipe treinada e experiente</p>
+</div>
+<div class="flex items-center gap-3">
+<i class="ri-check-double-line text-2xl text-primary"></i>
+<p class="text-white">Agendamento facilitado</p>
+</div>
+</div>
+</div>
+
+<!-- Courtesy Vehicle -->
+<div class="bg-gradient-to-br from-white/10 to-white/5 border-2 border-white/30 p-8 rounded-2xl hover:shadow-2xl hover:shadow-white/10 transition-all duration-300">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-16 h-16 bg-white rounded-full flex items-center justify-center">
+<i class="ri-car-line text-3xl text-primary"></i>
+</div>
+<h3 class="text-3xl font-bold text-white">Courtesy Vehicle™</h3>
+</div>
+<p class="text-gray-300 text-lg mb-6">Carro blindado reserva disponível durante manutenções programadas do seu veículo.</p>
+<div class="space-y-3">
+<div class="flex items-center gap-3">
+<i class="ri-check-double-line text-2xl text-white"></i>
+<p class="text-white">Veículo blindado de cortesia</p>
+</div>
+<div class="flex items-center gap-3">
+<i class="ri-check-double-line text-2xl text-white"></i>
+<p class="text-white">Manutenções programadas</p>
+</div>
+<div class="flex items-center gap-3">
+<i class="ri-check-double-line text-2xl text-white"></i>
+<p class="text-white">Sem comprometer sua segurança</p>
+</div>
+<div class="flex items-center gap-3">
+<i class="ri-check-double-line text-2xl text-white"></i>
+<p class="text-white">Mobilidade garantida</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="mt-12 bg-white/5 border border-white/10 p-8 rounded-2xl text-center">
+<i class="ri-customer-service-2-fill text-5xl text-primary mb-4"></i>
+<h3 class="text-2xl font-bold text-white mb-4">Atendimento Consultivo</h3>
+<p class="text-gray-300 max-w-2xl mx-auto">Atendimento humano, próximo e canal direto para dúvidas e suporte. O cliente não precisa brigar para ser atendido — ele tem um canal direto com a Elite.</p>
+</div>
+</div>
+</section>
+
+<div id="sobre-modal" class="modal-overlay hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+<div class="modal-content bg-gray-900 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-primary/20">
+<div class="sticky top-0 bg-gray-900 p-6 border-b border-gray-700 flex justify-between items-center">
+<h2 class="text-2xl font-bold text-primary">Nossa História</h2>
+<button onclick="closeModal('sobre-modal')" class="text-white hover:text-primary text-2xl" aria-label="Fechar" title="Fechar"><i class="ri-close-line" aria-hidden="true"></i></button>
+</div>
+<div class="p-6 text-gray-300 space-y-6">
+<p class="text-lg leading-relaxed">
+A <strong class="text-primary">Elite Blindagens</strong> é uma empresa líder no setor de blindagem automotiva, especializada em oferecer serviços personalizados de alta qualidade para clientes exigentes em todo o Brasil. Com uma equipe experiente e altamente qualificada, a Elite Blindagens é reconhecida por sua excelência operacional, compromisso com a segurança dos clientes e dedicação ao serviço excepcional.
+</p>
+<div class="bg-primary/10 border-l-4 border-primary p-6 rounded-r-xl">
+<h3 class="text-xl font-bold text-primary mb-3">Leandro Sylvestre - Fundador</h3>
+<p class="leading-relaxed">
+O fundador e proprietário da Elite Blindagens possui mais de 25 anos de experiência no ramo da blindagem automotiva. Sua trajetória no setor começou como um apaixonado por carros e segurança, levando-o a se especializar em técnicas avançadas de blindagem e a desenvolver uma profunda compreensão das necessidades e expectativas dos clientes.
+</p>
+</div>
+<p class="leading-relaxed">
+Durante sua carreira, Leandro trabalhou em diversas empresas do setor, adquirindo um conhecimento abrangente sobre os diferentes aspectos da indústria de blindagem automotiva. Sua experiência inclui desde a seleção de materiais de alta qualidade até o desenvolvimento de processos de instalação eficientes e seguros.
+</p>
+<p class="leading-relaxed">
+A visão de Leandro para a Elite Blindagens é criar uma empresa que se destaque pela sua abordagem personalizada e compromisso com a satisfação do cliente. Ele acredita que oferecer serviços de blindagem automotiva de alta qualidade vai além de simplesmente proteger os veículos dos clientes, mas também proporcionar-lhes tranquilidade e confiança em suas jornadas diárias.
+</p>
+<p class="leading-relaxed">
+A experiência e liderança de Leandro são fundamentais para o sucesso da Elite Blindagens, garantindo que a empresa mantenha os mais altos padrões de qualidade, inovação e atendimento ao cliente em todos os aspectos do seu negócio. Sua dedicação em oferecer soluções sob medida e sua paixão pelo trabalho tornam a Elite Blindagens uma escolha natural para clientes que buscam o melhor em segurança automotiva.
+</p>
+</div>
+</div>
+</div>
+<div id="mvv-modal" class="modal-overlay hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+<div class="modal-content bg-gray-900 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-primary/20">
+<div class="sticky top-0 bg-gray-900 p-6 border-b border-gray-700 flex justify-between items-center">
+<h2 class="text-2xl font-bold text-primary">Missão, Visão e Valores</h2>
+<button onclick="closeModal('mvv-modal')" class="text-white hover:text-primary text-2xl" aria-label="Fechar" title="Fechar"><i class="ri-close-line" aria-hidden="true"></i></button>
+</div>
+<div class="p-6 space-y-8">
+<div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-14 h-14 rounded-full golden-gradient flex items-center justify-center"><i class="ri-rocket-line text-2xl text-black"></i></div>
+<h3 class="text-2xl font-bold text-primary">Missão</h3>
+</div>
+<p class="text-gray-300 leading-relaxed">Prover soluções de blindagem automotiva sob medida, combinando nossa expertise de 25 anos no setor com uma abordagem personalizada, garantindo que cada cliente tenha uma experiência sem igual, livre de preocupações, desde a escolha da melhor opção de blindagem até a entrega final do veículo.</p>
+</div>
+<div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-14 h-14 rounded-full golden-gradient flex items-center justify-center"><i class="ri-eye-line text-2xl text-black"></i></div>
+<h3 class="text-2xl font-bold text-primary">Visão</h3>
+</div>
+<p class="text-gray-300 leading-relaxed">Ser a referência nacional em serviços personalizados de blindagem automotiva, oferecendo aos nossos clientes tranquilidade e segurança, desde a consulta inicial até a entrega do veículo blindado, mantendo os mais altos padrões de qualidade e satisfação.</p>
+</div>
+<div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-14 h-14 rounded-full golden-gradient flex items-center justify-center"><i class="ri-heart-line text-2xl text-black"></i></div>
+<h3 class="text-2xl font-bold text-primary">Valores</h3>
+</div>
+<ul class="text-gray-300 space-y-3">
+<li class="flex items-start gap-3"><i class="ri-check-line text-primary mt-1"></i><span><strong class="text-primary">Excelência:</strong> Buscamos sempre a excelência em todos os aspectos do nosso trabalho.</span></li>
+<li class="flex items-start gap-3"><i class="ri-check-line text-primary mt-1"></i><span><strong class="text-primary">Integridade:</strong> Agimos com integridade e transparência em todas as nossas relações.</span></li>
+<li class="flex items-start gap-3"><i class="ri-check-line text-primary mt-1"></i><span><strong class="text-primary">Personalização:</strong> Entendemos as necessidades individuais de cada cliente.</span></li>
+<li class="flex items-start gap-3"><i class="ri-check-line text-primary mt-1"></i><span><strong class="text-primary">Confiança:</strong> Construímos relações de confiança duradouras com nossos clientes.</span></li>
+<li class="flex items-start gap-3"><i class="ri-check-line text-primary mt-1"></i><span><strong class="text-primary">Compromisso:</strong> Estamos comprometidos com a total satisfação do cliente.</span></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="guia-modal" class="modal-overlay hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+<div class="modal-content bg-gradient-to-b from-neutral-900 to-black rounded-2xl max-w-5xl w-full max-h-[90vh] overflow-y-auto border border-primary/20">
+<div class="sticky top-0 bg-gradient-to-r from-black to-neutral-900 p-6 border-b border-primary/30 flex justify-between items-center z-10">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full golden-gradient flex items-center justify-center">
+<i class="ri-shield-star-line text-2xl text-black"></i>
+</div>
+<h2 class="text-2xl font-bold text-white">Guia dos Níveis de Blindagem</h2>
+</div>
+<button onclick="closeModal('guia-modal')" class="text-white/70 hover:text-primary text-2xl transition-colors" aria-label="Fechar" title="Fechar"><i class="ri-close-line" aria-hidden="true"></i></button>
+</div>
+<div class="p-8">
+<p class="text-gray-400 mb-10 text-lg text-center max-w-2xl mx-auto">Entenda as opções de proteção disponíveis e escolha o nível ideal para sua segurança.</p>
+<div class="grid gap-6">
+<div class="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-primary/30 transition-all">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-16 h-16 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center text-white font-bold text-xl shadow-lg">I</div>
+<div>
+<h3 class="text-xl font-bold text-white">Nível I - Proteção Básica</h3>
+<span class="text-emerald-400 font-medium">Calibres: .22 LR, .380 ACP</span>
+</div>
+</div>
+<p class="text-gray-400 mb-4">Proteção contra armas de baixo calibre. Ideal para quem busca segurança inicial contra assaltos comuns.</p>
+<div class="flex flex-wrap gap-2">
+<span class="bg-emerald-500/20 text-emerald-400 px-4 py-1.5 rounded-full text-sm border border-emerald-500/30">Peso: ~80kg</span>
+<span class="bg-emerald-500/20 text-emerald-400 px-4 py-1.5 rounded-full text-sm border border-emerald-500/30">Uso urbano básico</span>
+</div>
+</div>
+<div class="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-primary/30 transition-all">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-16 h-16 rounded-xl bg-gradient-to-br from-sky-500 to-sky-700 flex items-center justify-center text-white font-bold text-xl shadow-lg">II</div>
+<div>
+<h3 class="text-xl font-bold text-white">Nível II - Proteção Intermediária</h3>
+<span class="text-sky-400 font-medium">Calibres: 9mm, .357 Magnum</span>
+</div>
+</div>
+<p class="text-gray-400 mb-4">Proteção contra calibres médios mais comuns em situações de risco urbano. Boa relação custo-benefício.</p>
+<div class="flex flex-wrap gap-2">
+<span class="bg-sky-500/20 text-sky-400 px-4 py-1.5 rounded-full text-sm border border-sky-500/30">Peso: ~120kg</span>
+<span class="bg-sky-500/20 text-sky-400 px-4 py-1.5 rounded-full text-sm border border-sky-500/30">Uso urbano recomendado</span>
+</div>
+</div>
+<div class="bg-gradient-to-r from-primary/10 to-primary/5 border-2 border-primary/50 rounded-2xl p-6 relative overflow-hidden">
+<div class="absolute top-3 right-3">
+<span class="golden-gradient text-black px-3 py-1 rounded-full text-xs font-bold">⭐ MAIS POPULAR</span>
+</div>
+<div class="flex items-center gap-4 mb-4">
+<div class="w-16 h-16 rounded-xl golden-gradient flex items-center justify-center text-black font-bold text-lg shadow-lg">IIIA</div>
+<div>
+<h3 class="text-xl font-bold text-white">Nível III-A - Proteção Avançada</h3>
+<span class="text-primary font-medium">Calibres: .44 Magnum, 9mm Submachine</span>
+</div>
+</div>
+<p class="text-gray-300 mb-4"><strong class="text-primary">O mais utilizado no Brasil.</strong> Proteção contra a maioria das armas de mão. Equilíbrio ideal entre segurança, peso e desempenho.</p>
+<div class="flex flex-wrap gap-2">
+<span class="bg-primary/20 text-primary px-4 py-1.5 rounded-full text-sm border border-primary/40">Peso: ~150-200kg</span>
+<span class="bg-primary/20 text-primary px-4 py-1.5 rounded-full text-sm border border-primary/40">Certificação NIJ</span>
+<span class="bg-primary/20 text-primary px-4 py-1.5 rounded-full text-sm border border-primary/40">Elite Recomenda</span>
+</div>
+</div>
+<div class="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-primary/30 transition-all">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-16 h-16 rounded-xl bg-gradient-to-br from-rose-500 to-rose-700 flex items-center justify-center text-white font-bold text-xl shadow-lg">III</div>
+<div>
+<h3 class="text-xl font-bold text-white">Nível III - Proteção Máxima</h3>
+<span class="text-rose-400 font-medium">Calibres: 7.62mm (Fuzil)</span>
+</div>
+</div>
+<p class="text-gray-400 mb-4">Proteção contra armas longas e fuzis. Indicado para situações de alto risco e escoltas especiais.</p>
+<div class="flex flex-wrap gap-2">
+<span class="bg-rose-500/20 text-rose-400 px-4 py-1.5 rounded-full text-sm border border-rose-500/30">Peso: ~300-400kg</span>
+<span class="bg-rose-500/20 text-rose-400 px-4 py-1.5 rounded-full text-sm border border-rose-500/30">Proteção militar</span>
+</div>
+</div>
+</div>
+<div class="mt-10 bg-white/5 border border-primary/20 rounded-2xl p-6">
+<h4 class="text-lg font-bold text-primary mb-4 flex items-center gap-2"><i class="ri-information-line"></i> Informações Importantes</h4>
+<ul class="text-gray-400 space-y-3">
+<li class="flex items-start gap-3"><i class="ri-check-double-line text-primary"></i>Todos os níveis seguem a norma NIJ (National Institute of Justice)</li>
+<li class="flex items-start gap-3"><i class="ri-check-double-line text-primary"></i>A blindagem preserva a estética original do veículo</li>
+<li class="flex items-start gap-3"><i class="ri-check-double-line text-primary"></i>Manutenção periódica é essencial para garantir a proteção</li>
+<li class="flex items-start gap-3"><i class="ri-check-double-line text-primary"></i>Garantia de 5 anos nos materiais e instalação</li>
+</ul>
+</div>
+<div class="mt-6 text-center">
+<a href="#contato" onclick="closeModal('guia-modal')" class="inline-block golden-gradient text-black px-8 py-4 rounded-full font-bold hover:shadow-lg transition-all">
+Solicitar Consultoria Gratuita
+</a>
+</div>
+</div>
+</div>
+</div>
+<section id="excelencia" class="py-20 bg-white">
+<div class="container mx-auto px-6">
+<div class="grid lg:grid-cols-2 gap-16 items-center">
+<div class="parallax-element relative z-10">
+<div class="h-96 bg-cover bg-center rounded-2xl shadow-lg relative z-10 workshop-img"></div>
+</div>
+<div class="relative z-20">
+<h2 class="text-5xl font-bold text-secondary mb-8">Excelência em Blindagem</h2>
+<p class="text-xl text-gray-600 mb-8 leading-relaxed">
+Com mais de 25 anos de experiência no mercado de blindagem automotiva, a Elite Blindagens se estabeleceu como referência em proteção veicular de alta qualidade para o segmento premium.
+</p>
+<div class="grid grid-cols-2 gap-8 mb-8">
+<div class="text-center">
+<div class="text-4xl font-bold text-primary mb-2" data-count="500">0</div>
+<div class="text-gray-600">Veículos Blindados</div>
+</div>
+<div class="text-center">
+<div class="text-4xl font-bold text-primary mb-2" data-count="25">0</div>
+<div class="text-gray-600">Anos de Experiência</div>
+</div>
+<div class="text-center">
+<div class="text-4xl font-bold text-primary mb-2" data-count="100">0</div>
+<div class="text-gray-600">% de Satisfação</div>
+</div>
+<div class="text-center">
+<div class="text-4xl font-bold text-primary mb-2" data-count="24">0</div>
+<div class="text-gray-600">Suporte 24h</div>
+</div>
+</div>
+<div class="flex flex-wrap gap-4">
+<div class="flex items-center space-x-2">
+<div class="w-6 h-6 flex items-center justify-center text-primary">
+<i class="ri-check-line"></i>
+</div>
+<span class="text-gray-600">Certificação NIJ</span>
+</div>
+<div class="flex items-center space-x-2">
+<div class="w-6 h-6 flex items-center justify-center text-primary">
+<i class="ri-check-line"></i>
+</div>
+<span class="text-gray-600">Garantia Total</span>
+</div>
+<div class="flex items-center space-x-2">
+<div class="w-6 h-6 flex items-center justify-center text-primary">
+<i class="ri-check-line"></i>
+</div>
+<span class="text-gray-600">Tecnologia Alemã</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="depoimentos" class="py-20 bg-gradient-to-b from-neutral-100 to-white">
+<div class="container mx-auto px-6">
+<div class="text-center mb-16">
+<span class="inline-block golden-gradient text-black px-6 py-2 rounded-full text-sm font-semibold mb-6">
+<i class="ri-chat-quote-line mr-2"></i>O que dizem nossos clientes
+</span>
+<h2 class="text-5xl font-bold text-secondary mb-6">Depoimentos de Clientes</h2>
+<p class="text-xl text-gray-600 max-w-3xl mx-auto">
+Veja o que nossos clientes dizem sobre nossos serviços de blindagem premium
+</p>
+</div>
+<div class="max-w-4xl mx-auto">
+<div id="testimonials-slider" class="relative overflow-hidden">
+<div id="testimonials-container" class="flex transition-transform duration-500">
+</div>
+</div>
+<div id="testimonials-dots" class="flex justify-center mt-8 space-x-3">
+</div>
+</div>
+</div>
+</section>
+<section id="contato" class="py-20 bg-secondary">
+<div class="container mx-auto px-6">
+<div class="grid lg:grid-cols-2 gap-16">
+<div>
+<h2 class="text-5xl font-bold text-white mb-8">Entre em Contato</h2>
+<p class="text-xl text-gray-300 mb-12 leading-relaxed">
+Solicite um orçamento personalizado para blindagem do seu veículo de luxo. Nossa equipe especializada está pronta para atendê-lo.
+</p>
+<div class="space-y-6">
+<div class="flex items-center space-x-4">
+<div class="w-12 h-12 flex items-center justify-center golden-gradient rounded-full text-black text-xl">
+<i class="ri-phone-line"></i>
+</div>
+<div>
+<div class="text-white font-semibold">Telefone / WhatsApp</div>
+<div class="text-gray-300">(11) 9.1312-3071</div>
+</div>
+</div>
+<div class="flex items-center space-x-4">
+<div class="w-12 h-12 flex items-center justify-center golden-gradient rounded-full text-black text-xl">
+<i class="ri-mail-line"></i>
+</div>
+<div>
+<div class="text-white font-semibold">E-mail</div>
+<div class="text-gray-300">contato@eliteblindagens.com.br</div>
+</div>
+</div>
+<div class="flex items-center space-x-4">
+<div class="w-12 h-12 flex items-center justify-center golden-gradient rounded-full text-black text-xl">
+<i class="ri-map-pin-line"></i>
+</div>
+<div>
+<div class="text-white font-semibold">Endereço</div>
+<div class="text-gray-300">R. Doutor Ulisses Guimaraes, 874 - Loteamento Industrial, Mauá - SP, 09372-050</div>
+</div>
+</div>
+<div class="flex items-center space-x-4">
+<div class="w-12 h-12 flex items-center justify-center golden-gradient rounded-full text-black text-xl">
+<i class="ri-time-line"></i>
+</div>
+<div>
+<div class="text-white font-semibold">Horário</div>
+<div class="text-gray-300">Seg - Sex: 8h às 18h</div>
+</div>
+</div>
+</div>
+</div>
+<div class="glass-morphism p-8 rounded-2xl">
+<form id="contact-form" class="space-y-6">
+<div>
+<input type="text" id="form-nome" placeholder="Seu nome completo" required
+class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:border-primary transition-colors">
+</div>
+<div>
+<input type="email" id="form-email" placeholder="Seu e-mail" required
+class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:border-primary transition-colors">
+</div>
+<div>
+<input type="tel" id="form-telefone" placeholder="Seu telefone" required
+class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:border-primary transition-colors">
+</div>
+<div>
+<input type="text" id="form-veiculo" placeholder="Modelo do veículo" required
+class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:border-primary transition-colors">
+</div>
+<div>
+<textarea rows="4" id="form-mensagem" placeholder="Sua mensagem"
+class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:border-primary transition-colors resize-none"></textarea>
+</div>
+<button type="submit" class="w-full golden-gradient text-black py-4 !rounded-button font-semibold text-lg hover:shadow-xl transition-all duration-300 whitespace-nowrap">
+Solicitar Orçamento
+</button>
+</form>
+</div>
+</div>
+</div>
+</section>
+<section id="newsletter" class="py-16 bg-gradient-to-r from-primary/20 to-primary/10">
+<div class="container mx-auto px-6">
+<div class="max-w-2xl mx-auto text-center">
+<i class="ri-mail-send-line text-5xl text-primary mb-4"></i>
+<h2 class="text-3xl font-bold text-secondary mb-4">Fique por Dentro das Novidades</h2>
+<p class="text-gray-600 mb-8">Cadastre seu e-mail e receba ofertas exclusivas, novidades e conteúdos sobre blindagem automotiva.</p>
+<form id="newsletter-form" class="flex flex-col sm:flex-row gap-4 justify-center">
+<input type="email" id="newsletter-email" required placeholder="Digite seu e-mail" class="flex-1 max-w-md px-6 py-4 rounded-full border-2 border-gray-200 focus:border-primary focus:outline-none text-lg">
+<button type="submit" class="golden-gradient text-black px-8 py-4 rounded-full font-semibold hover:shadow-lg transition-all whitespace-nowrap">
+<i class="ri-send-plane-fill mr-2"></i>Cadastrar
+</button>
+</form>
+<p id="newsletter-success" class="hidden mt-4 text-green-600 font-medium"><i class="ri-check-line"></i> E-mail cadastrado com sucesso!</p>
+</div>
+</div>
+</section>
+<footer class="bg-black text-white py-16">
+<div class="container mx-auto px-6">
+<div class="grid md:grid-cols-4 gap-8 mb-12">
+<div>
+<div class="text-3xl font-['Pacifico'] text-primary mb-4">Elite Blindagens</div>
+<p class="text-gray-400 leading-relaxed">
+Referência em blindagem automotiva premium, oferecendo proteção máxima com qualidade excepcional.
+</p>
+</div>
+<div>
+<h3 class="text-xl font-semibold mb-4">Serviços</h3>
+<ul class="space-y-2 text-gray-400">
+<li><a href="#servicos" class="hover:text-primary transition-colors">Blindagem Nível III-A</a></li>
+<li><a href="#veiculos" class="hover:text-primary transition-colors">Veículos de Luxo</a></li>
+<li><a href="#contato" class="hover:text-primary transition-colors">Manutenção</a></li>
+<li><a href="#contato" class="hover:text-primary transition-colors">Suporte 24h</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-xl font-semibold mb-4">Empresa</h3>
+<ul class="space-y-2 text-gray-400">
+<li><a href="#sobre" class="hover:text-primary transition-colors">Sobre Nós</a></li>
+<li><a href="#veiculos" class="hover:text-primary transition-colors">Portfólio</a></li>
+<li><a href="javascript:openModal('guia-modal')" class="hover:text-primary transition-colors">Certificações</a></li>
+<li><a href="#contato" class="hover:text-primary transition-colors">Carreira</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-xl font-semibold mb-4">Redes Sociais</h3>
+<div class="flex space-x-4">
+<a href="#" class="w-10 h-10 flex items-center justify-center bg-primary text-black rounded-full hover:bg-white transition-colors" aria-label="Facebook" title="Siga-nos no Facebook">
+<i class="ri-facebook-fill" aria-hidden="true"></i>
+</a>
+<a href="#" class="w-10 h-10 flex items-center justify-center bg-primary text-black rounded-full hover:bg-white transition-colors" aria-label="Instagram" title="Siga-nos no Instagram">
+<i class="ri-instagram-fill" aria-hidden="true"></i>
+</a>
+<a href="#" class="w-10 h-10 flex items-center justify-center bg-primary text-black rounded-full hover:bg-white transition-colors" aria-label="LinkedIn" title="Siga-nos no LinkedIn">
+<i class="ri-linkedin-fill" aria-hidden="true"></i>
+</a>
+<a href="#" class="w-10 h-10 flex items-center justify-center bg-primary text-black rounded-full hover:bg-white transition-colors" aria-label="YouTube" title="Siga-nos no YouTube">
+<i class="ri-youtube-fill" aria-hidden="true"></i>
+</a>
+</div>
+</div>
+</div>
+<div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+<div class="text-gray-400 text-sm">
+<span data-translate="footer_rights">© 2025 Elite Blindagens. Todos os direitos reservados.</span>
+</div>
+<div class="flex space-x-6 text-gray-400 text-sm mt-4 md:mt-0">
+<a href="#" class="hover:text-primary transition-colors" data-translate="footer_privacy">Política de Privacidade</a>
+<a href="#" class="hover:text-primary transition-colors" data-translate="footer_terms">Termos de Uso</a>
+</div>
+</div>
+<div class="mt-6 pt-4 border-t border-gray-800">
+<div class="flex flex-col md:flex-row items-center justify-between gap-4">
+<div class="text-center md:text-left">
+<h3 class="text-base font-semibold text-primary" data-translate="footer_location">Nossa Localização</h3>
+<p class="text-gray-400 text-sm">R. Dr. Ulisses Guimarães, 874 - Loteamento Industrial, Mauá - SP</p>
+</div>
+<a href="https://www.google.com/maps/search/?api=1&query=R.+Dr.+Ulisses+Guimaraes+874+Loteamento+Industrial+Maua+SP+09372-050" target="_blank" rel="noopener noreferrer" class="golden-gradient text-black px-6 py-2 rounded-lg font-semibold text-sm hover:shadow-lg transition-all duration-300 inline-flex items-center gap-2">
+<i class="ri-map-pin-line"></i> <span data-translate="footer_map">Ver no Mapa</span>
+</a>
+</div>
+</div>
+</div>
+</footer>
+<a href="https://wa.me/5511913123071" target="_blank" rel="noopener noreferrer" id="whatsapp-btn" class="fixed bottom-8 left-8 w-14 h-14 bg-green-500 text-white rounded-full shadow-lg flex items-center justify-center text-3xl hover:bg-green-600 hover:scale-110 transition-all duration-300 z-50" aria-label="Fale conosco pelo WhatsApp" title="Fale conosco pelo WhatsApp">
+<i class="ri-whatsapp-line" aria-hidden="true"></i>
+</a>
+<button id="back-to-top" class="fixed bottom-8 right-8 w-12 h-12 golden-gradient text-black rounded-full shadow-lg opacity-0 pointer-events-none transition-all duration-300 hover:shadow-xl" aria-label="Voltar ao topo" title="Voltar ao topo">
+<div class="w-full h-full flex items-center justify-center">
+<i class="ri-arrow-up-line" aria-hidden="true"></i>
+</div>
+</button>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+const loading = document.getElementById('loading');
+const progressBar = document.getElementById('progress-bar');
+let progress = 0;
+const interval = setInterval(() => {
+progress += Math.random() * 15;
+if (progress >= 100) {
+progress = 100;
+clearInterval(interval);
+setTimeout(() => {
+loading.style.opacity = '0';
+setTimeout(() => {
+loading.style.display = 'none';
+}, 500);
+}, 500);
+}
+progressBar.style.width = progress + '%';
+}, 100);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+const header = document.getElementById('header');
+window.addEventListener('scroll', () => {
+if (window.scrollY > 100) {
+header.classList.add('glass-morphism');
+header.style.backgroundColor = 'rgba(26, 26, 26, 0.9)';
+} else {
+header.classList.remove('glass-morphism');
+header.style.backgroundColor = 'transparent';
+}
+});
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+const links = document.querySelectorAll('a[href^="#"]');
+links.forEach(link => {
+link.addEventListener('click', function(e) {
+e.preventDefault();
+const target = document.querySelector(this.getAttribute('href'));
+if (target) {
+target.scrollIntoView({
+behavior: 'smooth',
+block: 'start'
+});
+}
+});
+});
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+const counters = document.querySelectorAll('[data-count]');
+const animateCounter = (counter) => {
+const target = parseInt(counter.getAttribute('data-count'));
+const duration = 2000;
+const step = target / (duration / 16);
+let current = 0;
+const updateCounter = () => {
+current += step;
+if (current < target) {
+counter.textContent = Math.floor(current);
+requestAnimationFrame(updateCounter);
+} else {
+counter.textContent = target;
+}
+};
+updateCounter();
+};
+const observer = new IntersectionObserver((entries) => {
+entries.forEach(entry => {
+if (entry.isIntersecting) {
+animateCounter(entry.target);
+observer.unobserve(entry.target);
+}
+});
+}, { threshold: 0.5 });
+counters.forEach(counter => observer.observe(counter));
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+const backToTop = document.getElementById('back-to-top');
+window.addEventListener('scroll', () => {
+if (window.scrollY > 500) {
+backToTop.classList.remove('opacity-0', 'pointer-events-none');
+backToTop.classList.add('opacity-100');
+} else {
+backToTop.classList.add('opacity-0', 'pointer-events-none');
+backToTop.classList.remove('opacity-100');
+}
+});
+backToTop.addEventListener('click', () => {
+window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+const slider = document.querySelector('#testimonials-slider .flex');
+const dots = document.querySelectorAll('.testimonial-dot');
+let currentSlide = 0;
+const totalSlides = 3;
+const updateSlider = () => {
+slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+dots.forEach((dot, index) => {
+dot.classList.toggle('bg-primary', index === currentSlide);
+dot.classList.toggle('bg-gray-300', index !== currentSlide);
+});
+};
+dots.forEach((dot, index) => {
+dot.addEventListener('click', () => {
+currentSlide = index;
+updateSlider();
+});
+});
+setInterval(() => {
+currentSlide = (currentSlide + 1) % totalSlides;
+updateSlider();
+}, 5000);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+const mobileMenuBtn = document.getElementById('mobile-menu');
+const nav = document.querySelector('nav');
+mobileMenuBtn.addEventListener('click', () => {
+const mobileNav = document.querySelector('.mobile-nav');
+if (mobileNav) {
+mobileNav.remove();
+} else {
+const menu = document.createElement('div');
+menu.className = 'mobile-nav fixed inset-0 bg-secondary z-40 flex flex-col items-center justify-center space-y-8 md:hidden';
+menu.innerHTML = `
+<a href="#inicio" class="text-2xl text-white hover:text-primary transition-colors">Início</a>
+<a href="#servicos" class="text-2xl text-white hover:text-primary transition-colors">Serviços</a>
+<a href="#veiculos" class="text-2xl text-white hover:text-primary transition-colors">Veículos</a>
+<a href="#sobre" class="text-2xl text-white hover:text-primary transition-colors">Sobre</a>
+<a href="#contato" class="text-2xl text-white hover:text-primary transition-colors">Contato</a>
+<button class="golden-gradient text-black px-8 py-4 rounded-button font-semibold">Solicitar Orçamento</button>
+`;
+document.body.appendChild(menu);
+menu.querySelectorAll('a').forEach(link => {
+link.addEventListener('click', () => menu.remove());
+});
+}
+});
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+const form = document.getElementById('contact-form');
+form.addEventListener('submit', function(e) {
+e.preventDefault();
+const nome = document.getElementById('form-nome').value;
+const email = document.getElementById('form-email').value;
+const telefone = document.getElementById('form-telefone').value;
+const veiculo = document.getElementById('form-veiculo').value;
+const mensagem = document.getElementById('form-mensagem').value;
+const texto = `*Solicitação de Orçamento - Elite Blindagens*%0A%0A*Nome:* ${encodeURIComponent(nome)}%0A*E-mail:* ${encodeURIComponent(email)}%0A*Telefone:* ${encodeURIComponent(telefone)}%0A*Veículo:* ${encodeURIComponent(veiculo)}%0A*Mensagem:* ${encodeURIComponent(mensagem || 'Não informada')}`;
+const whatsappUrl = `https://wa.me/5511913123071?text=${texto}`;
+window.open(whatsappUrl, '_blank');
+});
+});
+
+// Sistema de tradução movido para translations.js
+
+function openModal(id) {
+document.getElementById(id).classList.remove('hidden');
+document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+document.getElementById(id).classList.add('hidden');
+document.body.style.overflow = 'auto';
+}
+document.querySelectorAll('.modal-overlay').forEach(modal => {
+modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(modal.id); });
+});
+
+// Newsletter
+document.getElementById('newsletter-form').addEventListener('submit', function(e) {
+e.preventDefault();
+const email = document.getElementById('newsletter-email').value;
+const emails = JSON.parse(localStorage.getItem('elite_emails') || '[]');
+if (!emails.find(e => e.email === email)) {
+emails.push({ email: email, date: new Date().toISOString() });
+localStorage.setItem('elite_emails', JSON.stringify(emails));
+}
+document.getElementById('newsletter-email').value = '';
+document.getElementById('newsletter-success').classList.remove('hidden');
+setTimeout(() => document.getElementById('newsletter-success').classList.add('hidden'), 3000);
+});
+
+// Depoimentos dinâmicos
+const defaultDepoimentos = [
+{ nome: 'Ricardo Mendes', profissao: 'Empresário', texto: 'Serviço impecável da Elite Blindagens. Meu Mercedes ficou perfeito, mantendo todo o conforto original com a segurança que eu precisava.', foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face' },
+{ nome: 'Ana Paula Silva', profissao: 'Advogada', texto: 'Profissionalismo excepcional e resultado final surpreendente. Recomendo a Elite Blindagens para quem busca qualidade premium.', foto: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face' },
+{ nome: 'Carlos Eduardo Santos', profissao: 'Médico', texto: 'A Elite Blindagens superou minhas expectativas. Processo rápido, transparente e resultado de altíssima qualidade.', foto: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face' }
+];
+
+function initDepoimentos() {
+if (!localStorage.getItem('elite_depoimentos')) {
+localStorage.setItem('elite_depoimentos', JSON.stringify(defaultDepoimentos));
+}
+loadDepoimentosSite();
+}
+
+let currentTestimonial = 0;
+function loadDepoimentosSite() {
+const depoimentos = JSON.parse(localStorage.getItem('elite_depoimentos') || '[]');
+const container = document.getElementById('testimonials-container');
+const dotsContainer = document.getElementById('testimonials-dots');
+if (!container || depoimentos.length === 0) return;
+
+container.innerHTML = depoimentos.map(d => `
+<div class="w-full flex-shrink-0 text-center px-8">
+<div class="w-24 h-24 mx-auto mb-6 rounded-full bg-cover bg-center border-4 border-primary shadow-lg" style="background-image: url('${d.foto || 'https://via.placeholder.com/150'}')"></div>
+<blockquote class="text-2xl text-gray-700 mb-6 italic leading-relaxed">"${d.texto}"</blockquote>
+<div class="text-primary font-semibold text-lg">${d.nome}</div>
+<div class="text-gray-500">${d.profissao || ''}</div>
+</div>
+`).join('');
+
+dotsContainer.innerHTML = depoimentos.map((_, i) => `
+<button class="testimonial-dot w-3 h-3 rounded-full ${i === 0 ? 'bg-primary' : 'bg-gray-300'} transition-all duration-300" onclick="goToTestimonial(${i})" aria-label="Depoimento ${i+1}"></button>
+`).join('');
+
+setInterval(() => {
+currentTestimonial = (currentTestimonial + 1) % depoimentos.length;
+goToTestimonial(currentTestimonial);
+}, 5000);
+}
+
+function goToTestimonial(index) {
+const container = document.getElementById('testimonials-container');
+const dots = document.querySelectorAll('.testimonial-dot');
+currentTestimonial = index;
+container.style.transform = `translateX(-${index * 100}%)`;
+dots.forEach((dot, i) => {
+dot.classList.toggle('bg-primary', i === index);
+dot.classList.toggle('bg-gray-300', i !== index);
+});
+}
+
+document.addEventListener('DOMContentLoaded', initDepoimentos);
+
+</script>
+</body>
+</html>
