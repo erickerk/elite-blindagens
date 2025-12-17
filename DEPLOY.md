@@ -2,7 +2,7 @@
 
 ## ✅ Repositório GitHub Configurado
 
-**URL do Repositório:** https://github.com/erickerk/elite-blindagens
+**URL do Repositório:** <https://github.com/erickerk/elite-blindagens>
 
 ## 🚀 Workflow de Deploy Automático
 
@@ -44,31 +44,34 @@ git checkout -- nome-do-arquivo
 git status
 ```
 
-## 🌐 Opções de Deploy
+## Opções de Deploy
 
 ### 1. GitHub Pages (Gratuito)
+
 - Acesse: Settings → Pages
 - Source: Deploy from branch
 - Branch: master → /root
 - Seu site ficará em: `https://erickerk.github.io/elite-blindagens/`
 
 ### 2. Netlify (Recomendado - Gratuito)
+
 - Conecte seu repositório GitHub
 - Build settings: Nenhum (site estático)
 - Deploy automático a cada push
 
 ### 3. Vercel (Gratuito)
-- Conecte seu repositório GitHub  
+
+- Conecte seu repositório GitHub
 - Framework: Other
 - Deploy automático a cada push
 
-## ✨ Próximos Passos
+## Próximos Passos
 
-1. ✅ Repositório criado e sincronizado
-2. ✅ Código enviado para GitHub
-3. ⏳ Escolher plataforma de deploy (GitHub Pages/Netlify/Vercel)
-4. ⏳ Configurar deploy automático
-5. ⏳ Testar site em produção
+1. Repositório criado e sincronizado
+2. Código enviado para GitHub
+3. Escolher plataforma de deploy (GitHub Pages/Netlify/Vercel)
+4. Configurar deploy automático
+5. Testar site em produção
 
 ---
 
