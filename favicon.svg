@@ -1,18 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <!-- Shield with golden gradient -->
   <defs>
-    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#F4D03F;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#D4AF37;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#D4AF37;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B8941F;stop-opacity:1" />
     </linearGradient>
   </defs>
   
-  <!-- Shield outline -->
-  <path d="M50 10 L50 45 C50 60 40 70 25 80 C10 70 0 60 0 45 L0 10 L25 0 Z" 
-        transform="translate(25, 10) scale(1.8)"
-        fill="url(#goldGradient)"/>
+  <!-- Background shield -->
+  <path d="M50 5 C30 5 15 10 15 10 L15 40 C15 65 50 90 50 90 C50 90 85 65 85 40 L85 10 C85 10 70 5 50 5 Z" 
+        fill="#111111"/>
   
-  <!-- Check mark -->
-  <path d="M35 50 L42 58 L65 35" 
-        fill="none" stroke="#111" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Golden shield border -->
+  <path d="M50 8 C32 8 18 12 18 12 L18 40 C18 63 50 85 50 85 C50 85 82 63 82 40 L82 12 C82 12 68 8 50 8 Z" 
+        fill="none" stroke="url(#goldGradient)" stroke-width="2"/>
+  
+  <!-- Letter E in gold -->
+  <g fill="url(#goldGradient)">
+    <rect x="35" y="30" width="30" height="6" rx="1"/>
+    <rect x="35" y="47" width="25" height="6" rx="1"/>
+    <rect x="35" y="64" width="30" height="6" rx="1"/>
+    <rect x="35" y="30" width="6" height="40" rx="1"/>
+  </g>
 </svg>
