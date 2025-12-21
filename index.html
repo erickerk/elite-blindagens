@@ -3,7 +3,107 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Elite Blindagens - Blindagem de Veículos de Luxo</title>
+<title>Elite Blindagens - Blindagem de Veículos de Luxo em São Paulo | Nível III-A</title>
+<meta name="description" content="Blindagem automotiva premium em São Paulo. Especialistas em blindagem nível III-A para Mercedes, BMW, Range Rover, SUVs e veículos híbridos. Garantia de 5 anos. Solicite orçamento!">
+<meta name="keywords" content="blindagem automotiva, blindagem de veículos, blindagem nível III-A, blindagem São Paulo, blindagem SUV, blindagem híbridos, Elite Blindagens">
+<meta name="author" content="Elite Blindagens">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://eliteblindagens.com.br/">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://eliteblindagens.com.br/">
+<meta property="og:title" content="Elite Blindagens - Blindagem Premium de Veículos de Luxo">
+<meta property="og:description" content="Blindagem automotiva premium com tecnologia de ponta. Proteção nível III-A para veículos de luxo. Garantia de 5 anos e acompanhamento em tempo real.">
+<meta property="og:image" content="https://eliteblindagens.com.br/assets/og-image.jpg">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Elite Blindagens">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://eliteblindagens.com.br/">
+<meta name="twitter:title" content="Elite Blindagens - Blindagem Premium de Veículos de Luxo">
+<meta name="twitter:description" content="Blindagem automotiva premium com tecnologia de ponta. Proteção nível III-A para veículos de luxo.">
+<meta name="twitter:image" content="https://eliteblindagens.com.br/assets/og-image.jpg">
+
+<!-- Schema.org LocalBusiness -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Elite Blindagens",
+  "image": "https://eliteblindagens.com.br/assets/logo-elite.png",
+  "description": "Empresa especializada em blindagem automotiva premium para veículos de luxo em São Paulo. Blindagem nível III-A com garantia de 5 anos.",
+  "@id": "https://eliteblindagens.com.br",
+  "url": "https://eliteblindagens.com.br",
+  "telephone": "+55-11-91312-3071",
+  "email": "contato@eliteblindagens.com.br",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "R. Doutor Ulisses Guimarães, 874",
+    "addressLocality": "Mauá",
+    "addressRegion": "SP",
+    "postalCode": "09372-050",
+    "addressCountry": "BR"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": -23.6528,
+    "longitude": -46.4617
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+    "opens": "08:00",
+    "closes": "18:00"
+  },
+  "priceRange": "$$$",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "reviewCount": "47"
+  },
+  "sameAs": [
+    "https://www.instagram.com/eliteblindagens",
+    "https://www.facebook.com/eliteblindagens"
+  ]
+}
+</script>
+
+<!-- FAQ Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Qual o nível de blindagem oferecido pela Elite?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Trabalhamos com blindagem Nível III-A, que protege contra armas de fogo de uso comum, como pistolas 9mm, .40 e .45. Nossa blindagem é certificada conforme normas NIJ."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quanto tempo leva o processo de blindagem?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "O prazo médio é de 15 a 25 dias úteis, dependendo do modelo do veículo e da linha escolhida."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Qual a garantia da blindagem?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oferecemos garantia de 5 anos para vidros e materiais balísticos, e 3 anos para acabamentos."
+      }
+    }
+  ]
+}
+</script>
+
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <script src="https://cdn.tailwindcss.com/3.4.16"></script>
 <script>
@@ -396,6 +496,65 @@ animation: pulse 2s ease-in-out infinite;
     padding: 0.5rem 0.75rem;
     font-size: 0.75rem;
   }
+  body {
+    padding-bottom: 70px;
+  }
+}
+
+/* CTA Fixo Mobile */
+.mobile-cta-fixed {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  padding: 12px 16px;
+  background: linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.9));
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(212,175,55,0.3);
+  display: none;
+  animation: slideUp 0.3s ease;
+}
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+@media (max-width: 768px) {
+  .mobile-cta-fixed { display: block; }
+}
+
+/* FAQ Styles */
+.faq-item {
+  transition: all 0.3s ease;
+}
+.faq-question:hover {
+  color: #D4AF37;
+}
+.faq-answer {
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+.faq-answer.hidden {
+  max-height: 0;
+  opacity: 0;
+  padding-bottom: 0;
+}
+.faq-answer:not(.hidden) {
+  max-height: 500px;
+  opacity: 1;
+}
+.faq-icon.rotated {
+  transform: rotate(45deg);
+}
+
+/* Lazy Load */
+.lazy-bg {
+  background-image: none !important;
+  background-color: #f3f4f6;
+}
+.lazy-bg.loaded {
+  background-color: transparent;
 }
 </style>
 </head>
@@ -636,57 +795,133 @@ Utilizamos nossa rede de profissionais, experiência, especialização e conheci
 <section id="veiculos" class="py-20 bg-gray-50">
 <div class="container mx-auto px-6">
 <div class="text-center mb-16">
-<h2 class="text-5xl font-bold text-secondary mb-6" data-translate="section_vehicles">Portfólio de Veículos</h2>
+<h2 class="text-5xl font-bold text-secondary mb-6" data-translate="section_vehicles">Cases de Sucesso</h2>
 <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-Conheça alguns dos veículos de luxo que já receberam nossa blindagem premium
+Veja projetos reais entregues pela Elite Blindagens com detalhes de cada trabalho
 </p>
 </div>
 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Case 1 -->
 <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group">
-<div class="h-64 bg-cover bg-center group-hover:scale-105 transition-transform duration-500 vehicle-img-1"></div>
-<div class="p-6">
-<h3 class="text-2xl font-bold text-secondary mb-2">Mercedes-Benz S-Class</h3>
-<p class="text-gray-600 mb-4">Blindagem nível III-A com acabamento premium preservando o luxo original</p>
-<div class="flex items-center justify-between">
-<span class="text-primary font-semibold">Nível III-A</span>
-<button class="text-primary hover:text-secondary transition-colors" aria-label="Ver detalhes" title="Ver detalhes">
-<div class="w-6 h-6 flex items-center justify-center">
-<i class="ri-arrow-right-line" aria-hidden="true"></i>
+<div class="relative">
+<div class="h-56 bg-cover bg-center group-hover:scale-105 transition-transform duration-500 vehicle-img-1" loading="lazy"></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="bg-primary text-black text-xs font-bold px-3 py-1 rounded-full">ENTREGUE</span>
+<span class="bg-black/80 text-white text-xs font-semibold px-3 py-1 rounded-full">UltraLite™</span>
 </div>
+</div>
+<div class="p-5">
+<h3 class="text-xl font-bold text-secondary mb-1">Mercedes-Benz S500 2024</h3>
+<p class="text-gray-500 text-sm mb-3">Cliente: Roberto M. • São Paulo/SP</p>
+<div class="grid grid-cols-3 gap-2 mb-4 text-center">
+<div class="bg-gray-50 rounded-lg p-2">
+<p class="text-primary font-bold text-sm">III-A</p>
+<p class="text-gray-500 text-xs">Nível</p>
+</div>
+<div class="bg-gray-50 rounded-lg p-2">
+<p class="text-primary font-bold text-sm">18 dias</p>
+<p class="text-gray-500 text-xs">Prazo</p>
+</div>
+<div class="bg-gray-50 rounded-lg p-2">
+<p class="text-primary font-bold text-sm">+85kg</p>
+<p class="text-gray-500 text-xs">Peso</p>
+</div>
+</div>
+<p class="text-gray-600 text-sm mb-3">Blindagem completa com vidros SafeMax, mantendo conforto acústico e desempenho original do veículo.</p>
+<div class="flex items-center justify-between pt-3 border-t border-gray-100">
+<div class="flex items-center gap-1">
+<i class="ri-star-fill text-primary text-sm"></i>
+<span class="text-gray-600 text-sm font-medium">Cliente satisfeito</span>
+</div>
+<button onclick="openModal('case-modal-1')" class="text-primary hover:text-secondary transition-colors text-sm font-semibold flex items-center gap-1">
+Ver fotos <i class="ri-arrow-right-line"></i>
 </button>
 </div>
 </div>
 </div>
+<!-- Case 2 -->
 <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group">
-<div class="h-64 bg-cover bg-center group-hover:scale-105 transition-transform duration-500 vehicle-img-2"></div>
-<div class="p-6">
-<h3 class="text-2xl font-bold text-secondary mb-2">BMW X7</h3>
-<p class="text-gray-600 mb-4">SUV premium blindado mantendo performance e conforto excepcionais</p>
-<div class="flex items-center justify-between">
-<span class="text-primary font-semibold">Nível III-A</span>
-<button class="text-primary hover:text-secondary transition-colors" aria-label="Ver detalhes" title="Ver detalhes">
-<div class="w-6 h-6 flex items-center justify-center">
-<i class="ri-arrow-right-line" aria-hidden="true"></i>
+<div class="relative">
+<div class="h-56 bg-cover bg-center group-hover:scale-105 transition-transform duration-500 vehicle-img-2" loading="lazy"></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="bg-primary text-black text-xs font-bold px-3 py-1 rounded-full">ENTREGUE</span>
+<span class="bg-black/80 text-white text-xs font-semibold px-3 py-1 rounded-full">SafeCore™</span>
 </div>
+</div>
+<div class="p-5">
+<h3 class="text-xl font-bold text-secondary mb-1">BMW X7 xDrive 2023</h3>
+<p class="text-gray-500 text-sm mb-3">Cliente: Ana C. • Campinas/SP</p>
+<div class="grid grid-cols-3 gap-2 mb-4 text-center">
+<div class="bg-gray-50 rounded-lg p-2">
+<p class="text-primary font-bold text-sm">III-A</p>
+<p class="text-gray-500 text-xs">Nível</p>
+</div>
+<div class="bg-gray-50 rounded-lg p-2">
+<p class="text-primary font-bold text-sm">21 dias</p>
+<p class="text-gray-500 text-xs">Prazo</p>
+</div>
+<div class="bg-gray-50 rounded-lg p-2">
+<p class="text-primary font-bold text-sm">+120kg</p>
+<p class="text-gray-500 text-xs">Peso</p>
+</div>
+</div>
+<p class="text-gray-600 text-sm mb-3">SUV familiar com blindagem SafeCore, ideal para uso diário com proteção balística certificada.</p>
+<div class="flex items-center justify-between pt-3 border-t border-gray-100">
+<div class="flex items-center gap-1">
+<i class="ri-star-fill text-primary text-sm"></i>
+<span class="text-gray-600 text-sm font-medium">Cliente satisfeito</span>
+</div>
+<button onclick="openModal('case-modal-2')" class="text-primary hover:text-secondary transition-colors text-sm font-semibold flex items-center gap-1">
+Ver fotos <i class="ri-arrow-right-line"></i>
 </button>
 </div>
 </div>
 </div>
+<!-- Case 3 -->
 <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group">
-<div class="h-64 bg-cover bg-center group-hover:scale-105 transition-transform duration-500 vehicle-img-3"></div>
-<div class="p-6">
-<h3 class="text-2xl font-bold text-secondary mb-2">Range Rover Vogue</h3>
-<p class="text-gray-600 mb-4">Elegância britânica com proteção máxima e tecnologia de ponta</p>
-<div class="flex items-center justify-between">
-<span class="text-primary font-semibold">Nível III-A</span>
-<button class="text-primary hover:text-secondary transition-colors" aria-label="Ver detalhes" title="Ver detalhes">
-<div class="w-6 h-6 flex items-center justify-center">
-<i class="ri-arrow-right-line" aria-hidden="true"></i>
+<div class="relative">
+<div class="h-56 bg-cover bg-center group-hover:scale-105 transition-transform duration-500 vehicle-img-3" loading="lazy"></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="bg-primary text-black text-xs font-bold px-3 py-1 rounded-full">ENTREGUE</span>
+<span class="bg-black/80 text-white text-xs font-semibold px-3 py-1 rounded-full">UltraLite™</span>
 </div>
+</div>
+<div class="p-5">
+<h3 class="text-xl font-bold text-secondary mb-1">Range Rover Vogue 2024</h3>
+<p class="text-gray-500 text-sm mb-3">Cliente: Carlos E. • São Paulo/SP</p>
+<div class="grid grid-cols-3 gap-2 mb-4 text-center">
+<div class="bg-gray-50 rounded-lg p-2">
+<p class="text-primary font-bold text-sm">III-A</p>
+<p class="text-gray-500 text-xs">Nível</p>
+</div>
+<div class="bg-gray-50 rounded-lg p-2">
+<p class="text-primary font-bold text-sm">20 dias</p>
+<p class="text-gray-500 text-xs">Prazo</p>
+</div>
+<div class="bg-gray-50 rounded-lg p-2">
+<p class="text-primary font-bold text-sm">+95kg</p>
+<p class="text-gray-500 text-xs">Peso</p>
+</div>
+</div>
+<p class="text-gray-600 text-sm mb-3">Elegância britânica preservada com nossa blindagem premium e tecnologia de ponta.</p>
+<div class="flex items-center justify-between pt-3 border-t border-gray-100">
+<div class="flex items-center gap-1">
+<i class="ri-star-fill text-primary text-sm"></i>
+<span class="text-gray-600 text-sm font-medium">Cliente satisfeito</span>
+</div>
+<button onclick="openModal('case-modal-3')" class="text-primary hover:text-secondary transition-colors text-sm font-semibold flex items-center gap-1">
+Ver fotos <i class="ri-arrow-right-line"></i>
 </button>
 </div>
 </div>
 </div>
+</div>
+<!-- CTA após cases -->
+<div class="text-center mt-12">
+<p class="text-gray-600 mb-4">Quer ver seu veículo aqui? Solicite um orçamento personalizado.</p>
+<a href="#contato" class="inline-flex items-center gap-2 bg-primary text-black px-8 py-4 rounded-full font-bold hover:bg-primary/90 transition-all shadow-lg hover:shadow-xl">
+<i class="ri-whatsapp-line text-xl"></i> Solicitar Orçamento
+</a>
 </div>
 </div>
 </section>
@@ -1010,6 +1245,104 @@ A experiência e liderança de Leandro são fundamentais para o sucesso da Elite
 </div>
 </div>
 </div>
+
+<!-- Modais de Cases de Sucesso -->
+<div id="case-modal-1" class="modal-overlay hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+<div class="modal-content bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+<div class="sticky top-0 bg-white p-6 border-b border-gray-200 flex justify-between items-center z-10">
+<div>
+<h2 class="text-2xl font-bold text-secondary">Mercedes-Benz S500 2024</h2>
+<p class="text-gray-500">Cliente: Roberto M. • São Paulo/SP</p>
+</div>
+<button onclick="closeModal('case-modal-1')" class="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center" aria-label="Fechar modal" title="Fechar"><i class="ri-close-line text-xl" aria-hidden="true"></i></button>
+</div>
+<div class="p-6">
+<div class="grid grid-cols-3 gap-4 mb-6 text-center">
+<div class="bg-gray-50 rounded-xl p-4"><p class="text-primary font-bold text-xl">III-A</p><p class="text-gray-500 text-sm">Nível</p></div>
+<div class="bg-gray-50 rounded-xl p-4"><p class="text-primary font-bold text-xl">18 dias</p><p class="text-gray-500 text-sm">Prazo</p></div>
+<div class="bg-gray-50 rounded-xl p-4"><p class="text-primary font-bold text-xl">+85kg</p><p class="text-gray-500 text-sm">Peso</p></div>
+</div>
+<h3 class="font-bold text-lg text-secondary mb-4">Galeria do Processo</h3>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+<img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=400&h=300&fit=crop" alt="Mercedes S500 - Exterior" class="rounded-lg w-full h-40 object-cover">
+<img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&h=300&fit=crop" alt="Mercedes S500 - Interior" class="rounded-lg w-full h-40 object-cover">
+<img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=400&h=300&fit=crop" alt="Processo de blindagem" class="rounded-lg w-full h-40 object-cover">
+<img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=400&h=300&fit=crop" alt="Instalação de vidros" class="rounded-lg w-full h-40 object-cover">
+<img src="https://images.unsplash.com/photo-1542362567-b07e54358753?w=400&h=300&fit=crop" alt="Acabamento final" class="rounded-lg w-full h-40 object-cover">
+<img src="https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=400&h=300&fit=crop" alt="Entrega" class="rounded-lg w-full h-40 object-cover">
+</div>
+<div class="bg-green-50 border border-green-200 rounded-xl p-4">
+<div class="flex items-center gap-2 mb-2"><i class="ri-check-double-line text-green-600 text-xl"></i><span class="font-bold text-green-800">Projeto Concluído com Sucesso</span></div>
+<p class="text-green-700 text-sm">Blindagem completa com vidros SafeMax, mantendo conforto acústico e desempenho original. Cliente 100% satisfeito!</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="case-modal-2" class="modal-overlay hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+<div class="modal-content bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+<div class="sticky top-0 bg-white p-6 border-b border-gray-200 flex justify-between items-center z-10">
+<div>
+<h2 class="text-2xl font-bold text-secondary">BMW X7 xDrive 2023</h2>
+<p class="text-gray-500">Cliente: Ana C. • Campinas/SP</p>
+</div>
+<button onclick="closeModal('case-modal-2')" class="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center" aria-label="Fechar modal" title="Fechar"><i class="ri-close-line text-xl" aria-hidden="true"></i></button>
+</div>
+<div class="p-6">
+<div class="grid grid-cols-3 gap-4 mb-6 text-center">
+<div class="bg-gray-50 rounded-xl p-4"><p class="text-primary font-bold text-xl">III-A</p><p class="text-gray-500 text-sm">Nível</p></div>
+<div class="bg-gray-50 rounded-xl p-4"><p class="text-primary font-bold text-xl">21 dias</p><p class="text-gray-500 text-sm">Prazo</p></div>
+<div class="bg-gray-50 rounded-xl p-4"><p class="text-primary font-bold text-xl">+120kg</p><p class="text-gray-500 text-sm">Peso</p></div>
+</div>
+<h3 class="font-bold text-lg text-secondary mb-4">Galeria do Processo</h3>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+<img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=400&h=300&fit=crop" alt="BMW X7 - Exterior" class="rounded-lg w-full h-40 object-cover">
+<img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&h=300&fit=crop" alt="BMW X7 - Interior" class="rounded-lg w-full h-40 object-cover">
+<img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=400&h=300&fit=crop" alt="Processo de blindagem" class="rounded-lg w-full h-40 object-cover">
+<img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=400&h=300&fit=crop" alt="Instalação" class="rounded-lg w-full h-40 object-cover">
+<img src="https://images.unsplash.com/photo-1542362567-b07e54358753?w=400&h=300&fit=crop" alt="Acabamento" class="rounded-lg w-full h-40 object-cover">
+<img src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=400&h=300&fit=crop" alt="Entrega" class="rounded-lg w-full h-40 object-cover">
+</div>
+<div class="bg-green-50 border border-green-200 rounded-xl p-4">
+<div class="flex items-center gap-2 mb-2"><i class="ri-check-double-line text-green-600 text-xl"></i><span class="font-bold text-green-800">Projeto Concluído com Sucesso</span></div>
+<p class="text-green-700 text-sm">SUV familiar com blindagem SafeCore, ideal para uso diário com proteção balística certificada.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="case-modal-3" class="modal-overlay hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+<div class="modal-content bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+<div class="sticky top-0 bg-white p-6 border-b border-gray-200 flex justify-between items-center z-10">
+<div>
+<h2 class="text-2xl font-bold text-secondary">Range Rover Vogue 2024</h2>
+<p class="text-gray-500">Cliente: Carlos E. • São Paulo/SP</p>
+</div>
+<button onclick="closeModal('case-modal-3')" class="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center" aria-label="Fechar modal" title="Fechar"><i class="ri-close-line text-xl" aria-hidden="true"></i></button>
+</div>
+<div class="p-6">
+<div class="grid grid-cols-3 gap-4 mb-6 text-center">
+<div class="bg-gray-50 rounded-xl p-4"><p class="text-primary font-bold text-xl">III-A</p><p class="text-gray-500 text-sm">Nível</p></div>
+<div class="bg-gray-50 rounded-xl p-4"><p class="text-primary font-bold text-xl">20 dias</p><p class="text-gray-500 text-sm">Prazo</p></div>
+<div class="bg-gray-50 rounded-xl p-4"><p class="text-primary font-bold text-xl">+95kg</p><p class="text-gray-500 text-sm">Peso</p></div>
+</div>
+<h3 class="font-bold text-lg text-secondary mb-4">Galeria do Processo</h3>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+<img src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=400&h=300&fit=crop" alt="Range Rover - Exterior" class="rounded-lg w-full h-40 object-cover">
+<img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&h=300&fit=crop" alt="Range Rover - Interior" class="rounded-lg w-full h-40 object-cover">
+<img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=400&h=300&fit=crop" alt="Processo" class="rounded-lg w-full h-40 object-cover">
+<img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=400&h=300&fit=crop" alt="Instalação" class="rounded-lg w-full h-40 object-cover">
+<img src="https://images.unsplash.com/photo-1542362567-b07e54358753?w=400&h=300&fit=crop" alt="Acabamento" class="rounded-lg w-full h-40 object-cover">
+<img src="https://images.unsplash.com/photo-1563720360172-67b8f3dce741?w=400&h=300&fit=crop" alt="Entrega" class="rounded-lg w-full h-40 object-cover">
+</div>
+<div class="bg-green-50 border border-green-200 rounded-xl p-4">
+<div class="flex items-center gap-2 mb-2"><i class="ri-check-double-line text-green-600 text-xl"></i><span class="font-bold text-green-800">Projeto Concluído com Sucesso</span></div>
+<p class="text-green-700 text-sm">Elegância britânica preservada com nossa blindagem premium e tecnologia de ponta.</p>
+</div>
+</div>
+</div>
+</div>
+
 <div id="guia-modal" class="modal-overlay hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4">
 <div class="modal-content bg-gradient-to-b from-neutral-900 to-black rounded-2xl max-w-5xl w-full max-h-[90vh] overflow-y-auto border border-primary/20">
 <div class="sticky top-0 bg-gradient-to-r from-black to-neutral-900 p-6 border-b border-primary/30 flex justify-between items-center z-10">
@@ -1176,6 +1509,118 @@ Veja o que nossos clientes dizem sobre nossos serviços de blindagem premium
 </div>
 </div>
 </section>
+
+<!-- FAQ Section -->
+<section id="faq" class="py-20 bg-white">
+<div class="container mx-auto px-6">
+<div class="text-center mb-16">
+<span class="inline-block golden-gradient text-black px-6 py-2 rounded-full text-sm font-semibold mb-6">
+<i class="ri-question-line mr-2"></i>Dúvidas Frequentes
+</span>
+<h2 class="text-5xl font-bold text-secondary mb-6">Perguntas Frequentes</h2>
+<p class="text-xl text-gray-600 max-w-3xl mx-auto">
+Tire suas dúvidas sobre blindagem automotiva
+</p>
+</div>
+
+<div class="max-w-4xl mx-auto" id="faq-container">
+<!-- FAQ Item 1 -->
+<div class="faq-item border-b border-gray-200">
+<button class="faq-question w-full py-6 flex items-center justify-between text-left" onclick="toggleFaq(this)">
+<span class="text-lg font-semibold text-secondary pr-8">Qual o nível de blindagem oferecido pela Elite?</span>
+<i class="ri-add-line text-2xl text-primary transition-transform faq-icon"></i>
+</button>
+<div class="faq-answer hidden pb-6">
+<p class="text-gray-600 leading-relaxed">Trabalhamos com blindagem Nível III-A, que é o padrão mais utilizado no Brasil. Este nível protege contra armas de fogo de uso comum, como pistolas 9mm, .40 e .45, e submetralhadoras. Nossa blindagem é certificada e testada conforme normas internacionais (NIJ).</p>
+</div>
+</div>
+
+<!-- FAQ Item 2 -->
+<div class="faq-item border-b border-gray-200">
+<button class="faq-question w-full py-6 flex items-center justify-between text-left" onclick="toggleFaq(this)">
+<span class="text-lg font-semibold text-secondary pr-8">Quanto tempo leva o processo de blindagem?</span>
+<i class="ri-add-line text-2xl text-primary transition-transform faq-icon"></i>
+</button>
+<div class="faq-answer hidden pb-6">
+<p class="text-gray-600 leading-relaxed">O prazo médio é de 15 a 25 dias úteis, dependendo do modelo do veículo e da linha escolhida (UltraLite Armor™ ou SafeCore™). Você pode acompanhar todas as etapas em tempo real pelo nosso app EliteTrack™.</p>
+</div>
+</div>
+
+<!-- FAQ Item 3 -->
+<div class="faq-item border-b border-gray-200">
+<button class="faq-question w-full py-6 flex items-center justify-between text-left" onclick="toggleFaq(this)">
+<span class="text-lg font-semibold text-secondary pr-8">Qual a garantia da blindagem?</span>
+<i class="ri-add-line text-2xl text-primary transition-transform faq-icon"></i>
+</button>
+<div class="faq-answer hidden pb-6">
+<p class="text-gray-600 leading-relaxed">Oferecemos garantia de 5 anos para vidros e materiais balísticos, e 3 anos para acabamentos. A garantia cobre defeitos de fabricação e instalação. Além disso, disponibilizamos suporte técnico completo e manutenção especializada.</p>
+</div>
+</div>
+
+<!-- FAQ Item 4 -->
+<div class="faq-item border-b border-gray-200">
+<button class="faq-question w-full py-6 flex items-center justify-between text-left" onclick="toggleFaq(this)">
+<span class="text-lg font-semibold text-secondary pr-8">A blindagem altera muito o peso do veículo?</span>
+<i class="ri-add-line text-2xl text-primary transition-transform faq-icon"></i>
+</button>
+<div class="faq-answer hidden pb-6">
+<p class="text-gray-600 leading-relaxed">Com nossa linha UltraLite Armor™, o acréscimo é de apenas 70-100kg (o menor do mercado). A linha SafeCore™ adiciona entre 100-150kg. Utilizamos materiais de última geração como Tensylon e vidros SafeMax para minimizar o impacto na performance do veículo.</p>
+</div>
+</div>
+
+<!-- FAQ Item 5 -->
+<div class="faq-item border-b border-gray-200">
+<button class="faq-question w-full py-6 flex items-center justify-between text-left" onclick="toggleFaq(this)">
+<span class="text-lg font-semibold text-secondary pr-8">Como funciona a documentação e regularização?</span>
+<i class="ri-add-line text-2xl text-primary transition-transform faq-icon"></i>
+</button>
+<div class="faq-answer hidden pb-6">
+<p class="text-gray-600 leading-relaxed">Cuidamos de todo o processo junto ao Exército Brasileiro. Providenciamos o CAB (Certificado de Autorização para Blindagem), registro no CRV e toda documentação necessária. Você recebe seu veículo 100% regularizado e pronto para circular.</p>
+</div>
+</div>
+
+<!-- FAQ Item 6 -->
+<div class="faq-item border-b border-gray-200">
+<button class="faq-question w-full py-6 flex items-center justify-between text-left" onclick="toggleFaq(this)">
+<span class="text-lg font-semibold text-secondary pr-8">Vocês blindam veículos híbridos e elétricos?</span>
+<i class="ri-add-line text-2xl text-primary transition-transform faq-icon"></i>
+</button>
+<div class="faq-answer hidden pb-6">
+<p class="text-gray-600 leading-relaxed">Sim! Somos especialistas em blindagem de veículos híbridos e elétricos. Nossa linha UltraLite Armor™ foi desenvolvida especialmente para preservar a autonomia e o sistema regenerativo desses veículos, utilizando materiais ultra-leves.</p>
+</div>
+</div>
+
+<!-- FAQ Item 7 -->
+<div class="faq-item border-b border-gray-200">
+<button class="faq-question w-full py-6 flex items-center justify-between text-left" onclick="toggleFaq(this)">
+<span class="text-lg font-semibold text-secondary pr-8">A blindagem afeta o seguro do veículo?</span>
+<i class="ri-add-line text-2xl text-primary transition-transform faq-icon"></i>
+</button>
+<div class="faq-answer hidden pb-6">
+<p class="text-gray-600 leading-relaxed">Sim, é necessário informar a seguradora sobre a blindagem. Na maioria dos casos, há um acréscimo no valor do seguro. Porém, fornecemos toda documentação técnica necessária para que você tenha cobertura adequada para seu veículo blindado.</p>
+</div>
+</div>
+
+<!-- FAQ Item 8 -->
+<div class="faq-item border-b border-gray-200">
+<button class="faq-question w-full py-6 flex items-center justify-between text-left" onclick="toggleFaq(this)">
+<span class="text-lg font-semibold text-secondary pr-8">Como funciona a manutenção do veículo blindado?</span>
+<i class="ri-add-line text-2xl text-primary transition-transform faq-icon"></i>
+</button>
+<div class="faq-answer hidden pb-6">
+<p class="text-gray-600 leading-relaxed">Recomendamos revisões anuais da blindagem. Oferecemos serviço de manutenção completo com Elite Rescue™ (guincho plataforma) e Courtesy Vehicle™ (carro reserva blindado durante manutenções). Nosso pós-venda garante suporte contínuo.</p>
+</div>
+</div>
+</div>
+
+<div class="text-center mt-12">
+<p class="text-gray-600 mb-4">Ainda tem dúvidas? Fale diretamente com um especialista.</p>
+<a href="https://wa.me/5511913123071?text=Olá! Tenho uma dúvida sobre blindagem." target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-green-600 text-white px-8 py-4 rounded-full font-bold hover:bg-green-700 transition-all shadow-lg" data-event="click_whatsapp_faq">
+<i class="ri-whatsapp-line text-xl"></i> Falar com Especialista
+</a>
+</div>
+</div>
+</section>
 <section id="contato" class="py-20 bg-secondary">
 <div class="container mx-auto px-6">
 <div class="grid lg:grid-cols-2 gap-16">
@@ -1336,9 +1781,18 @@ Referência em blindagem automotiva premium, oferecendo proteção máxima com q
 </div>
 </div>
 </footer>
-<a href="https://wa.me/5511913123071" target="_blank" rel="noopener noreferrer" id="whatsapp-btn" class="fixed bottom-8 left-8 w-14 h-14 bg-green-500 text-white rounded-full shadow-lg flex items-center justify-center text-3xl hover:bg-green-600 hover:scale-110 transition-all duration-300 z-50" aria-label="Fale conosco pelo WhatsApp" title="Fale conosco pelo WhatsApp">
+<!-- WhatsApp Flutuante Desktop -->
+<a href="https://wa.me/5511913123071" target="_blank" rel="noopener noreferrer" id="whatsapp-btn" class="fixed bottom-8 left-8 w-14 h-14 bg-green-500 text-white rounded-full shadow-lg flex items-center justify-center text-3xl hover:bg-green-600 hover:scale-110 transition-all duration-300 z-40 hidden md:flex" aria-label="Fale conosco pelo WhatsApp" title="Fale conosco pelo WhatsApp" data-event="click_whatsapp_float">
 <i class="ri-whatsapp-line" aria-hidden="true"></i>
 </a>
+
+<!-- CTA Fixo Mobile -->
+<div class="mobile-cta-fixed" id="mobile-cta">
+<a href="https://wa.me/5511913123071?text=Olá! Gostaria de solicitar um orçamento de blindagem." target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-3 w-full bg-green-500 text-white py-3 px-6 rounded-full font-bold text-base shadow-lg hover:bg-green-600 transition-all" data-event="click_whatsapp_mobile_cta">
+<i class="ri-whatsapp-line text-xl"></i>
+<span>Solicitar Orçamento no WhatsApp</span>
+</a>
+</div>
 <button id="back-to-top" class="fixed bottom-8 right-8 w-12 h-12 golden-gradient text-black rounded-full shadow-lg opacity-0 pointer-events-none transition-all duration-300 hover:shadow-xl" aria-label="Voltar ao topo" title="Voltar ao topo">
 <div class="w-full h-full flex items-center justify-center">
 <i class="ri-arrow-up-line" aria-hidden="true"></i>
@@ -1439,11 +1893,37 @@ window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 });
 
+// Slider de depoimentos dinâmico
 document.addEventListener('DOMContentLoaded', function() {
-const slider = document.querySelector('#testimonials-slider .flex');
-const dots = document.querySelectorAll('.testimonial-dot');
+const slider = document.querySelector('#testimonials-slider #testimonials-container');
+const dotsContainer = document.getElementById('testimonials-dots');
+if (!slider || !dotsContainer) return;
+
+const depoimentos = JSON.parse(localStorage.getItem('elite_depoimentos') || '[]');
+if (depoimentos.length === 0) return;
+
 let currentSlide = 0;
-const totalSlides = 3;
+const totalSlides = depoimentos.length;
+
+// Criar slides
+slider.innerHTML = depoimentos.map(dep => `
+<div class="w-full flex-shrink-0 px-4">
+<div class="bg-white rounded-2xl shadow-xl p-8 text-center">
+<img src="${dep.foto}" alt="${dep.nome}" class="w-20 h-20 rounded-full mx-auto mb-4 object-cover border-4 border-primary/20">
+<p class="text-gray-700 text-lg mb-6 italic leading-relaxed">"${dep.texto}"</p>
+<h4 class="font-bold text-secondary text-lg">${dep.nome}</h4>
+<p class="text-gray-500">${dep.profissao}</p>
+</div>
+</div>
+`).join('');
+
+// Criar dots
+dotsContainer.innerHTML = depoimentos.map((_, i) => `
+<button class="testimonial-dot w-3 h-3 rounded-full ${i === 0 ? 'bg-primary' : 'bg-gray-300'} transition-colors" data-index="${i}"></button>
+`).join('');
+
+const dots = dotsContainer.querySelectorAll('.testimonial-dot');
+
 const updateSlider = () => {
 slider.style.transform = `translateX(-${currentSlide * 100}%)`;
 dots.forEach((dot, index) => {
@@ -1451,17 +1931,19 @@ dot.classList.toggle('bg-primary', index === currentSlide);
 dot.classList.toggle('bg-gray-300', index !== currentSlide);
 });
 };
+
 dots.forEach((dot, index) => {
 dot.addEventListener('click', () => {
 currentSlide = index;
 updateSlider();
 });
 });
+
 setInterval(() => {
 currentSlide = (currentSlide + 1) % totalSlides;
 updateSlider();
 }, 5000);
-});
+})
 
 document.addEventListener('DOMContentLoaded', function() {
 const mobileMenuBtn = document.getElementById('mobile-menu');
@@ -1530,6 +2012,82 @@ localStorage.setItem('elite_emails', JSON.stringify(emails));
 document.getElementById('newsletter-email').value = '';
 document.getElementById('newsletter-success').classList.remove('hidden');
 setTimeout(() => document.getElementById('newsletter-success').classList.add('hidden'), 3000);
+trackEvent('newsletter_signup', { email: email });
+});
+
+// FAQ Toggle
+function toggleFaq(btn) {
+const item = btn.closest('.faq-item');
+const answer = item.querySelector('.faq-answer');
+const icon = item.querySelector('.faq-icon');
+const isHidden = answer.classList.contains('hidden');
+
+// Fecha todos os outros
+document.querySelectorAll('.faq-item').forEach(other => {
+if (other !== item) {
+other.querySelector('.faq-answer').classList.add('hidden');
+other.querySelector('.faq-icon').classList.remove('rotated');
+}
+});
+
+// Toggle o atual
+answer.classList.toggle('hidden');
+icon.classList.toggle('rotated');
+
+if (isHidden) {
+trackEvent('faq_open', { question: btn.querySelector('span').textContent });
+}
+}
+
+// Analytics - GA4 Event Tracking
+function trackEvent(eventName, params = {}) {
+// GA4
+if (typeof gtag !== 'undefined') {
+gtag('event', eventName, params);
+}
+// Meta Pixel
+if (typeof fbq !== 'undefined') {
+fbq('trackCustom', eventName, params);
+}
+// Console log para debug
+console.log('Event:', eventName, params);
+}
+
+// Track clicks em elementos com data-event
+document.addEventListener('click', function(e) {
+const target = e.target.closest('[data-event]');
+if (target) {
+const eventName = target.getAttribute('data-event');
+trackEvent(eventName, { element: target.tagName, text: target.textContent.trim().substring(0, 50) });
+}
+});
+
+// Track form submission
+document.getElementById('contact-form').addEventListener('submit', function() {
+trackEvent('form_submit', { form: 'contact' });
+});
+
+// Track map click
+document.querySelectorAll('a[href*="google.com/maps"]').forEach(link => {
+link.addEventListener('click', function() {
+trackEvent('click_map', { destination: 'google_maps' });
+});
+});
+
+// Lazy load background images
+document.addEventListener('DOMContentLoaded', function() {
+const lazyBgs = document.querySelectorAll('[data-bg]');
+const observer = new IntersectionObserver((entries) => {
+entries.forEach(entry => {
+if (entry.isIntersecting) {
+const el = entry.target;
+el.style.backgroundImage = `url('${el.dataset.bg}')`;
+el.classList.add('loaded');
+observer.unobserve(el);
+}
+});
+}, { rootMargin: '100px' });
+lazyBgs.forEach(el => observer.observe(el));
 });
 
 // Depoimentos dinâmicos
