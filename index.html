@@ -104,7 +104,9 @@
 }
 </script>
 
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=2025.1">
+<link rel="apple-touch-icon" href="favicon.svg">
+<link rel="shortcut icon" href="favicon.svg">
 <script src="https://cdn.tailwindcss.com/3.4.16"></script>
 <script>
 tailwind.config = {
@@ -1717,11 +1719,25 @@ setTimeout(() => document.getElementById('newsletter-success').classList.add('hi
 trackEvent('newsletter_signup', { email: email });
 });
 
+// FAQ padrão para garantir funcionamento em navegadores novos
+const defaultFaqData = [
+{ id: 1, question: 'Qual o nível de blindagem oferecido pela Elite?', answer: 'Trabalhamos com blindagem Nível III-A, que protege contra armas de fogo de uso comum (9mm, .40 e .45). Certificação NIJ.', active: true },
+{ id: 2, question: 'Quanto tempo leva o processo de blindagem?', answer: 'O prazo médio é de 15 a 25 dias úteis, dependendo do modelo do veículo e da linha escolhida.', active: true },
+{ id: 3, question: 'Qual a garantia da blindagem?', answer: 'Garantia de 5 anos para vidros e materiais balísticos, e 3 anos para acabamentos.', active: true },
+{ id: 4, question: 'A blindagem altera muito o peso do veículo?', answer: 'Com UltraLite Armor™, apenas 70-100kg. SafeCore™ adiciona 100-150kg.', active: true },
+{ id: 5, question: 'Como funciona a documentação?', answer: 'Cuidamos de todo o processo: CAB, registro no CRV e documentação completa junto ao Exército.', active: true },
+{ id: 6, question: 'Vocês blindam veículos híbridos e elétricos?', answer: 'Sim! Linha UltraLite Armor™ preserva autonomia e sistema regenerativo.', active: true }
+];
+
 // Carregar FAQ dinamicamente
 function loadFaqSite() {
-const faqs = JSON.parse(localStorage.getItem('elite_faq_data') || '[]');
+// Primeiro tenta carregar do localStorage, senão usa dados padrão
+let faqs = JSON.parse(localStorage.getItem('elite_faq_data') || '[]');
+if (faqs.length === 0) {
+faqs = defaultFaqData;
+}
 const container = document.getElementById('faq-container');
-if (!container || faqs.length === 0) return;
+if (!container) return;
 
 const activeFaqs = faqs.filter(f => f.active);
 container.innerHTML = activeFaqs.map((faq, idx) => `
