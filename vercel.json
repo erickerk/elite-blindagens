@@ -6,14 +6,6 @@
   "framework": null,
   "cleanUrls": true,
   "trailingSlash": false,
-  "functions": {
-    "app/**/*.js": {
-      "runtime": "nodejs18.x"
-    }
-  },
-  "env": {
-    "VERCEL_TOOLBAR": "0"
-  },
   "headers": [
     {
       "source": "/assets/(.*)",
