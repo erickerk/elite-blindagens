@@ -6,6 +6,7 @@
 <title>Veículos à Venda | Elite Blindagens</title>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="supabase-config.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
@@ -185,32 +186,34 @@ Entre em contato conosco. Podemos ajudá-lo a encontrar o veículo blindado perf
 let allVeiculos = [];
 let currentFilter = 'todos';
 
-function initVeiculosExemplo() {
-const veiculos = JSON.parse(localStorage.getItem('elite_veiculos') || '[]');
-if (veiculos.length < 3) {
-const exemplos = [
-{ titulo: 'BMW X5 2025 Blindado', categoria: 'suv', preco: 'R$ 580.000', descricao: 'SUV premium com blindagem nível III-A, único dono, revisões em dia. Acabamento impecável e todas as tecnologias de segurança.', imagem: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800', link: 'https://www.webmotors.com.br', date: new Date().toISOString() },
-{ titulo: 'Mercedes-Benz S500 2024', categoria: 'luxo', preco: 'R$ 890.000', descricao: 'Sedan de luxo com blindagem nível III-A, interior em couro premium Nappa, teto solar panorâmico e sistema de som Burmester.', imagem: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800', link: '', date: new Date().toISOString() },
-{ titulo: 'Audi A6 3.0 TFSI 2024', categoria: 'sedan', preco: 'R$ 420.000', descricao: 'Sedan executivo blindado, tecnologia de ponta Audi Virtual Cockpit e conforto excepcional. Garantia de fábrica.', imagem: 'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=800', link: '', date: new Date().toISOString() },
-{ titulo: 'Range Rover Sport HSE 2025', categoria: 'suv', preco: 'R$ 750.000', descricao: 'SUV britânico com blindagem certificada NIJ nível III-A, elegância e proteção. Motor V6 supercharged 3.0 com 380cv.', imagem: 'https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?w=800', link: '', date: new Date().toISOString() },
-{ titulo: 'Porsche Cayenne Turbo 2024', categoria: 'luxo', preco: 'R$ 680.000', descricao: 'Performance e segurança em um só veículo, blindagem nível III-A. Motor V8 4.0 biturbo com 550cv, 0-100km/h em 4.1s.', imagem: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800', link: '', date: new Date().toISOString() },
-{ titulo: 'BMW X7 M50i 2024 Blindado', categoria: 'suv', preco: 'R$ 820.000', descricao: 'O maior SUV da BMW com blindagem premium. 7 lugares, motor V8 4.4 biturbo com 530cv, tecnologia Driving Assistant Professional.', imagem: 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=800', link: '', date: new Date().toISOString() },
-{ titulo: 'Mercedes-AMG G63 2023', categoria: 'luxo', preco: 'R$ 1.450.000', descricao: 'Ícone off-road com blindagem nível III-A. Motor V8 4.0 biturbo com 585cv, interior luxuoso em couro designo e tecnologia MBUX.', imagem: 'https://images.unsplash.com/photo-1617886322207-d83e86e6f0f4?w=800', link: '', date: new Date().toISOString() },
-{ titulo: 'Volvo XC90 T8 2024 Híbrido', categoria: 'suv', preco: 'R$ 520.000', descricao: 'SUV híbrido plug-in blindado, 7 lugares. Combina motor 2.0 turbo + elétrico (462cv total). Segurança Volvo + blindagem Elite.', imagem: 'https://images.unsplash.com/photo-1589128777073-263566ae5e4d?w=800', link: '', date: new Date().toISOString() },
-{ titulo: 'Audi Q7 3.0 TFSI 2023', categoria: 'suv', preco: 'R$ 485.000', descricao: 'SUV premium com blindagem completa, 7 lugares, motor V6 3.0 supercharged (333cv), Quattro e interior tecnológico.', imagem: 'https://images.unsplash.com/photo-1614200187524-dc4b892acf16?w=800', link: '', date: new Date().toISOString() },
-{ titulo: 'BMW Série 7 740i 2024', categoria: 'sedan', preco: 'R$ 720.000', descricao: 'Sedan executivo de luxo blindado, motor 3.0 turbo (340cv), tecnologia Gesture Control e interior em couro Merino.', imagem: 'https://images.unsplash.com/photo-1555626906-fcf10d6851b4?w=800', link: '', date: new Date().toISOString() },
-{ titulo: 'Land Rover Defender 110 2024', categoria: 'suv', preco: 'R$ 620.000', descricao: 'SUV icônico com blindagem nível III-A, capacidade off-road excepcional, motor P400 (400cv) e design moderno.', imagem: 'https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?w=800', link: '', date: new Date().toISOString() },
-{ titulo: 'Lexus LS 500h 2023 Híbrido', categoria: 'luxo', preco: 'R$ 680.000', descricao: 'Sedan híbrido de luxo japonês blindado. Motor V6 3.5 + elétrico (359cv), interior artesanal Takumi e silêncio absoluto.', imagem: 'https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=800', link: '', date: new Date().toISOString() }
-];
-localStorage.setItem('elite_veiculos', JSON.stringify(exemplos));
-return exemplos;
-}
-return veiculos;
+// Mostrar loading
+function showLoading() {
+  const grid = document.getElementById('veiculos-grid');
+  grid.innerHTML = `
+    <div class="col-span-full flex flex-col items-center justify-center py-20">
+      <div class="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
+      <p class="text-gray-500">Carregando veículos...</p>
+    </div>
+  `;
 }
 
-function loadVeiculos() {
-allVeiculos = initVeiculosExemplo();
-renderVeiculos(allVeiculos);
+// Carregar veículos do Supabase (fonte principal)
+async function loadVeiculosFromSupabase() {
+  try {
+    showLoading();
+    const veiculos = await carregarVeiculosSupabase();
+    console.log('[Elite Site] Veículos carregados do Supabase:', veiculos.length);
+    return veiculos;
+  } catch (error) {
+    console.error('[Elite Site] Erro ao carregar do Supabase:', error);
+    return [];
+  }
+}
+
+// Carregar veículos - agora usa Supabase como fonte principal
+async function loadVeiculos() {
+  allVeiculos = await loadVeiculosFromSupabase();
+  renderVeiculos(allVeiculos);
 }
 
 function renderVeiculos(veiculos) {
@@ -293,8 +296,9 @@ function sortVeiculos(order) {
 let sorted = [...allVeiculos];
 if (order === 'menor' || order === 'maior') {
 sorted.sort((a, b) => {
-const priceA = parseFloat((a.preco || '0').replace(/[^\d]/g, ''));
-const priceB = parseFloat((b.preco || '0').replace(/[^\d]/g, ''));
+// Usar precoNumerico se disponível (do Supabase), senão extrair do texto
+const priceA = a.precoNumerico || parseFloat((a.preco || '0').replace(/[^\d]/g, ''));
+const priceB = b.precoNumerico || parseFloat((b.preco || '0').replace(/[^\d]/g, ''));
 return order === 'menor' ? priceA - priceB : priceB - priceA;
 });
 }
