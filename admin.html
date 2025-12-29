@@ -36,8 +36,8 @@ fontFamily: { sans: ['Poppins', 'sans-serif'] }
 </div>
 <form id="login-form" class="space-y-6">
 <div>
-<label class="block text-sm font-medium text-gray-700 mb-2">Usuário</label>
-<input type="text" id="login-user" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Digite seu usuário">
+<label class="block text-sm font-medium text-gray-700 mb-2">E-mail</label>
+<input type="email" id="login-user" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Digite seu e-mail">
 </div>
 <div>
 <label class="block text-sm font-medium text-gray-700 mb-2">Senha</label>
@@ -60,9 +60,14 @@ Entrar
 <h1 class="text-2xl font-bold">Elite Blindagens</h1>
 <span class="bg-primary/20 text-primary px-3 py-1 rounded-full text-sm">Admin</span>
 </div>
+<div class="flex items-center gap-2">
+<button onclick="exportarRelatorio()" class="flex items-center gap-2 bg-green-500/20 text-green-400 px-4 py-2 rounded-lg hover:bg-green-500/30 transition-all">
+<i class="ri-file-excel-line"></i> Relatório Vendidos
+</button>
 <button onclick="logout()" class="flex items-center gap-2 bg-red-500/20 text-red-400 px-4 py-2 rounded-lg hover:bg-red-500/30 transition-all">
 <i class="ri-logout-box-line"></i> Sair
 </button>
+</div>
 </div>
 </header>
 
@@ -325,36 +330,95 @@ Entrar
 </div>
 
 <script>
-// Credenciais hash (não expõe texto plano)
-const ADMIN_HASH = 'ZWxpdGVhZG1pbjoyMDI0QGVsaXRl';
+// Senha do admin do site: Elite@2024#Admin!
+const ADMIN_PASSWORD = 'Elite@2024#Admin!';
 
 // Verificar sessão
 function checkSession() {
-const session = sessionStorage.getItem('elite_admin_session');
-if (session === ADMIN_HASH) {
-showDashboard();
+const session = sessionStorage.getItem('elite_site_admin');
+if (session) {
+try {
+const adminData = JSON.parse(session);
+if (adminData.email && adminData.logged_at) {
+showDashboard(adminData);
+return;
+}
+} catch (e) {}
 }
 }
 
-// Login
-document.getElementById('login-form').addEventListener('submit', function(e) {
+// Login via Supabase
+document.getElementById('login-form').addEventListener('submit', async function(e) {
 e.preventDefault();
-const user = document.getElementById('login-user').value;
+const email = document.getElementById('login-user').value.trim();
 const pass = document.getElementById('login-pass').value;
-const hash = btoa(user + ':' + pass);
+const errorEl = document.getElementById('login-error');
+const submitBtn = this.querySelector('button[type="submit"]');
 
-if (hash === ADMIN_HASH) {
-sessionStorage.setItem('elite_admin_session', hash);
-showDashboard();
-} else {
-document.getElementById('login-error').textContent = 'Usuário ou senha incorretos';
-document.getElementById('login-error').classList.remove('hidden');
+submitBtn.disabled = true;
+submitBtn.textContent = 'Verificando...';
+errorEl.classList.add('hidden');
+
+try {
+// Buscar admin no Supabase
+const response = await fetch(`${SUPABASE_URL}/rest/v1/site_admin_users?email=eq.${encodeURIComponent(email)}&is_active=eq.true&select=*`, {
+  headers: {
+    'apikey': SUPABASE_ANON_KEY,
+    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+  }
+});
+const admins = await response.json();
+
+if (admins.length === 0) {
+  throw new Error('E-mail não encontrado');
+}
+
+// Verificar senha (comparação simples - em produção usar bcrypt)
+if (pass !== ADMIN_PASSWORD) {
+  throw new Error('Senha incorreta');
+}
+
+const admin = admins[0];
+
+// Salvar sessão
+const sessionData = {
+  id: admin.id,
+  email: admin.email,
+  name: admin.name,
+  logged_at: new Date().toISOString()
+};
+sessionStorage.setItem('elite_site_admin', JSON.stringify(sessionData));
+
+// Atualizar último login no Supabase
+fetch(`${SUPABASE_URL}/rest/v1/site_admin_users?id=eq.${admin.id}`, {
+  method: 'PATCH',
+  headers: {
+    'apikey': SUPABASE_ANON_KEY,
+    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({ last_login: new Date().toISOString() })
+});
+
+showDashboard(sessionData);
+
+} catch (error) {
+errorEl.textContent = error.message || 'Erro ao fazer login';
+errorEl.classList.remove('hidden');
+} finally {
+submitBtn.disabled = false;
+submitBtn.textContent = 'Entrar';
 }
 });
 
-function showDashboard() {
+function showDashboard(adminData) {
 document.getElementById('login-screen').classList.add('hidden');
 document.getElementById('admin-dashboard').classList.remove('hidden');
+// Mostrar nome do admin no header se disponível
+if (adminData && adminData.name) {
+  const adminBadge = document.querySelector('.bg-primary\\/20.text-primary');
+  if (adminBadge) adminBadge.textContent = adminData.name;
+}
 loadEmails();
 loadDepoimentos();
 loadFaqs();
@@ -362,8 +426,24 @@ loadCases();
 }
 
 function logout() {
-sessionStorage.removeItem('elite_admin_session');
+sessionStorage.removeItem('elite_site_admin');
 location.reload();
+}
+
+// Exportar relatório de veículos vendidos
+async function exportarRelatorio() {
+const btn = event.target;
+btn.disabled = true;
+btn.innerHTML = '<i class="ri-loader-4-line animate-spin"></i> Gerando...';
+try {
+  const count = await exportarRelatorioVendidos();
+  if (count > 0) {
+    alert(`Relatório exportado com sucesso! ${count} veículo(s) vendido(s).`);
+  }
+} finally {
+  btn.disabled = false;
+  btn.innerHTML = '<i class="ri-file-excel-line"></i> Relatório Vendidos';
+}
 }
 
 // Tabs
