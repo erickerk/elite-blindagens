@@ -137,6 +137,7 @@ DEFAULT: '8px',
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<script src="supabase-config.js"></script>
 <script src="translations.js"></script>
 <style>
 :where([class^="ri-"])::before { content: "\f3c2"; }
@@ -2126,56 +2127,114 @@ const defaultCases = [
 { id: 3, title: "Range Rover Vogue 2024", client: "Carlos E. • São Paulo/SP", level: "III-A", deadline: "20 dias", weight: "+95kg", desc: "Elegância britânica preservada com nossa blindagem premium e tecnologia de ponta.", tags: "ENTREGUE, UltraLite™", mainImage: "https://images.unsplash.com/photo-1563720360172-67b8f3dce741?w=600&h=400&fit=crop", gallery: ["https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=400&h=300&fit=crop","https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&h=300&fit=crop","https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=400&h=300&fit=crop","https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=400&h=300&fit=crop","https://images.unsplash.com/photo-1542362567-b07e54358753?w=400&h=300&fit=crop","https://images.unsplash.com/photo-1563720360172-67b8f3dce741?w=400&h=300&fit=crop"] }
 ];
 
-function initCases() {
-if (!localStorage.getItem('elite_cases_data')) {
-localStorage.setItem('elite_cases_data', JSON.stringify(defaultCases));
-}
-loadCasesSite();
+function mapSupabaseCases(cases) {
+  return cases.map((c, index) => {
+    let gallery = [];
+    if (Array.isArray(c.gallery)) {
+      gallery = c.gallery;
+    } else if (typeof c.gallery === 'string' && c.gallery.trim()) {
+      try {
+        gallery = JSON.parse(c.gallery);
+      } catch {
+        gallery = [];
+      }
+    }
+    return {
+      id: c.id || index + 1,
+      title: c.titulo || c.title || `Case ${index + 1}`,
+      client: c.cliente || c.client || '',
+      level: c.nivel || c.level || 'III-A',
+      deadline: c.prazo || c.deadline || '',
+      weight: c.peso || c.weight || '',
+      desc: c.descricao || c.desc || '',
+      image: c.imagem_url || c.image || c.mainImage || null,
+      tags: c.tags || '',
+      gallery
+    };
+  });
 }
 
-function loadCasesSite() {
-const cases = JSON.parse(localStorage.getItem('elite_cases_data') || '[]');
-const grid = document.getElementById('cases-grid');
-if (!grid || cases.length === 0) return;
+async function initCases() {
+  let cases = [];
+  try {
+    if (window.supabaseClient) {
+      const supabaseCases = await window.supabaseClient.fetch('site_cases?select=*&order=created_at.desc');
+      if (Array.isArray(supabaseCases) && supabaseCases.length > 0) {
+        cases = mapSupabaseCases(supabaseCases);
+      }
+    }
+  } catch (error) {
+    console.error('Erro ao carregar cases do Supabase:', error);
+  }
 
-grid.innerHTML = cases.map((c, idx) => `
+  if (cases.length === 0) {
+    const stored = localStorage.getItem('elite_cases_data');
+    if (stored) {
+      try {
+        cases = JSON.parse(stored);
+      } catch {
+        cases = [];
+      }
+    }
+    if (cases.length === 0) {
+      cases = defaultCases;
+    }
+  }
+
+  localStorage.setItem('elite_cases_data', JSON.stringify(cases));
+  loadCasesSite(cases);
+}
+
+function loadCasesSite(casesOverride) {
+  const cases = casesOverride || JSON.parse(localStorage.getItem('elite_cases_data') || '[]');
+  const grid = document.getElementById('cases-grid');
+  if (!grid || cases.length === 0) return;
+
+  grid.innerHTML = cases.map((c) => {
+    const image =
+      c.image ||
+      c.mainImage ||
+      (Array.isArray(c.gallery) && c.gallery.length > 0 ? c.gallery[0] : null) ||
+      'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&h=400&fit=crop';
+
+    return `
 <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group">
-<div class="relative">
-<div class="h-56 bg-cover bg-center group-hover:scale-105 transition-transform duration-500 vehicle-img-${idx + 1}"></div>
-<div class="absolute top-3 left-3 flex flex-wrap gap-1">
-${c.tags.split(',').map(tag => `<span class="bg-primary text-black text-xs font-bold px-2 py-1 rounded-full">${tag.trim()}</span>`).join('')}
-</div>
-</div>
-<div class="p-5">
-<h3 class="text-xl font-bold text-secondary mb-1">${c.title}</h3>
-<p class="text-gray-500 text-sm mb-3">Cliente: ${c.client}</p>
-<div class="grid grid-cols-3 gap-2 mb-4 text-center">
-<div class="bg-gray-50 rounded-lg p-2">
-<p class="text-primary font-bold text-sm">${c.level}</p>
-<p class="text-gray-500 text-xs">Nível</p>
-</div>
-<div class="bg-gray-50 rounded-lg p-2">
-<p class="text-primary font-bold text-sm">${c.deadline}</p>
-<p class="text-gray-500 text-xs">Prazo</p>
-</div>
-<div class="bg-gray-50 rounded-lg p-2">
-<p class="text-primary font-bold text-sm">${c.weight}</p>
-<p class="text-gray-500 text-xs">Peso</p>
-</div>
-</div>
-<p class="text-gray-600 text-sm mb-3">${c.desc}</p>
-<div class="flex items-center justify-between pt-3 border-t border-gray-100">
-<div class="flex items-center gap-1">
-<i class="ri-star-fill text-primary text-sm"></i>
-<span class="text-gray-600 text-sm font-medium">Cliente satisfeito</span>
-</div>
-<button onclick="openCaseGallery(${c.id})" class="text-primary hover:text-secondary transition-colors text-sm font-semibold flex items-center gap-1">
-Ver fotos <i class="ri-arrow-right-line"></i>
-</button>
-</div>
-</div>
-</div>
-`).join('');
+  <div class="relative">
+    <div class="h-56 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" style="background-image: url('${image}');"></div>
+    <div class="absolute top-3 left-3 flex flex-wrap gap-1">
+      ${(c.tags || '').split(',').filter(tag => tag.trim()).map(tag => `<span class="bg-primary text-black text-xs font-bold px-2 py-1 rounded-full">${tag.trim()}</span>`).join('')}
+    </div>
+  </div>
+  <div class="p-5">
+    <h3 class="text-xl font-bold text-secondary mb-1">${c.title}</h3>
+    <p class="text-gray-500 text-sm mb-3">Cliente: ${c.client}</p>
+    <div class="grid grid-cols-3 gap-2 mb-4 text-center">
+      <div class="bg-gray-50 rounded-lg p-2">
+        <p class="text-primary font-bold text-sm">${c.level}</p>
+        <p class="text-gray-500 text-xs">Nível</p>
+      </div>
+      <div class="bg-gray-50 rounded-lg p-2">
+        <p class="text-primary font-bold text-sm">${c.deadline}</p>
+        <p class="text-gray-500 text-xs">Prazo</p>
+      </div>
+      <div class="bg-gray-50 rounded-lg p-2">
+        <p class="text-primary font-bold text-sm">${c.weight}</p>
+        <p class="text-gray-500 text-xs">Peso</p>
+      </div>
+    </div>
+    <p class="text-gray-600 text-sm mb-3">${c.desc}</p>
+    <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+      <div class="flex items-center gap-1">
+        <i class="ri-star-fill text-primary text-sm"></i>
+        <span class="text-gray-600 text-sm font-medium">Cliente satisfeito</span>
+      </div>
+      <button onclick="openCaseGallery(${c.id})" class="text-primary hover:text-secondary transition-colors text-sm font-semibold flex items-center gap-1">
+        Ver fotos <i class="ri-arrow-right-line"></i>
+      </button>
+    </div>
+  </div>
+</div>`;
+  }).join('');
 }
 
 function openCaseGallery(caseId) {
