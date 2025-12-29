@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elite Blindagens - Portal Administrativo</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="supabase-config.js"></script>
+<script src="admin-supabase.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: { primary: '#D4AF37', secondary: '#1a1a2e' },
+fontFamily: { sans: ['Poppins', 'sans-serif'] }
+}
+}
+}
+</script>
+<style>
+.golden-gradient { background: linear-gradient(135deg, #D4AF37 0%, #F4E4A6 50%, #D4AF37 100%); }
+</style>
+</head>
+<body class="font-sans bg-gray-100 min-h-screen">
+
+<!-- Login Screen -->
+<div id="login-screen" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-secondary to-gray-900">
+<div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
+<div class="text-center mb-8">
+<img src="assets/logo-elite.png" alt="Elite Blindagens" class="h-16 mx-auto mb-4">
+<p class="text-gray-500 mt-2">Portal Administrativo</p>
+</div>
+<form id="login-form" class="space-y-6">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Usuário</label>
+<input type="text" id="login-user" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Digite seu usuário">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Senha</label>
+<input type="password" id="login-pass" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Digite sua senha">
+</div>
+<div id="login-error" class="hidden text-red-500 text-sm text-center"></div>
+<button type="submit" class="w-full golden-gradient text-black py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+Entrar
+</button>
+</form>
+</div>
+</div>
+
+<!-- Admin Dashboard -->
+<div id="admin-dashboard" class="hidden">
+<!-- Header -->
+<header class="bg-secondary text-white shadow-lg">
+<div class="container mx-auto px-6 py-4 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<h1 class="text-2xl font-bold">Elite Blindagens</h1>
+<span class="bg-primary/20 text-primary px-3 py-1 rounded-full text-sm">Admin</span>
+</div>
+<button onclick="logout()" class="flex items-center gap-2 bg-red-500/20 text-red-400 px-4 py-2 rounded-lg hover:bg-red-500/30 transition-all">
+<i class="ri-logout-box-line"></i> Sair
+</button>
+</div>
+</header>
+
+<!-- Tabs -->
+<div class="bg-white border-b">
+<div class="container mx-auto px-6">
+<nav class="flex gap-8">
+<button onclick="showTab('emails')" class="tab-btn py-4 px-2 border-b-2 border-primary text-primary font-medium" data-tab="emails">
+<i class="ri-mail-line mr-2"></i>E-mails Cadastrados
+</button>
+<button onclick="showTab('depoimentos')" class="tab-btn py-4 px-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700" data-tab="depoimentos">
+<i class="ri-chat-quote-line mr-2"></i>Depoimentos
+</button>
+<button onclick="showTab('faq')" class="tab-btn py-4 px-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700" data-tab="faq">
+<i class="ri-question-line mr-2"></i>FAQ
+</button>
+<button onclick="showTab('cases')" class="tab-btn py-4 px-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700" data-tab="cases">
+<i class="ri-shield-star-line mr-2"></i>Cases de Sucesso
+</button>
+</nav>
+</div>
+</div>
+
+<!-- Content -->
+<main class="container mx-auto px-6 py-8">
+
+<!-- Tab: E-mails -->
+<div id="tab-emails" class="tab-content">
+<div class="bg-white rounded-xl shadow-lg p-6">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-2xl font-bold text-secondary">E-mails Cadastrados</h2>
+<button onclick="exportEmails()" class="golden-gradient text-black px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition-all flex items-center gap-2">
+<i class="ri-file-excel-line"></i> Exportar Excel
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full">
+<thead class="bg-gray-50">
+<tr>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">E-mail</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data Cadastro</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
+</tr>
+</thead>
+<tbody id="emails-table" class="divide-y divide-gray-200">
+</tbody>
+</table>
+</div>
+<p id="no-emails" class="hidden text-center text-gray-500 py-8">Nenhum e-mail cadastrado ainda.</p>
+</div>
+</div>
+
+<!-- Tab: Depoimentos -->
+<div id="tab-depoimentos" class="tab-content hidden">
+<div class="bg-white rounded-xl shadow-lg p-6">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-2xl font-bold text-secondary">Depoimentos de Clientes</h2>
+<button onclick="openDepoimentoModal()" class="golden-gradient text-black px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition-all flex items-center gap-2">
+<i class="ri-add-line"></i> Adicionar Depoimento
+</button>
+</div>
+<div id="depoimentos-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+</div>
+<p id="no-depoimentos" class="hidden text-center text-gray-500 py-8">Nenhum depoimento cadastrado ainda.</p>
+</div>
+</div>
+
+<!-- Tab: FAQ -->
+<div id="tab-faq" class="tab-content hidden">
+<div class="bg-white rounded-xl shadow-lg p-6">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-2xl font-bold text-secondary">Perguntas Frequentes</h2>
+<button onclick="openFaqModal()" class="golden-gradient text-black px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition-all flex items-center gap-2">
+<i class="ri-add-line"></i> Adicionar Pergunta
+</button>
+</div>
+<div id="faq-list" class="space-y-3">
+</div>
+<p id="no-faq" class="hidden text-center text-gray-500 py-8">Nenhuma pergunta cadastrada ainda.</p>
+</div>
+</div>
+
+<!-- Tab: Cases de Sucesso -->
+<div id="tab-cases" class="tab-content hidden">
+<div class="bg-white rounded-xl shadow-lg p-6">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-2xl font-bold text-secondary">Cases de Sucesso</h2>
+<button onclick="openCaseModal()" class="golden-gradient text-black px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition-all flex items-center gap-2">
+<i class="ri-add-line"></i> Novo Case
+</button>
+</div>
+<div id="cases-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+</div>
+<p id="no-cases" class="hidden text-center text-gray-500 py-8">Nenhum case cadastrado ainda.</p>
+</div>
+</div>
+
+</main>
+</div>
+
+<!-- Modal: Adicionar/Editar Depoimento -->
+<div id="depoimento-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+<div class="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
+<div class="p-6 border-b flex justify-between items-center">
+<h3 class="text-xl font-bold text-secondary" id="depoimento-modal-title">Adicionar Depoimento</h3>
+<button onclick="closeDepoimentoModal()" class="text-gray-500 hover:text-gray-700" aria-label="Fechar" title="Fechar"><i class="ri-close-line text-2xl" aria-hidden="true"></i></button>
+</div>
+<form id="depoimento-form" class="p-6 space-y-4">
+<input type="hidden" id="depoimento-id">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Nome do Cliente *</label>
+<input type="text" id="depoimento-nome" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary" placeholder="Ex: João Silva">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Profissão</label>
+<input type="text" id="depoimento-profissao" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary" placeholder="Ex: Empresário">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Depoimento *</label>
+<textarea id="depoimento-texto" rows="4" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary" placeholder="O que o cliente disse..."></textarea>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Foto do Cliente</label>
+<div class="space-y-3">
+<div class="flex gap-2">
+<button type="button" onclick="document.getElementById('depoimento-file').click()" class="flex-1 flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-primary hover:bg-primary/5 transition-all">
+<i class="ri-upload-cloud-line text-xl text-gray-500"></i>
+<span class="text-gray-600">Upload do PC</span>
+</button>
+<button type="button" onclick="document.getElementById('depoimento-camera').click()" class="flex-1 flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-primary hover:bg-primary/5 transition-all">
+<i class="ri-camera-line text-xl text-gray-500"></i>
+<span class="text-gray-600">Tirar Foto</span>
+</button>
+</div>
+<input type="file" id="depoimento-file" accept="image/*" class="hidden" onchange="handleDepoimentoImageUpload(this)" title="Selecionar foto do computador" aria-label="Upload de foto">
+<input type="file" id="depoimento-camera" accept="image/*" class="hidden" onchange="handleDepoimentoImageUpload(this)" title="Tirar foto com câmera" aria-label="Capturar foto">
+<input type="url" id="depoimento-foto" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary" placeholder="Ou cole a URL da foto...">
+<div id="depoimento-preview" class="hidden">
+<img id="depoimento-preview-img" src="" alt="Preview" class="w-24 h-24 object-cover rounded-full border-4 border-primary mx-auto">
+<button type="button" onclick="clearDepoimentoImagePreview()" class="mt-2 text-red-500 text-sm hover:underline block mx-auto"><i class="ri-delete-bin-line"></i> Remover foto</button>
+</div>
+</div>
+</div>
+<div class="flex gap-4 pt-4">
+<button type="button" onclick="closeDepoimentoModal()" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">Cancelar</button>
+<button type="submit" class="flex-1 golden-gradient text-black px-4 py-2 rounded-lg font-semibold">Salvar</button>
+</div>
+</form>
+</div>
+</div>
+
+<!-- Modal: FAQ -->
+<div id="faq-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+<div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+<div class="p-6 border-b flex justify-between items-center">
+<h3 class="text-xl font-bold text-secondary" id="faq-modal-title">Adicionar Pergunta</h3>
+<button onclick="closeFaqModal()" class="text-gray-500 hover:text-gray-700" aria-label="Fechar" title="Fechar"><i class="ri-close-line text-2xl" aria-hidden="true"></i></button>
+</div>
+<form id="faq-form" class="p-6 space-y-4">
+<input type="hidden" id="faq-id">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Pergunta *</label>
+<input type="text" id="faq-question" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary" placeholder="Digite a pergunta">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Resposta *</label>
+<textarea id="faq-answer" rows="4" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary" placeholder="Digite a resposta"></textarea>
+</div>
+<div class="flex items-center gap-3">
+<input type="checkbox" id="faq-active" checked class="w-5 h-5 text-primary rounded">
+<label for="faq-active" class="text-sm text-gray-700">Ativa</label>
+</div>
+<div class="flex gap-4 pt-4">
+<button type="button" onclick="closeFaqModal()" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">Cancelar</button>
+<button type="submit" class="flex-1 golden-gradient text-black px-4 py-2 rounded-lg font-semibold">Salvar</button>
+</div>
+</form>
+</div>
+</div>
+
+<!-- Modal: Case -->
+<div id="case-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+<div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+<div class="p-6 border-b flex justify-between items-center">
+<h3 class="text-xl font-bold text-secondary" id="case-modal-title">Novo Case</h3>
+<button onclick="closeCaseModal()" class="text-gray-500 hover:text-gray-700" aria-label="Fechar" title="Fechar"><i class="ri-close-line text-2xl" aria-hidden="true"></i></button>
+</div>
+<form id="case-form" class="p-6 space-y-4">
+<input type="hidden" id="case-id">
+<div class="grid md:grid-cols-2 gap-4">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Modelo do Veículo *</label>
+<input type="text" id="case-title" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary" placeholder="Ex: Mercedes-Benz S500">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Cliente / Local *</label>
+<input type="text" id="case-client" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary" placeholder="Ex: Roberto M. • São Paulo/SP">
+</div>
+</div>
+<div class="grid grid-cols-3 gap-4">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Nível</label>
+<input type="text" id="case-level" value="III-A" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary" placeholder="III-A">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Prazo</label>
+<input type="text" id="case-deadline" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary" placeholder="Ex: 18 dias">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Peso Adicional</label>
+<input type="text" id="case-weight" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary" placeholder="Ex: +85kg">
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Tags (separadas por vírgula)</label>
+<input type="text" id="case-tags" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary" placeholder="Ex: ENTREGUE, UltraLite™">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Descrição Curta *</label>
+<textarea id="case-desc" required rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary" placeholder="Descreva brevemente o projeto"></textarea>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Foto Principal *</label>
+<div class="space-y-3">
+<div class="flex gap-2">
+<button type="button" onclick="document.getElementById('case-main-file').click()" class="flex-1 flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-primary hover:bg-primary/5 transition-all">
+<i class="ri-upload-cloud-line text-xl text-gray-500"></i>
+<span class="text-gray-600">Upload Foto Principal</span>
+</button>
+</div>
+<input type="file" id="case-main-file" accept="image/*" class="hidden" onchange="handleCaseMainUpload(this)" title="Upload da foto principal" aria-label="Upload da foto principal">
+<input type="url" id="case-img-main" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary" placeholder="Ou cole URL da imagem...">
+<div id="case-main-preview" class="hidden">
+<img id="case-main-preview-img" src="" alt="Preview" class="w-full h-48 object-cover rounded-lg border">
+<button type="button" onclick="clearCaseMainPreview()" class="mt-2 text-red-500 text-sm hover:underline"><i class="ri-delete-bin-line"></i> Remover foto</button>
+</div>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Galeria de Fotos</label>
+<div class="space-y-3">
+<button type="button" onclick="document.getElementById('case-gallery-files').click()" class="w-full flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-primary hover:bg-primary/5 transition-all">
+<i class="ri-image-add-line text-xl text-gray-500"></i>
+<span class="text-gray-600">Adicionar Fotos à Galeria</span>
+</button>
+<input type="file" id="case-gallery-files" accept="image/*" multiple class="hidden" onchange="handleCaseGalleryUpload(this)" title="Upload de fotos da galeria" aria-label="Upload de fotos da galeria">
+<div id="case-gallery-preview" class="grid grid-cols-3 gap-3">
+<!-- Fotos da galeria serão exibidas aqui -->
+</div>
+<input type="hidden" id="case-gallery" value="">
+</div>
+</div>
+<div class="flex gap-4 pt-4">
+<button type="button" onclick="closeCaseModal()" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">Cancelar</button>
+<button type="submit" class="flex-1 golden-gradient text-black px-4 py-2 rounded-lg font-semibold">Salvar Case</button>
+</div>
+</form>
+</div>
+</div>
+
+<script>
+// Credenciais hash (não expõe texto plano)
+const ADMIN_HASH = 'ZWxpdGVhZG1pbjoyMDI0QGVsaXRl';
+
+// Verificar sessão
+function checkSession() {
+const session = sessionStorage.getItem('elite_admin_session');
+if (session === ADMIN_HASH) {
+showDashboard();
+}
+}
+
+// Login
+document.getElementById('login-form').addEventListener('submit', function(e) {
+e.preventDefault();
+const user = document.getElementById('login-user').value;
+const pass = document.getElementById('login-pass').value;
+const hash = btoa(user + ':' + pass);
+
+if (hash === ADMIN_HASH) {
+sessionStorage.setItem('elite_admin_session', hash);
+showDashboard();
+} else {
+document.getElementById('login-error').textContent = 'Usuário ou senha incorretos';
+document.getElementById('login-error').classList.remove('hidden');
+}
+});
+
+function showDashboard() {
+document.getElementById('login-screen').classList.add('hidden');
+document.getElementById('admin-dashboard').classList.remove('hidden');
+loadEmails();
+loadDepoimentos();
+loadFaqs();
+loadCases();
+}
+
+function logout() {
+sessionStorage.removeItem('elite_admin_session');
+location.reload();
+}
+
+// Tabs
+function showTab(tab) {
+document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+document.querySelectorAll('.tab-btn').forEach(el => {
+el.classList.remove('border-primary', 'text-primary');
+el.classList.add('border-transparent', 'text-gray-500');
+});
+document.getElementById('tab-' + tab).classList.remove('hidden');
+document.querySelector(`[data-tab="${tab}"]`).classList.add('border-primary', 'text-primary');
+document.querySelector(`[data-tab="${tab}"]`).classList.remove('border-transparent', 'text-gray-500');
+}
+
+// E-mails
+function loadEmails() {
+const emails = JSON.parse(localStorage.getItem('elite_emails') || '[]');
+const table = document.getElementById('emails-table');
+const noEmails = document.getElementById('no-emails');
+
+if (emails.length === 0) {
+table.innerHTML = '';
+noEmails.classList.remove('hidden');
+return;
+}
+
+noEmails.classList.add('hidden');
+table.innerHTML = emails.map((email, i) => `
+<tr>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${i + 1}</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${email.email}</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${new Date(email.date).toLocaleDateString('pt-BR')}</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm">
+<button onclick="deleteEmail(${i})" class="text-red-500 hover:text-red-700"><i class="ri-delete-bin-line"></i></button>
+</td>
+</tr>
+`).join('');
+}
+
+function deleteEmail(index) {
+if (!confirm('Tem certeza que deseja excluir este e-mail?')) return;
+const emails = JSON.parse(localStorage.getItem('elite_emails') || '[]');
+emails.splice(index, 1);
+localStorage.setItem('elite_emails', JSON.stringify(emails));
+loadEmails();
+}
+
+function exportEmails() {
+const emails = JSON.parse(localStorage.getItem('elite_emails') || '[]');
+if (emails.length === 0) {
+alert('Nenhum e-mail para exportar.');
+return;
+}
+
+let csv = 'E-mail,Data Cadastro\n';
+emails.forEach(e => {
+csv += `${e.email},${new Date(e.date).toLocaleDateString('pt-BR')}\n`;
+});
+
+const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+const link = document.createElement('a');
+link.href = URL.createObjectURL(blob);
+link.download = 'emails_elite_blindagens_' + new Date().toISOString().split('T')[0] + '.csv';
+link.click();
+}
+
+// Depoimentos (funções antigas - serão sobrescritas pelo admin-supabase.js)
+function loadDepoimentos() {
+const depoimentos = JSON.parse(localStorage.getItem('elite_depoimentos') || '[]');
+const grid = document.getElementById('depoimentos-grid');
+const noDepoimentos = document.getElementById('no-depoimentos');
+
+if (depoimentos.length === 0) {
+grid.innerHTML = '';
+noDepoimentos.classList.remove('hidden');
+return;
+}
+
+noDepoimentos.classList.add('hidden');
+grid.innerHTML = depoimentos.map((d, i) => `
+<div class="border rounded-xl p-4 hover:shadow-lg transition-all">
+<div class="flex items-center gap-3 mb-3">
+${d.foto ? `<img src="${d.foto}" alt="${d.nome}" class="w-12 h-12 rounded-full object-cover" onerror="this.src='https://via.placeholder.com/48'">` : `<div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">${d.nome.charAt(0)}</div>`}
+<div>
+<h4 class="font-bold text-secondary">${d.nome}</h4>
+${d.profissao ? `<p class="text-gray-500 text-sm">${d.profissao}</p>` : ''}
+</div>
+</div>
+<p class="text-gray-600 text-sm italic">"${d.texto}"</p>
+<div class="flex gap-2 mt-4">
+<button onclick="editDepoimento(${i})" class="flex-1 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 text-sm"><i class="ri-edit-line"></i> Editar</button>
+<button onclick="deleteDepoimento(${i})" class="flex-1 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 text-sm"><i class="ri-delete-bin-line"></i> Excluir</button>
+</div>
+</div>
+`).join('');
+}
+
+function openDepoimentoModal(index = null) {
+document.getElementById('depoimento-modal').classList.remove('hidden');
+document.getElementById('depoimento-form').reset();
+document.getElementById('depoimento-id').value = '';
+
+if (index !== null) {
+const depoimentos = JSON.parse(localStorage.getItem('elite_depoimentos') || '[]');
+const d = depoimentos[index];
+document.getElementById('depoimento-modal-title').textContent = 'Editar Depoimento';
+document.getElementById('depoimento-id').value = index;
+document.getElementById('depoimento-nome').value = d.nome;
+document.getElementById('depoimento-profissao').value = d.profissao || '';
+document.getElementById('depoimento-texto').value = d.texto;
+document.getElementById('depoimento-foto').value = d.foto || '';
+} else {
+document.getElementById('depoimento-modal-title').textContent = 'Adicionar Depoimento';
+}
+}
+
+function closeDepoimentoModal() {
+document.getElementById('depoimento-modal').classList.add('hidden');
+}
+
+function editDepoimento(index) {
+openDepoimentoModal(index);
+}
+
+function deleteDepoimento(index) {
+if (!confirm('Tem certeza que deseja excluir este depoimento?')) return;
+const depoimentos = JSON.parse(localStorage.getItem('elite_depoimentos') || '[]');
+depoimentos.splice(index, 1);
+localStorage.setItem('elite_depoimentos', JSON.stringify(depoimentos));
+loadDepoimentos();
+}
+
+document.getElementById('depoimento-form').addEventListener('submit', function(e) {
+e.preventDefault();
+const depoimentos = JSON.parse(localStorage.getItem('elite_depoimentos') || '[]');
+const id = document.getElementById('depoimento-id').value;
+const depoimento = {
+nome: document.getElementById('depoimento-nome').value,
+profissao: document.getElementById('depoimento-profissao').value,
+texto: document.getElementById('depoimento-texto').value,
+foto: document.getElementById('depoimento-foto').value,
+date: new Date().toISOString()
+};
+
+if (id !== '') {
+depoimentos[parseInt(id)] = depoimento;
+} else {
+depoimentos.push(depoimento);
+}
+
+localStorage.setItem('elite_depoimentos', JSON.stringify(depoimentos));
+closeDepoimentoModal();
+loadDepoimentos();
+});
+
+// Upload de Imagem
+function handleImageUpload(input) {
+if (input.files && input.files[0]) {
+const reader = new FileReader();
+reader.onload = function(e) {
+document.getElementById('veiculo-imagem').value = e.target.result;
+document.getElementById('veiculo-preview-img').src = e.target.result;
+document.getElementById('veiculo-preview').classList.remove('hidden');
+};
+reader.readAsDataURL(input.files[0]);
+}
+}
+
+function clearImagePreview() {
+document.getElementById('veiculo-imagem').value = '';
+document.getElementById('veiculo-preview').classList.add('hidden');
+document.getElementById('veiculo-file').value = '';
+document.getElementById('veiculo-camera').value = '';
+}
+
+// Upload de Foto do Depoimento
+function handleDepoimentoImageUpload(input) {
+if (input.files && input.files[0]) {
+const reader = new FileReader();
+reader.onload = function(e) {
+document.getElementById('depoimento-foto').value = e.target.result;
+document.getElementById('depoimento-preview-img').src = e.target.result;
+document.getElementById('depoimento-preview').classList.remove('hidden');
+};
+reader.readAsDataURL(input.files[0]);
+}
+}
+
+function clearDepoimentoImagePreview() {
+document.getElementById('depoimento-foto').value = '';
+document.getElementById('depoimento-preview').classList.add('hidden');
+document.getElementById('depoimento-file').value = '';
+document.getElementById('depoimento-camera').value = '';
+}
+
+// Inicializar veículos de exemplo
+function initVeiculosExemplo() {
+const veiculos = JSON.parse(localStorage.getItem('elite_veiculos') || '[]');
+if (veiculos.length < 3) {
+const exemplos = [
+{ titulo: 'BMW X5 2025 Blindado', categoria: 'suv', preco: 'R$ 580.000', descricao: 'SUV premium com blindagem nível III-A, único dono, revisões em dia. Acabamento impecável e todas as tecnologias de segurança.', imagem: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800', link: 'https://www.webmotors.com.br', date: new Date().toISOString() },
+{ titulo: 'Mercedes-Benz S500 2024', categoria: 'luxo', preco: 'R$ 890.000', descricao: 'Sedan de luxo com blindagem nível III-A, interior em couro premium Nappa, teto solar panorâmico e sistema de som Burmester.', imagem: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800', link: '', date: new Date().toISOString() },
+{ titulo: 'Audi A6 3.0 TFSI 2024', categoria: 'sedan', preco: 'R$ 420.000', descricao: 'Sedan executivo blindado, tecnologia de ponta Audi Virtual Cockpit e conforto excepcional. Garantia de fábrica.', imagem: 'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=800', link: '', date: new Date().toISOString() },
+{ titulo: 'Range Rover Sport HSE 2025', categoria: 'suv', preco: 'R$ 750.000', descricao: 'SUV britânico com blindagem certificada NIJ nível III-A, elegância e proteção. Motor V6 supercharged 3.0 com 380cv.', imagem: 'https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?w=800', link: '', date: new Date().toISOString() },
+{ titulo: 'Porsche Cayenne Turbo 2024', categoria: 'luxo', preco: 'R$ 680.000', descricao: 'Performance e segurança em um só veículo, blindagem nível III-A. Motor V8 4.0 biturbo com 550cv, 0-100km/h em 4.1s.', imagem: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800', link: '', date: new Date().toISOString() },
+{ titulo: 'BMW X7 M50i 2024 Blindado', categoria: 'suv', preco: 'R$ 820.000', descricao: 'O maior SUV da BMW com blindagem premium. 7 lugares, motor V8 4.4 biturbo com 530cv, tecnologia Driving Assistant Professional.', imagem: 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=800', link: '', date: new Date().toISOString() },
+{ titulo: 'Mercedes-AMG G63 2023', categoria: 'luxo', preco: 'R$ 1.450.000', descricao: 'Ícone off-road com blindagem nível III-A. Motor V8 4.0 biturbo com 585cv, interior luxuoso em couro designo e tecnologia MBUX.', imagem: 'https://images.unsplash.com/photo-1617886322207-d83e86e6f0f4?w=800', link: '', date: new Date().toISOString() },
+{ titulo: 'Volvo XC90 T8 2024 Híbrido', categoria: 'suv', preco: 'R$ 520.000', descricao: 'SUV híbrido plug-in blindado, 7 lugares. Combina motor 2.0 turbo + elétrico (462cv total). Segurança Volvo + blindagem Elite.', imagem: 'https://images.unsplash.com/photo-1589128777073-263566ae5e4d?w=800', link: '', date: new Date().toISOString() },
+{ titulo: 'Audi Q7 3.0 TFSI 2023', categoria: 'suv', preco: 'R$ 485.000', descricao: 'SUV premium com blindagem completa, 7 lugares, motor V6 3.0 supercharged (333cv), Quattro e interior tecnológico.', imagem: 'https://images.unsplash.com/photo-1614200187524-dc4b892acf16?w=800', link: '', date: new Date().toISOString() },
+{ titulo: 'BMW Série 7 740i 2024', categoria: 'sedan', preco: 'R$ 720.000', descricao: 'Sedan executivo de luxo blindado, motor 3.0 turbo (340cv), tecnologia Gesture Control e interior em couro Merino.', imagem: 'https://images.unsplash.com/photo-1555626906-fcf10d6851b4?w=800', link: '', date: new Date().toISOString() },
+{ titulo: 'Land Rover Defender 110 2024', categoria: 'suv', preco: 'R$ 620.000', descricao: 'SUV icônico com blindagem nível III-A, capacidade off-road excepcional, motor P400 (400cv) e design moderno.', imagem: 'https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?w=800', link: '', date: new Date().toISOString() },
+{ titulo: 'Lexus LS 500h 2023 Híbrido', categoria: 'luxo', preco: 'R$ 680.000', descricao: 'Sedan híbrido de luxo japonês blindado. Motor V6 3.5 + elétrico (359cv), interior artesanal Takumi e silêncio absoluto.', imagem: 'https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=800', link: '', date: new Date().toISOString() }
+];
+localStorage.setItem('elite_veiculos', JSON.stringify(exemplos));
+}
+}
+
+// FAQ
+const defaultFaqData = [
+{ id: 1, question: 'Qual o nível de blindagem oferecido pela Elite?', answer: 'Trabalhamos com blindagem Nível III-A, que protege contra armas de fogo de uso comum (9mm, .40 e .45). Certificação NIJ.', active: true },
+{ id: 2, question: 'Quanto tempo leva o processo de blindagem?', answer: 'O prazo médio é de 15 a 25 dias úteis, dependendo do modelo do veículo e da linha escolhida.', active: true },
+{ id: 3, question: 'Qual a garantia da blindagem?', answer: 'Garantia de 5 anos para vidros e materiais balísticos, e 3 anos para acabamentos.', active: true },
+{ id: 4, question: 'A blindagem altera muito o peso do veículo?', answer: 'Com UltraLite Armor™, apenas 70-100kg. SafeCore™ adiciona 100-150kg.', active: true },
+{ id: 5, question: 'Como funciona a documentação?', answer: 'Cuidamos de todo o processo: CAB, registro no CRV e documentação completa junto ao Exército.', active: true },
+{ id: 6, question: 'Vocês blindam veículos híbridos e elétricos?', answer: 'Sim! Linha UltraLite Armor™ preserva autonomia e sistema regenerativo.', active: true }
+];
+
+function loadFaqs() {
+if (!localStorage.getItem('elite_faq_data')) {
+localStorage.setItem('elite_faq_data', JSON.stringify(defaultFaqData));
+}
+const faqs = JSON.parse(localStorage.getItem('elite_faq_data') || '[]');
+const list = document.getElementById('faq-list');
+const noFaq = document.getElementById('no-faq');
+
+if (faqs.length === 0) {
+list.innerHTML = '';
+noFaq.classList.remove('hidden');
+return;
+}
+
+noFaq.classList.add('hidden');
+list.innerHTML = faqs.map((faq, i) => `
+<div class="border rounded-xl p-4 hover:shadow-md transition-all ${faq.active ? 'bg-white' : 'bg-gray-50'}">
+<div class="flex items-start justify-between gap-4">
+<div class="flex-1">
+<h4 class="font-bold text-secondary mb-2">${faq.question}</h4>
+<p class="text-gray-600 text-sm">${faq.answer}</p>
+<div class="mt-2">
+<span class="text-xs px-2 py-1 rounded-full ${faq.active ? 'bg-green-100 text-green-700' : 'bg-gray-200 text-gray-600'}">${faq.active ? 'Ativa' : 'Inativa'}</span>
+</div>
+</div>
+<div class="flex gap-2">
+<button onclick="editFaq(${i})" class="px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-sm"><i class="ri-edit-line"></i></button>
+<button onclick="deleteFaq(${i})" class="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 text-sm"><i class="ri-delete-bin-line"></i></button>
+</div>
+</div>
+</div>
+`).join('');
+}
+
+function openFaqModal(index = null) {
+document.getElementById('faq-modal').classList.remove('hidden');
+document.getElementById('faq-form').reset();
+document.getElementById('faq-id').value = '';
+
+if (index !== null) {
+const faqs = JSON.parse(localStorage.getItem('elite_faq_data') || '[]');
+const faq = faqs[index];
+document.getElementById('faq-modal-title').textContent = 'Editar Pergunta';
+document.getElementById('faq-id').value = index;
+document.getElementById('faq-question').value = faq.question;
+document.getElementById('faq-answer').value = faq.answer;
+document.getElementById('faq-active').checked = faq.active;
+} else {
+document.getElementById('faq-modal-title').textContent = 'Adicionar Pergunta';
+}
+}
+
+function closeFaqModal() {
+document.getElementById('faq-modal').classList.add('hidden');
+}
+
+function editFaq(index) {
+openFaqModal(index);
+}
+
+function deleteFaq(index) {
+if (!confirm('Tem certeza que deseja excluir esta pergunta?')) return;
+const faqs = JSON.parse(localStorage.getItem('elite_faq_data') || '[]');
+faqs.splice(index, 1);
+localStorage.setItem('elite_faq_data', JSON.stringify(faqs));
+loadFaqs();
+}
+
+document.getElementById('faq-form').addEventListener('submit', function(e) {
+e.preventDefault();
+const faqs = JSON.parse(localStorage.getItem('elite_faq_data') || '[]');
+const id = document.getElementById('faq-id').value;
+const faq = {
+id: id !== '' ? faqs[parseInt(id)].id : Date.now(),
+question: document.getElementById('faq-question').value,
+answer: document.getElementById('faq-answer').value,
+active: document.getElementById('faq-active').checked
+};
+
+if (id !== '') {
+faqs[parseInt(id)] = faq;
+} else {
+faqs.push(faq);
+}
+
+localStorage.setItem('elite_faq_data', JSON.stringify(faqs));
+closeFaqModal();
+loadFaqs();
+});
+
+// Cases de Sucesso
+const defaultCases = [
+{ id: 1, title: "Mercedes-Benz S500 2024", client: "Roberto M. • São Paulo/SP", level: "III-A", deadline: "18 dias", weight: "+85kg", desc: "Blindagem completa com vidros SafeMax, mantendo conforto acústico e desempenho original.", tags: "ENTREGUE, UltraLite™", mainImage: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&h=400&fit=crop", gallery: ["https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=400&h=300&fit=crop","https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&h=300&fit=crop","https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=400&h=300&fit=crop","https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=400&h=300&fit=crop","https://images.unsplash.com/photo-1542362567-b07e54358753?w=400&h=300&fit=crop","https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=400&h=300&fit=crop"] },
+{ id: 2, title: "BMW X7 xDrive 2023", client: "Ana C. • Campinas/SP", level: "III-A", deadline: "21 dias", weight: "+120kg", desc: "SUV familiar com blindagem SafeCore, ideal para uso diário com proteção balística certificada.", tags: "ENTREGUE, SafeCore™", mainImage: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=600&h=400&fit=crop", gallery: ["https://images.unsplash.com/photo-1555215695-3004980ad54e?w=400&h=300&fit=crop","https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&h=300&fit=crop","https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=400&h=300&fit=crop","https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=400&h=300&fit=crop","https://images.unsplash.com/photo-1542362567-b07e54358753?w=400&h=300&fit=crop","https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=400&h=300&fit=crop"] },
+{ id: 3, title: "Range Rover Vogue 2024", client: "Carlos E. • São Paulo/SP", level: "III-A", deadline: "20 dias", weight: "+95kg", desc: "Elegância britânica preservada com nossa blindagem premium e tecnologia de ponta.", tags: "ENTREGUE, UltraLite™", mainImage: "https://images.unsplash.com/photo-1563720360172-67b8f3dce741?w=600&h=400&fit=crop", gallery: ["https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=400&h=300&fit=crop","https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&h=300&fit=crop","https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=400&h=300&fit=crop","https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=400&h=300&fit=crop","https://images.unsplash.com/photo-1542362567-b07e54358753?w=400&h=300&fit=crop","https://images.unsplash.com/photo-1563720360172-67b8f3dce741?w=400&h=300&fit=crop"] }
+];
+
+function loadCases() {
+if (!localStorage.getItem('elite_cases_data')) {
+localStorage.setItem('elite_cases_data', JSON.stringify(defaultCases));
+}
+const cases = JSON.parse(localStorage.getItem('elite_cases_data') || '[]');
+const grid = document.getElementById('cases-grid');
+const noCases = document.getElementById('no-cases');
+
+if (cases.length === 0) {
+grid.innerHTML = '';
+noCases.classList.remove('hidden');
+return;
+}
+
+noCases.classList.add('hidden');
+grid.innerHTML = cases.map((c, i) => `
+<div class="border rounded-xl overflow-hidden hover:shadow-lg transition-all">
+<div class="h-48 bg-cover bg-center" style="background-image: url('${c.mainImage}')"></div>
+<div class="p-4">
+<div class="flex flex-wrap gap-1 mb-2">
+${c.tags.split(',').map(tag => `<span class="bg-primary/20 text-primary text-xs px-2 py-1 rounded-full">${tag.trim()}</span>`).join('')}
+</div>
+<h4 class="font-bold text-lg text-secondary mb-1">${c.title}</h4>
+<p class="text-gray-500 text-sm mb-3">${c.client}</p>
+<div class="grid grid-cols-3 gap-2 mb-3">
+<div class="text-center bg-gray-50 rounded p-2">
+<p class="text-primary font-bold text-sm">${c.level}</p>
+<p class="text-gray-500 text-xs">Nível</p>
+</div>
+<div class="text-center bg-gray-50 rounded p-2">
+<p class="text-primary font-bold text-sm">${c.deadline}</p>
+<p class="text-gray-500 text-xs">Prazo</p>
+</div>
+<div class="text-center bg-gray-50 rounded p-2">
+<p class="text-primary font-bold text-sm">${c.weight}</p>
+<p class="text-gray-500 text-xs">Peso</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button onclick="editCase(${i})" class="flex-1 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 text-sm"><i class="ri-edit-line"></i> Editar</button>
+<button onclick="deleteCase(${i})" class="flex-1 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 text-sm"><i class="ri-delete-bin-line"></i> Excluir</button>
+</div>
+</div>
+</div>
+`).join('');
+}
+
+let caseGalleryPhotos = [];
+
+function openCaseModal(index = null) {
+document.getElementById('case-modal').classList.remove('hidden');
+document.getElementById('case-form').reset();
+document.getElementById('case-id').value = '';
+caseGalleryPhotos = [];
+document.getElementById('case-gallery-preview').innerHTML = '';
+document.getElementById('case-main-preview').classList.add('hidden');
+
+if (index !== null) {
+const cases = JSON.parse(localStorage.getItem('elite_cases_data') || '[]');
+const c = cases[index];
+document.getElementById('case-modal-title').textContent = 'Editar Case';
+document.getElementById('case-id').value = index;
+document.getElementById('case-title').value = c.title;
+document.getElementById('case-client').value = c.client;
+document.getElementById('case-level').value = c.level;
+document.getElementById('case-deadline').value = c.deadline;
+document.getElementById('case-weight').value = c.weight;
+document.getElementById('case-tags').value = c.tags;
+document.getElementById('case-desc').value = c.desc;
+document.getElementById('case-img-main').value = c.mainImage;
+if (c.mainImage) {
+document.getElementById('case-main-preview-img').src = c.mainImage;
+document.getElementById('case-main-preview').classList.remove('hidden');
+}
+caseGalleryPhotos = c.gallery || [];
+renderCaseGalleryPreview();
+} else {
+document.getElementById('case-modal-title').textContent = 'Novo Case';
+}
+}
+
+function closeCaseModal() {
+document.getElementById('case-modal').classList.add('hidden');
+}
+
+function editCase(index) {
+openCaseModal(index);
+}
+
+function deleteCase(index) {
+if (!confirm('Tem certeza que deseja excluir este case?')) return;
+const cases = JSON.parse(localStorage.getItem('elite_cases_data') || '[]');
+cases.splice(index, 1);
+localStorage.setItem('elite_cases_data', JSON.stringify(cases));
+loadCases();
+}
+
+// Upload foto principal do Case
+function handleCaseMainUpload(input) {
+if (input.files && input.files[0]) {
+const reader = new FileReader();
+reader.onload = function(e) {
+document.getElementById('case-img-main').value = e.target.result;
+document.getElementById('case-main-preview-img').src = e.target.result;
+document.getElementById('case-main-preview').classList.remove('hidden');
+};
+reader.readAsDataURL(input.files[0]);
+}
+}
+
+function clearCaseMainPreview() {
+document.getElementById('case-img-main').value = '';
+document.getElementById('case-main-preview').classList.add('hidden');
+document.getElementById('case-main-file').value = '';
+}
+
+// Upload galeria do Case
+function handleCaseGalleryUpload(input) {
+if (input.files && input.files.length > 0) {
+const newPhotos = Array.from(input.files);
+newPhotos.forEach(file => {
+const reader = new FileReader();
+reader.onload = function(e) {
+caseGalleryPhotos.push(e.target.result);
+renderCaseGalleryPreview();
+};
+reader.readAsDataURL(file);
+});
+input.value = '';
+}
+}
+
+function renderCaseGalleryPreview() {
+const preview = document.getElementById('case-gallery-preview');
+preview.innerHTML = caseGalleryPhotos.map((photo, idx) => `
+<div class="relative group">
+<img src="${photo}" class="w-full h-24 object-cover rounded-lg border" alt="Foto ${idx + 1}">
+<button type="button" onclick="removeCaseGalleryPhoto(${idx})" class="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<i class="ri-close-line text-sm"></i>
+</button>
+</div>
+`).join('');
+}
+
+function removeCaseGalleryPhoto(index) {
+caseGalleryPhotos.splice(index, 1);
+renderCaseGalleryPreview();
+}
+
+document.getElementById('case-form').addEventListener('submit', function(e) {
+e.preventDefault();
+const cases = JSON.parse(localStorage.getItem('elite_cases_data') || '[]');
+const id = document.getElementById('case-id').value;
+const caseData = {
+id: id !== '' ? cases[parseInt(id)].id : Date.now(),
+title: document.getElementById('case-title').value,
+client: document.getElementById('case-client').value,
+level: document.getElementById('case-level').value,
+deadline: document.getElementById('case-deadline').value,
+weight: document.getElementById('case-weight').value,
+tags: document.getElementById('case-tags').value,
+desc: document.getElementById('case-desc').value,
+mainImage: document.getElementById('case-img-main').value,
+gallery: caseGalleryPhotos
+};
+
+if (id !== '') {
+cases[parseInt(id)] = caseData;
+} else {
+cases.push(caseData);
+}
+
+localStorage.setItem('elite_cases_data', JSON.stringify(cases));
+closeCaseModal();
+loadCases();
+});
+
+// Inicialização
+initVeiculosExemplo();
+checkSession();
+</script>
+</body>
+</html>
