@@ -7,7 +7,7 @@
  */
 
 import { createClient } from '@supabase/supabase-js';
-import formidable from 'formidable';
+import { IncomingForm } from 'formidable';
 import fs from 'fs';
 
 // Carregar variáveis de ambiente
@@ -37,7 +37,7 @@ const FILE_PATH = 'elite-blindagens-apresentacao.pdf';
  * Handler principal do endpoint
  */
 export default async function handler(req, res) {
-  // Configurar CORS (ajustar conforme necessário)
+  // Configurar CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -56,8 +56,8 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Parse do formulário multipart
-    const form = formidable({
+    // Parse do formulário multipart usando IncomingForm
+    const form = new IncomingForm({
       maxFileSize: MAX_FILE_SIZE,
       keepExtensions: true,
       multiples: false
