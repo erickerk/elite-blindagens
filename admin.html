@@ -880,9 +880,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // ==========================================
 // ATUALIZAÇÃO DO PDF DA APRESENTAÇÃO
 // ==========================================
-
-// Service Role Key para upload (NÃO exponha em produção - usar backend)
-const SUPABASE_SERVICE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJsYXhibG9pdGlrbmppa3JwYmltIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NjgzNDA3NywiZXhwIjoyMDgyNDEwMDc3fQ.aJHSnFXp8cG7kcWCaJI_h-NNPneL2eevy1vt4r96-34';
+// NOTA: Service Role Key removida por segurança - usar endpoint backend
 
 async function handleNovoPdfUpload(input) {
   const file = input.files[0];
@@ -917,20 +915,14 @@ async function handleNovoPdfUpload(input) {
     successEl.classList.add('hidden');
     btnUpload.disabled = true;
 
-    // Fazer upload para o Supabase Storage
-    const response = await fetch(
-      `${SUPABASE_URL}/storage/v1/object/apresentacoes/elite-blindagens-apresentacao.pdf`,
-      {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
-          'apikey': SUPABASE_SERVICE_KEY,
-          'Content-Type': 'application/pdf',
-          'x-upsert': 'true'
-        },
-        body: file
-      }
-    );
+    // Fazer upload através do endpoint backend seguro
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    const response = await fetch('/api/upload-apresentacao', {
+      method: 'POST',
+      body: formData
+    });
 
     if (!response.ok) {
       const error = await response.json();
