@@ -1038,42 +1038,53 @@ async function handleNovoPdfUpload(input) {
     successEl.classList.add('hidden');
     btnUpload.disabled = true;
 
-    // Fazer upload através do endpoint backend seguro
-    const formData = new FormData();
-    formData.append('file', file);
-    
-    // Timeout de 30 segundos
+    // Passo 1: Obter URL assinada do backend
+    console.log('[Elite] Solicitando URL assinada...');
+    const urlResponse = await fetch('/api/get-upload-url', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fileName: 'elite-blindagens-apresentacao.pdf' })
+    });
+
+    if (!urlResponse.ok) {
+      const error = await urlResponse.json();
+      throw new Error(error.message || 'Erro ao obter URL de upload');
+    }
+
+    const { data: urlData } = await urlResponse.json();
+    console.log('[Elite] URL assinada obtida com sucesso');
+
+    // Passo 2: Upload direto ao Supabase com timeout de 60s
+    console.log('[Elite] Iniciando upload direto ao Supabase...');
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 30000);
-    
-    let response;
+    const timeoutId = setTimeout(() => controller.abort(), 60000);
+
+    let uploadResponse;
     try {
-      response = await fetch('/api/upload-apresentacao', {
-        method: 'POST',
-        body: formData,
+      uploadResponse = await fetch(urlData.signedUrl, {
+        method: 'PUT',
+        body: file,
+        headers: {
+          'Content-Type': 'application/pdf',
+          'x-upsert': 'true'
+        },
         signal: controller.signal
       });
       clearTimeout(timeoutId);
     } catch (fetchError) {
       clearTimeout(timeoutId);
       if (fetchError.name === 'AbortError') {
-        throw new Error('Timeout: O upload demorou mais de 30 segundos');
+        throw new Error('Timeout: O upload demorou mais de 60 segundos');
       }
-      throw new Error('Erro de conexão com o servidor. Verifique se o servidor backend está rodando.');
+      throw new Error('Erro de conexão ao enviar arquivo');
     }
 
-    if (!response.ok) {
-      let errorMessage = 'Erro no upload';
-      try {
-        const error = await response.json();
-        errorMessage = error.message || errorMessage;
-      } catch (e) {
-        // Se não conseguir fazer parse do JSON, é porque o servidor retornou HTML (erro 404/500)
-        errorMessage = `Erro ${response.status}: Servidor não respondeu corretamente. Verifique se o backend está atualizado.`;
-      }
-      throw new Error(errorMessage);
+    if (!uploadResponse.ok) {
+      throw new Error(`Erro no upload: ${uploadResponse.status} ${uploadResponse.statusText}`);
     }
 
+    console.log('[Elite] Upload concluído com sucesso');
+    
     // Sucesso
     progressEl.classList.add('hidden');
     successEl.classList.remove('hidden');
@@ -1344,41 +1355,53 @@ async function handleNovoPdfEliteTrackUpload(input) {
     successEl.classList.add('hidden');
     btnUpload.disabled = true;
 
-    const formData = new FormData();
-    formData.append('file', file);
-    
-    // Timeout de 30 segundos
+    // Passo 1: Obter URL assinada do backend
+    console.log('[Elite Track] Solicitando URL assinada...');
+    const urlResponse = await fetch('/api/get-upload-url', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fileName: 'Manual-Digital-de-Seguranca-e-Garantia.pdf' })
+    });
+
+    if (!urlResponse.ok) {
+      const error = await urlResponse.json();
+      throw new Error(error.message || 'Erro ao obter URL de upload');
+    }
+
+    const { data: urlData } = await urlResponse.json();
+    console.log('[Elite Track] URL assinada obtida com sucesso');
+
+    // Passo 2: Upload direto ao Supabase com timeout de 60s
+    console.log('[Elite Track] Iniciando upload direto ao Supabase...');
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 30000);
-    
-    let response;
+    const timeoutId = setTimeout(() => controller.abort(), 60000);
+
+    let uploadResponse;
     try {
-      response = await fetch('/api/upload-elitetrack', {
-        method: 'POST',
-        body: formData,
+      uploadResponse = await fetch(urlData.signedUrl, {
+        method: 'PUT',
+        body: file,
+        headers: {
+          'Content-Type': 'application/pdf',
+          'x-upsert': 'true'
+        },
         signal: controller.signal
       });
       clearTimeout(timeoutId);
     } catch (fetchError) {
       clearTimeout(timeoutId);
       if (fetchError.name === 'AbortError') {
-        throw new Error('Timeout: O upload demorou mais de 30 segundos');
+        throw new Error('Timeout: O upload demorou mais de 60 segundos');
       }
-      throw new Error('Erro de conexão com o servidor. Verifique se o servidor backend está rodando.');
+      throw new Error('Erro de conexão ao enviar arquivo');
     }
 
-    if (!response.ok) {
-      let errorMessage = 'Erro no upload';
-      try {
-        const error = await response.json();
-        errorMessage = error.message || errorMessage;
-      } catch (e) {
-        // Se não conseguir fazer parse do JSON, é porque o servidor retornou HTML (erro 404/500)
-        errorMessage = `Erro ${response.status}: Servidor não respondeu corretamente. Verifique se o backend está atualizado.`;
-      }
-      throw new Error(errorMessage);
+    if (!uploadResponse.ok) {
+      throw new Error(`Erro no upload: ${uploadResponse.status} ${uploadResponse.statusText}`);
     }
 
+    console.log('[Elite Track] Upload concluído com sucesso');
+    
     progressEl.classList.add('hidden');
     successEl.classList.remove('hidden');
     
