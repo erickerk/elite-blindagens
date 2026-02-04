@@ -2,18 +2,113 @@
 
 ```yaml
 - generic [ref=e1]:
-  - generic [ref=e3]:
-    - generic [ref=e4]:
-      - img "Elite Blindagens" [ref=e5]
-      - paragraph [ref=e6]: Portal Administrativo
-    - generic [ref=e7]:
-      - generic [ref=e8]:
-        - generic [ref=e9]: E-mail
-        - textbox "Digite seu e-mail" [ref=e10]: admin@eliteblindagens.com.br
-      - generic [ref=e11]:
-        - generic [ref=e12]: Senha
-        - textbox "Digite sua senha" [active] [ref=e13]: Elite@2024#Admin!
-      - generic [ref=e14]: E-mail não encontrado
-      - button "Entrar" [ref=e15] [cursor=pointer]
-  - text:                                                  
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]:
+          - heading "Elite Blindagens" [level=1] [ref=e6]
+          - generic [ref=e7]: Junior Rodrigues
+        - generic [ref=e8]:
+          - button " Relatório Vendidos" [ref=e9] [cursor=pointer]:
+            - generic [ref=e10]: 
+            - text: Relatório Vendidos
+          - button " Sair" [ref=e11] [cursor=pointer]:
+            - generic [ref=e12]: 
+            - text: Sair
+    - navigation [ref=e15]:
+      - button "E-mails Cadastrados" [ref=e16] [cursor=pointer]:
+        - generic [ref=e17]: 
+        - text: E-mails Cadastrados
+      - button "Depoimentos" [ref=e18] [cursor=pointer]:
+        - generic [ref=e19]: 
+        - text: Depoimentos
+      - button "FAQ" [ref=e20] [cursor=pointer]:
+        - generic [ref=e21]: 
+        - text: FAQ
+      - button "Cases de Sucesso" [ref=e22] [cursor=pointer]:
+        - generic [ref=e23]: 
+        - text: Cases de Sucesso
+      - button "QR Code Apresentação" [active] [ref=e24] [cursor=pointer]:
+        - generic [ref=e25]: 
+        - text: QR Code Apresentação
+      - button "Manual Garantia - Elite Track" [ref=e26] [cursor=pointer]:
+        - generic [ref=e27]: 
+        - text: Manual Garantia - Elite Track
+    - main [ref=e28]:
+      - text:                         
+      - generic [ref=e30]:
+        - heading "QR Code - Apresentação Elite Blindagens" [level=2] [ref=e32]
+        - generic [ref=e33]:
+          - generic [ref=e34]:
+            - generic [ref=e35]:
+              - generic "https://rlaxbloitiknjikrpbim.supabase.co/storage/v1/object/public/apresentacoes/elite-blindagens-apresentacao.pdf" [ref=e37]:
+                - img [ref=e38]
+              - paragraph [ref=e39]: QR Code fixo e permanente
+            - generic [ref=e40]:
+              - button " Baixar QR Code em PDF" [ref=e41] [cursor=pointer]:
+                - generic [ref=e42]: 
+                - text: Baixar QR Code em PDF
+              - button " Baixar QR Code em PNG" [ref=e43] [cursor=pointer]:
+                - generic [ref=e44]: 
+                - text: Baixar QR Code em PNG
+          - generic [ref=e45]:
+            - generic [ref=e46]:
+              - heading " Informações" [level=3] [ref=e47]:
+                - generic [ref=e48]: 
+                - text: Informações
+              - list [ref=e49]:
+                - listitem [ref=e50]:
+                  - generic [ref=e51]: 
+                  - generic [ref=e52]:
+                    - text: Este QR Code direciona para a
+                    - strong [ref=e53]: apresentação oficial
+                    - text: da Elite Blindagens
+                - listitem [ref=e54]:
+                  - generic [ref=e55]: 
+                  - generic [ref=e56]:
+                    - text: A URL é
+                    - strong [ref=e57]: fixa e permanente
+                    - text: "- nunca será alterada"
+                - listitem [ref=e58]:
+                  - generic [ref=e59]: 
+                  - generic [ref=e60]:
+                    - text: O PDF baixado inclui o
+                    - strong [ref=e61]: logo da Elite Blindagens
+                - listitem [ref=e62]:
+                  - generic [ref=e63]: 
+                  - generic [ref=e64]:
+                    - text: Ideal para
+                    - strong [ref=e65]: cartões de visita, folders e materiais impressos
+            - generic [ref=e66]:
+              - heading " URL da Apresentação" [level=3] [ref=e67]:
+                - generic [ref=e68]: 
+                - text: URL da Apresentação
+              - generic [ref=e69]:
+                - textbox "URL da apresentação" [ref=e70]: https://rlaxbloitiknjikrpbim.supabase.co/storage/v1/object/public/apresentacoes/elite-blindagens-apresentacao.pdf
+                - button "" [ref=e71] [cursor=pointer]:
+                  - generic [ref=e72]: 
+              - paragraph [ref=e73]: Clique no ícone para copiar a URL
+            - generic [ref=e74]:
+              - heading " Segurança" [level=3] [ref=e75]:
+                - generic [ref=e76]: 
+                - text: Segurança
+              - paragraph [ref=e77]: O conteúdo da apresentação está armazenado de forma segura no Supabase Storage com acesso público somente leitura. O arquivo não pode ser modificado ou excluído sem autorização administrativa.
+            - generic [ref=e78]:
+              - heading " Atualizar Apresentação" [level=3] [ref=e79]:
+                - generic [ref=e80]: 
+                - text: Atualizar Apresentação
+              - paragraph [ref=e81]:
+                - text: Faça upload de um novo PDF para substituir a apresentação atual.
+                - strong [ref=e82]: O QR Code permanecerá o mesmo
+                - text: "- apenas o conteúdo será atualizado."
+              - generic [ref=e83]:
+                - button " Selecionar Novo PDF" [ref=e84] [cursor=pointer]:
+                  - generic [ref=e85]: 
+                  - generic [ref=e86]: Selecionar Novo PDF
+                - text: 
+                - paragraph [ref=e87]:
+                  - generic [ref=e88]: 
+                  - text: "Tamanho máximo: 50MB | Formato: PDF"
+      - text:               
+  - text:         
 ```
