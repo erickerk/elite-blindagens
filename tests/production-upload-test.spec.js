@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const PRODUCTION_URL = 'https://elite-blindagens.vercel.app';
-const ADMIN_EMAIL = 'admin@eliteblindagens.com.br';
+const ADMIN_EMAIL = 'juniorrodrigues1011@gmail.com';
 const ADMIN_PASSWORD = 'Elite@2024#Admin!';
 
 test.describe('Upload em Produção - Elite Blindagens', () => {
