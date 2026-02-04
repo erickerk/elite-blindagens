@@ -12,6 +12,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 // Configurar __dirname para ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -44,9 +45,10 @@ const supabase = createClient(
 
 // Configurar Express
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 // Middleware
+app.use(cors());
 app.use(express.json());
 app.use(express.static(__dirname));
 
@@ -55,6 +57,7 @@ const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 const ALLOWED_MIME_TYPES = ['application/pdf'];
 const BUCKET_NAME = 'apresentacoes';
 const FILE_PATH = 'elite-blindagens-apresentacao.pdf';
+const FILE_PATH_ELITETRACK = 'Manual-Digital-de-Seguranca-e-Garantia.pdf';
 
 /**
  * Endpoint: Upload de Apresentação
@@ -171,6 +174,112 @@ app.post('/api/upload-apresentacao', async (req, res) => {
 });
 
 /**
+ * Endpoint: Upload de Catálogo Elite Track
+ * POST /api/upload-elitetrack
+ */
+app.post('/api/upload-elitetrack', async (req, res) => {
+  console.log('📤 [Elite Track API] Recebendo requisição de upload...');
+
+  try {
+    const form = formidable({
+      maxFileSize: MAX_FILE_SIZE,
+      keepExtensions: true,
+      multiples: false
+    });
+
+    const [fields, files] = await new Promise((resolve, reject) => {
+      form.parse(req, (err, fields, files) => {
+        if (err) {
+          console.error('❌ [Elite Track API] Erro ao fazer parse do formulário:', err);
+          reject(err);
+        } else {
+          resolve([fields, files]);
+        }
+      });
+    });
+
+    if (!files.file || !files.file[0]) {
+      console.warn('⚠️ [Elite Track API] Nenhum arquivo enviado');
+      return res.status(400).json({
+        success: false,
+        message: 'Nenhum arquivo foi enviado'
+      });
+    }
+
+    const uploadedFile = files.file[0];
+    console.log('📄 [Elite Track API] Arquivo recebido:', {
+      name: uploadedFile.originalFilename,
+      size: uploadedFile.size,
+      type: uploadedFile.mimetype
+    });
+
+    if (!ALLOWED_MIME_TYPES.includes(uploadedFile.mimetype)) {
+      fs.unlinkSync(uploadedFile.filepath);
+      console.warn('⚠️ [Elite Track API] Tipo de arquivo inválido:', uploadedFile.mimetype);
+      
+      return res.status(400).json({
+        success: false,
+        message: 'Tipo de arquivo inválido. Apenas PDF é permitido.'
+      });
+    }
+
+    if (uploadedFile.size > MAX_FILE_SIZE) {
+      fs.unlinkSync(uploadedFile.filepath);
+      console.warn('⚠️ [Elite Track API] Arquivo muito grande:', uploadedFile.size);
+      
+      return res.status(400).json({
+        success: false,
+        message: 'Arquivo muito grande. Tamanho máximo: 50MB'
+      });
+    }
+
+    const fileBuffer = fs.readFileSync(uploadedFile.filepath);
+    console.log('📖 [Elite Track API] Arquivo lido, fazendo upload para Supabase...');
+
+    const { data, error } = await supabase.storage
+      .from(BUCKET_NAME)
+      .upload(FILE_PATH_ELITETRACK, fileBuffer, {
+        contentType: 'application/pdf',
+        upsert: true,
+        cacheControl: '3600'
+      });
+
+    fs.unlinkSync(uploadedFile.filepath);
+
+    if (error) {
+      console.error('❌ [Elite Track API] Erro no upload para Supabase:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Erro ao fazer upload para o storage',
+        error: error.message
+      });
+    }
+
+    const publicUrl = `${process.env.SUPABASE_URL}/storage/v1/object/public/${BUCKET_NAME}/${FILE_PATH_ELITETRACK}`;
+    console.log('✅ [Elite Track API] Upload realizado com sucesso!');
+    console.log('🔗 [Elite Track API] URL pública:', publicUrl);
+    
+    return res.status(200).json({
+      success: true,
+      message: 'Manual de Garantia atualizado com sucesso',
+      data: {
+        path: data.path,
+        publicUrl: publicUrl
+      }
+    });
+
+  } catch (error) {
+    console.error('❌ [Elite Track API] Erro no processamento:', error);
+    
+    return res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor',
+      error: process.env.NODE_ENV === 'development' ? error.message : 'Erro desconhecido'
+    });
+  }
+});
+
+/**
  * Health check endpoint
  */
 app.get('/api/health', (req, res) => {
@@ -193,8 +302,9 @@ app.listen(PORT, () => {
   console.log(`📡 API disponível em: http://localhost:${PORT}/api/`);
   console.log('');
   console.log('📋 Endpoints disponíveis:');
-  console.log('   POST /api/upload-apresentacao - Upload seguro de PDF');
-  console.log('   GET  /api/health - Status do servidor');
+  console.log('   POST /api/upload-apresentacao - Upload seguro de PDF (Apresentação)');
+  console.log('   POST /api/upload-elitetrack   - Upload seguro de PDF (Elite Track)');
+  console.log('   GET  /api/health              - Status do servidor');
   console.log('');
   console.log('🚀 ============================================');
   console.log('');
