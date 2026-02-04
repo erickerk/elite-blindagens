@@ -1038,22 +1038,35 @@ async function handleNovoPdfUpload(input) {
     successEl.classList.add('hidden');
     btnUpload.disabled = true;
 
-    console.log('[Elite] Iniciando upload direto ao Supabase Storage...');
+    console.log('[Elite] Obtendo credenciais de upload...');
     
-    // Upload direto ao Supabase Storage usando API REST
-    const formData = new FormData();
-    formData.append('file', file);
+    // Passo 1: Obter URL e token do backend
+    const urlResponse = await fetch('/api/get-upload-url', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fileName: 'elite-blindagens-apresentacao.pdf' })
+    });
 
+    if (!urlResponse.ok) {
+      const error = await urlResponse.json();
+      throw new Error(error.message || 'Erro ao obter credenciais de upload');
+    }
+
+    const { data: uploadData } = await urlResponse.json();
+    console.log('[Elite] Credenciais obtidas, iniciando upload...');
+
+    // Passo 2: Upload direto ao Supabase com SERVICE_ROLE_KEY
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 60000);
 
     let uploadResponse;
     try {
-      uploadResponse = await fetch(`${SUPABASE_URL}/storage/v1/object/apresentacoes/elite-blindagens-apresentacao.pdf`, {
+      uploadResponse = await fetch(uploadData.uploadUrl, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-          'x-upsert': 'true'
+          'Authorization': uploadData.headers['Authorization'],
+          'x-upsert': 'true',
+          'Content-Type': 'application/pdf'
         },
         body: file,
         signal: controller.signal
@@ -1344,19 +1357,35 @@ async function handleNovoPdfEliteTrackUpload(input) {
     successEl.classList.add('hidden');
     btnUpload.disabled = true;
 
-    console.log('[Elite Track] Iniciando upload direto ao Supabase Storage...');
+    console.log('[Elite Track] Obtendo credenciais de upload...');
     
-    // Upload direto ao Supabase Storage usando API REST
+    // Passo 1: Obter URL e token do backend
+    const urlResponse = await fetch('/api/get-upload-url', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fileName: 'Manual-Digital-de-Seguranca-e-Garantia.pdf' })
+    });
+
+    if (!urlResponse.ok) {
+      const error = await urlResponse.json();
+      throw new Error(error.message || 'Erro ao obter credenciais de upload');
+    }
+
+    const { data: uploadData } = await urlResponse.json();
+    console.log('[Elite Track] Credenciais obtidas, iniciando upload...');
+
+    // Passo 2: Upload direto ao Supabase com SERVICE_ROLE_KEY
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 60000);
 
     let uploadResponse;
     try {
-      uploadResponse = await fetch(`${SUPABASE_URL}/storage/v1/object/apresentacoes/Manual-Digital-de-Seguranca-e-Garantia.pdf`, {
+      uploadResponse = await fetch(uploadData.uploadUrl, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-          'x-upsert': 'true'
+          'Authorization': uploadData.headers['Authorization'],
+          'x-upsert': 'true',
+          'Content-Type': 'application/pdf'
         },
         body: file,
         signal: controller.signal
