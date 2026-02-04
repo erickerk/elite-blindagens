@@ -1038,36 +1038,24 @@ async function handleNovoPdfUpload(input) {
     successEl.classList.add('hidden');
     btnUpload.disabled = true;
 
-    // Passo 1: Obter URL assinada do backend
-    console.log('[Elite] Solicitando URL assinada...');
-    const urlResponse = await fetch('/api/get-upload-url', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fileName: 'elite-blindagens-apresentacao.pdf' })
-    });
+    console.log('[Elite] Iniciando upload direto ao Supabase Storage...');
+    
+    // Upload direto ao Supabase Storage usando API REST
+    const formData = new FormData();
+    formData.append('file', file);
 
-    if (!urlResponse.ok) {
-      const error = await urlResponse.json();
-      throw new Error(error.message || 'Erro ao obter URL de upload');
-    }
-
-    const { data: urlData } = await urlResponse.json();
-    console.log('[Elite] URL assinada obtida com sucesso');
-
-    // Passo 2: Upload direto ao Supabase com timeout de 60s
-    console.log('[Elite] Iniciando upload direto ao Supabase...');
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 60000);
 
     let uploadResponse;
     try {
-      uploadResponse = await fetch(urlData.signedUrl, {
-        method: 'PUT',
-        body: file,
+      uploadResponse = await fetch(`${SUPABASE_URL}/storage/v1/object/apresentacoes/elite-blindagens-apresentacao.pdf`, {
+        method: 'POST',
         headers: {
-          'Content-Type': 'application/pdf',
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
           'x-upsert': 'true'
         },
+        body: file,
         signal: controller.signal
       });
       clearTimeout(timeoutId);
@@ -1080,7 +1068,8 @@ async function handleNovoPdfUpload(input) {
     }
 
     if (!uploadResponse.ok) {
-      throw new Error(`Erro no upload: ${uploadResponse.status} ${uploadResponse.statusText}`);
+      const errorData = await uploadResponse.json().catch(() => ({}));
+      throw new Error(errorData.message || `Erro no upload: ${uploadResponse.status}`);
     }
 
     console.log('[Elite] Upload concluído com sucesso');
@@ -1355,36 +1344,21 @@ async function handleNovoPdfEliteTrackUpload(input) {
     successEl.classList.add('hidden');
     btnUpload.disabled = true;
 
-    // Passo 1: Obter URL assinada do backend
-    console.log('[Elite Track] Solicitando URL assinada...');
-    const urlResponse = await fetch('/api/get-upload-url', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fileName: 'Manual-Digital-de-Seguranca-e-Garantia.pdf' })
-    });
-
-    if (!urlResponse.ok) {
-      const error = await urlResponse.json();
-      throw new Error(error.message || 'Erro ao obter URL de upload');
-    }
-
-    const { data: urlData } = await urlResponse.json();
-    console.log('[Elite Track] URL assinada obtida com sucesso');
-
-    // Passo 2: Upload direto ao Supabase com timeout de 60s
-    console.log('[Elite Track] Iniciando upload direto ao Supabase...');
+    console.log('[Elite Track] Iniciando upload direto ao Supabase Storage...');
+    
+    // Upload direto ao Supabase Storage usando API REST
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 60000);
 
     let uploadResponse;
     try {
-      uploadResponse = await fetch(urlData.signedUrl, {
-        method: 'PUT',
-        body: file,
+      uploadResponse = await fetch(`${SUPABASE_URL}/storage/v1/object/apresentacoes/Manual-Digital-de-Seguranca-e-Garantia.pdf`, {
+        method: 'POST',
         headers: {
-          'Content-Type': 'application/pdf',
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
           'x-upsert': 'true'
         },
+        body: file,
         signal: controller.signal
       });
       clearTimeout(timeoutId);
@@ -1397,7 +1371,8 @@ async function handleNovoPdfEliteTrackUpload(input) {
     }
 
     if (!uploadResponse.ok) {
-      throw new Error(`Erro no upload: ${uploadResponse.status} ${uploadResponse.statusText}`);
+      const errorData = await uploadResponse.json().catch(() => ({}));
+      throw new Error(errorData.message || `Erro no upload: ${uploadResponse.status}`);
     }
 
     console.log('[Elite Track] Upload concluído com sucesso');
